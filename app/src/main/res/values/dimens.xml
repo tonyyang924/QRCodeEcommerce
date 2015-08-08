@@ -1,0 +1,32 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- 標題 -->
+    <dimen name="main_title_size">20sp</dimen>
+    <dimen name="main_title_paddingleft">20dp</dimen>
+    <dimen name="main_title_paddingtop_and_bottom">10dp</dimen>
+    <!-- 會員登入頁面 -->
+    <dimen name="userlogin_title_size">40sp</dimen>
+    <!-- QR Code辨識頁面 -->
+    <dimen name="cca_icon_size">30dp</dimen>
+    <dimen name="cca_img_size">50dp</dimen>
+    <!-- 詳細資訊頁面 -->
+    <dimen name="details_no_product_text_size">30sp</dimen>
+    <!-- 購物車及預覽頁面 -->
+    <dimen name="cart_noitemtext_size">30sp</dimen>
+    <dimen name="cart_listview_img_size">120dp</dimen>
+    <dimen name="cart_listview_title_padding_top_bottom">10dp</dimen>
+    <dimen name="cart_listview_title_textsize">15sp</dimen>
+    <dimen name="cart_listview_rightside_margin_left">10dp</dimen>
+    <dimen name="cart_listview_number_textsize">20sp</dimen>
+    <dimen name="cart_listview_number_margin_left_right">10dp</dimen>
+    <dimen name="cart_listview_textsize">15sp</dimen>
+    <dimen name="cart_listview_plus_minus_icon_size">30dp</dimen>
+    <dimen name="cart_listview_delete_icon_size">25dp</dimen>
+    <dimen name="cart_listview_delete_icon_margin_right">15dp</dimen>
+    <!-- 使用者填寫訂單資訊頁面-->
+    <dimen name="userorder_totalprice">20sp</dimen>
+    <dimen name="userorder_totalprice_margin_bottom">30dp</dimen>
+    <dimen name="userorder_edittext_margin_left_and_right">40dp</dimen>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="MyAppTheme" parent="@android:style/Theme.Holo.NoActionBar">
+        <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
+    </style>
+
+</resources>

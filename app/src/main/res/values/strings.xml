@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">QRCodeEcommerce</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- 登入頁面 -->
+    <string name="userlogin_title">會員登入</string>
+
+    <!-- MainActivity主頁面 -->
+    <string name="tab_qrcode">QRCode辨識</string>
+    <string name="tab_details">詳細資訊</string>
+    <string name="tab_cart">購物車</string>
+
+    <!-- 詳細資訊頁面 -->
+    <string name="details_not_product_text">沒有辨識到商品。</string>
+
+    <!-- ActionBar Menu -->
+    <string name="menu_cart">購物車</string>
+
+    <!-- 購物車與預覽頁面 -->
+    <string name="cart_noitemtext">購物車內沒有任何商品。</string>
+    <string-array name="cart_size_spinner">
+        <item>---請選擇尺寸---</item>
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+    </string-array>
+    <string name="cart_number">
+        <![CDATA[
+            數量：<font color="#dd0000">%1$d</font> 個
+        ]]>
+    </string>
+    <string name="cart_spec">
+        <![CDATA[
+            規格：<font color="#dd0000">%1$s</font>
+        ]]>
+    </string>
+    <string name="cart_price">
+        <![CDATA[
+            價格：<font color="#dd0000">NT$%1$d</font>
+        ]]>
+    </string>
+    <string name="cart_subtotal">
+        <![CDATA[
+            小計：<font color="#dd0000">NT$%1$d</font>
+        ]]>
+    </string>
+    <string name="cart_totalprice">
+        <![CDATA[
+            <b>總計：<font color="#dd0000">NT$%1$d</font></b>
+        ]]>
+    </string>
+    <string name="cart_checkout">結帳</string>
+    <string name="cart_submit">購買並填寫資料</string>
+
+    <!-- 填寫使用者個人資料 -->
+    <string name="userorder_totalprice">
+        <![CDATA[
+            <b>本次消費總計為<font color="#dd0000">NT$%1$d</font></b>
+        ]]>
+    </string>
+    <string name="userorder_name">姓名：</string>
+    <string name="userorder_name_hint">請輸入姓名</string>
+    <string name="userorder_telphone">電話：</string>
+    <string name="userorder_telphone_hint">請輸入聯絡電話</string>
+    <string name="userorder_email">信箱：</string>
+    <string name="userorder_email_hint">請輸入電子郵件信箱</string>
+    <string name="userorder_place">交易地點：</string>
+    <string-array name="userorder_place_spinner">
+        <item>---請選擇地點---</item>
+        <!--item>職務宿舍</item-->
+        <!--item>實作工廠</item-->
+        <item>教學研究室大樓（Ｒ棟）</item>
+        <item>工學院（Ｆ棟）</item>
+        <item>電機資訊學院（Ｂ棟）</item>
+        <item>行政大樓（Ａ棟）</item>
+        <item>管理學院（Ｃ棟）</item>
+        <item>創業園區、招待所（Ｌ棟）</item>
+        <item>外語學院（Ｄ棟）</item>
+        <item>財務金融學院（Ｅ棟）</item>
+        <item>圖書資訊大樓（Ｊ棟）</item>
+        <item>學生活動中心（Ｒ棟）</item>
+        <!--item>污水處理廠</item-->
+        <item>學生宿舍（敬業樓）</item>
+        <item>游泳館</item>
+        <item>學生宿舍（樂群樓）</item>
+        <!--item>生態池</item-->
+    </string-array>
+    <string name="userorder_transactionhour">交易時間：</string>
+    <string name="userorder_transactionhour_button">選擇時間</string>
+    <string name="userorder_transactionhour_text">
+        <![CDATA[
+            <font color="#dd0000">%1$d</font> 點 <font color="#dd0000">%2$d</font> 分
+        ]]>
+    </string>
+
+    <string name="userorder_submit_button">送出訂單</string>
+    <string name="userorder_submit_success_text">訂單送出成功！</string>
+    <string name="userorder_submit_fails_text">訂單送出失敗！</string>
+
+    <string name="userorder_params_ttime">%1$d年%2$d月%3$d日 %4$d點%5$d分</string>
+
+    <!-- 其他 -->
+    <string name="email_nkfust">%1$s@nkfust.edu.tw</string>
+
+</resources>
