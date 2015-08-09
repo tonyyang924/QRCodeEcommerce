@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
+import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class CartReviewActivity extends Activity {
             myviews.numberTv = (TextView) convertView.findViewById(R.id.numberTv);
             myviews.priceTv = (TextView) convertView.findViewById(R.id.priceTv);
             myviews.subTotalTv = (TextView) convertView.findViewById(R.id.subTotalTv);
-            String imgPath = m.getTool().QRCodeEcommercePath + "/images/" + lists.get(position).getPic();
+            String imgPath = Tool.QRCodeEcommercePath + "/images/" + lists.get(position).getPic();
             Bitmap bmp = BitmapFactory.decodeFile(imgPath);
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());

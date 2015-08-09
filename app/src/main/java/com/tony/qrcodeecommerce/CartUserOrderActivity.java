@@ -20,6 +20,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
+import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -107,7 +108,7 @@ public class CartUserOrderActivity extends Activity {
                                 2015, 8, 8, 9, 15));
                         params.put("devicetoken", token);
 
-                        if(m.getTool().submitPostData(urlstr, params, "utf-8").equals("success")) {
+                        if(Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

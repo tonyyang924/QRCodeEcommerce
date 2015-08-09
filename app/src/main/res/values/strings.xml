@@ -103,5 +103,5 @@
 
     <!-- 其他 -->
     <string name="email_nkfust">%1$s@nkfust.edu.tw</string>
-
+    <string name="oid_text">%1$sH1Z1321</string>
 </resources>

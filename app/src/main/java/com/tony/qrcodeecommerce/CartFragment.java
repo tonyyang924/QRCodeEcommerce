@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
+import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.List;
 
@@ -213,7 +214,7 @@ public class CartFragment extends Fragment {
                     delDialog(position);
                 }
             });
-            String imgPath = m.getTool().QRCodeEcommercePath + "/images/" + lists.get(position).getPic();
+            String imgPath = Tool.QRCodeEcommercePath + "/images/" + lists.get(position).getPic();
             Bitmap bmp = BitmapFactory.decodeFile(imgPath);
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());

@@ -9,47 +9,34 @@ public class MainApplication extends Application {
     private static final String TAG = "MainApplication";
 
     //debug (測試時選true)
-    public static final boolean DEBUG = true;
-
-    //device token
-    public static String token = "";
-
-    //tool
-    private Tool tool = null;
+    public static final boolean DEBUG = false;
 
     //商品編號
-    private String pid;
+    private static String pid;
 
     //使用者帳號
-    private String loginUserId;
+    private static String loginUserId;
 
     @Override
     public void onCreate() {
         super.onCreate();
         //剛進入App，Application會建立tool放置於MainApplication記憶體中
-        tool = new Tool();
-        tool.CopyAssetsDBToSDCard(getApplicationContext());
-
-        tool.getOrderId();
+        Tool.CopyAssetsDBToSDCard(getApplicationContext());
     }
 
-    public Tool getTool() {
-        return tool;
+    public static void setPid(String pid1) {
+        pid = pid1;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public String getPid() {
+    public static String getPid() {
         return pid;
     }
 
-    public void setLoginUserId(String loginUserId) {
-        this.loginUserId = loginUserId;
+    public static void setLoginUserId(String loginUserId1) {
+        loginUserId = loginUserId1;
     }
 
-    public String getLoginUserId() {
+    public static String getLoginUserId() {
         return loginUserId;
     }
 

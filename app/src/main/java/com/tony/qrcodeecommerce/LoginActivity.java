@@ -1,6 +1,7 @@
 package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.tony.qrcodeecommerce.gcm.RegistrationIntentService;
+import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +23,12 @@ public class LoginActivity extends Activity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private EditText userId, userPw;
     private Button submit;
-    private MainApplication m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
-        m = (MainApplication) getApplication();
+        Log.i(TAG,"orderid:"+Tool.getOrderId(this));
         userId = (EditText) findViewById(R.id.userid);
         userPw = (EditText) findViewById(R.id.userpw);
         submit = (Button) findViewById(R.id.submit);
@@ -52,9 +53,9 @@ public class LoginActivity extends Activity {
                                 String urlstr = "http://163.18.42.145/login/index.php";
 
                                 //成功
-                                if (m.getTool().submitPostData(urlstr, params, "utf-8").equals("success")) {
+                                if (Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
                                     //將帳號存入UserId
-                                    m.setLoginUserId(userId.getText().toString());
+                                    MainApplication.setLoginUserId(userId.getText().toString());
                                     //Toast訊息，需調用runOnUiThread
                                     LoginActivity.this.runOnUiThread(new Runnable() {
                                         @Override
@@ -68,7 +69,7 @@ public class LoginActivity extends Activity {
                                     finish();
                                 }
                                 //失敗
-                                else if (m.getTool().submitPostData(urlstr, params, "utf-8").equals("fails")) {
+                                else if (Tool.submitPostData(urlstr, params, "utf-8").equals("fails")) {
                                     //Toast訊息，需調用runOnUiThread
                                     LoginActivity.this.runOnUiThread(new Runnable() {
                                         @Override
@@ -91,9 +92,6 @@ public class LoginActivity extends Activity {
             startService(intent);
         }
     }
-
-
-
 
 
     /**

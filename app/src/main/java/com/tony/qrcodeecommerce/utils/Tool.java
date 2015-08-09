@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
+import com.tony.qrcodeecommerce.R;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,12 +24,15 @@ import java.util.Date;
 import java.util.Map;
 
 public class Tool {
+    //TAG
     private static final String TAG = "QRCodeEcommerce::Tool";
+    //專案於sd card的path
     public static final String QRCodeEcommercePath = Environment.getExternalStorageDirectory()
             .getAbsolutePath() + "/QRCodeEcommerce";
+    //
     private static SQLiteDatabase sqLiteDB = null;
 
-    public SQLiteDatabase getSQLiteDB() {
+    public static SQLiteDatabase getSQLiteDB() {
         sqLiteDB = SQLiteDatabase.openOrCreateDatabase(getSQLiteDatabaseFile(), null);
         return sqLiteDB;
     }
@@ -38,7 +43,7 @@ public class Tool {
     }
 
     //複製assets內的資料到SD Card
-    public void CopyAssetsDBToSDCard(Context context) {
+    public static void CopyAssetsDBToSDCard(Context context) {
         File myDataPath = new File(QRCodeEcommercePath);
 
         //如果資料夾不存在，就建立資料夾
@@ -77,7 +82,7 @@ public class Tool {
     }
 
     //儲存檔案，輸入InputStream & target save file
-    private void fileStreamWrite(InputStream fis, File file) {
+    private static void fileStreamWrite(InputStream fis, File file) {
         try {
             FileOutputStream fos;
             BufferedOutputStream dest;
@@ -97,7 +102,7 @@ public class Tool {
     }
 
     //取得SQLiteDatabase的位置
-    public File getSQLiteDatabaseFile() {
+    public static File getSQLiteDatabaseFile() {
         File dbfile = null;
         File myDataPath = new File(QRCodeEcommercePath);
         if (!myDataPath.exists()) myDataPath.mkdirs();
@@ -186,12 +191,11 @@ public class Tool {
     }
 
     //產生訂單編號 (年月日驗證碼亂數)
-    public static String getOrderId() {
-        String oid = "";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHH:mm:ss");
+    public static String getOrderId(Context context) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
         String str = formatter.format(curDate);
-        Log.i(TAG,"str:"+str);
+        String oid = String.format(context.getResources().getString(R.string.oid_text),str);
         return oid;
     }
 }
