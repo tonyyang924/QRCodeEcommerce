@@ -87,9 +87,21 @@
         <item>學生宿舍（樂群樓）</item>
         <!--item>生態池</item-->
     </string-array>
-    <string name="userorder_transactionhour">交易時間：</string>
-    <string name="userorder_transactionhour_button">選擇時間</string>
-    <string name="userorder_transactionhour_text">
+    <string name="userorder_ttime">交易時間：</string>
+    <string name="userorder_ttime_button">選擇日期與時間</string>
+    <string name="userorder_ttime_text_null">尚未選擇日期與時間！</string>
+    <string name="userorder_ttime_text">
+        <![CDATA[
+            <font color="#dd0000">%1$d</font> 年 <font color="#dd0000">%2$d</font> 月 <font color="#dd0000">%3$d</font> 日 <font color="#dd0000">%4$d</font> 點 <font color="#dd0000">%5$d</font> 分
+        ]]>
+    </string>
+
+    <string name="userorder_inflater_date_text">
+        <![CDATA[
+            <font color="#dd0000">%1$d</font> 年 <font color="#dd0000">%2$d</font> 月 <font color="#dd0000">%3$d</font> 日
+        ]]>
+    </string>
+    <string name="userorder_inflater_time_text">
         <![CDATA[
             <font color="#dd0000">%1$d</font> 點 <font color="#dd0000">%2$d</font> 分
         ]]>
@@ -99,9 +111,12 @@
     <string name="userorder_submit_success_text">訂單送出成功！</string>
     <string name="userorder_submit_fails_text">訂單送出失敗！</string>
 
+
+
+        <!-- 參數 -->
     <string name="userorder_params_ttime">%1$d年%2$d月%3$d日 %4$d點%5$d分</string>
 
     <!-- 其他 -->
     <string name="email_nkfust">%1$s@nkfust.edu.tw</string>
-    <string name="oid_text">%1$sH1Z1321</string>
+    <string name="oid_text">%1$s%2$s%3$d</string> <!-- 年月日時分秒驗證碼三位亂數 -->
 </resources>

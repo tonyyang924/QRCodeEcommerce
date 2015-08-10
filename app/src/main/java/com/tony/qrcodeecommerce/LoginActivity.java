@@ -1,7 +1,6 @@
 package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +27,6 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
-        Log.i(TAG,"orderid:"+Tool.getOrderId(this));
         userId = (EditText) findViewById(R.id.userid);
         userPw = (EditText) findViewById(R.id.userpw);
         submit = (Button) findViewById(R.id.submit);

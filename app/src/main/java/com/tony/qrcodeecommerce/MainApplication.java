@@ -9,7 +9,7 @@ public class MainApplication extends Application {
     private static final String TAG = "MainApplication";
 
     //debug (測試時選true)
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     //商品編號
     private static String pid;

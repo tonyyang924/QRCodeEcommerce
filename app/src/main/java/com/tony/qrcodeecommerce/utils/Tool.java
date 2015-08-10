@@ -191,11 +191,11 @@ public class Tool {
     }
 
     //產生訂單編號 (年月日驗證碼亂數)
-    public static String getOrderId(Context context) {
+    public static String getOrderId(Context context,String veritycode) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
         String str = formatter.format(curDate);
-        String oid = String.format(context.getResources().getString(R.string.oid_text),str);
+        String oid = String.format(context.getResources().getString(R.string.oid_text),str,veritycode,(int)Math.random()*900+100);
         return oid;
     }
 }

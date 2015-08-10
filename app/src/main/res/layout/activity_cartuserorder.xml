@@ -111,20 +111,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/userorder_transactionhour"
+                android:text="@string/userorder_ttime"
                 android:textSize="20sp"/>
             <Button
-                android:id="@+id/userorder_transactionhour"
+                android:id="@+id/userorder_ttime_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/userorder_transactionhour_button"/>
+                android:text="@string/userorder_ttime_button"/>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/userorder_transactionhour_tv"
+            android:id="@+id/userorder_ttime_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/userorder_transactionhour_text"
+            android:text="@string/userorder_ttime_text_null"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"/>
 

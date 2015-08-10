@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="請輸入驗證碼"
+        android:textColor="#FFFFFF"
+        android:background="#0000FF"
+        android:padding="20dp"/>
+
+    <ImageView
+        android:id="@+id/verify_imv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/vc_shuaxin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取得驗證碼" />
+
+    <EditText
+        android:id="@+id/myedit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="請輸入驗證碼" />
+
+    <Button
+        android:id="@+id/verfiy_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="確認" />
+
+</LinearLayout>

@@ -34,7 +34,7 @@ public class CartReviewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review);
+        setContentView(R.layout.activity_cartreview);
         m = (MainApplication) getApplication();
         listView = (ListView) findViewById(R.id.listView2);
         itemDAO = new ItemDAO(this);

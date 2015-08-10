@@ -38,7 +38,6 @@ public class CartFragment extends Fragment {
     private ItemDAO itemDAO;
     private MyAdapter adapter;
     private List<Item> lists;
-    private MainApplication m;
     private Button submit;
     private TextView totalpriceTV;
     private RelativeLayout noItemLayout;
@@ -49,7 +48,6 @@ public class CartFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        m = (MainApplication) getActivity().getApplication();
         //取得MainActivity的方法，將文字放入text字串
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getCartText();
@@ -127,6 +125,8 @@ public class CartFragment extends Fragment {
             myviews.subTotalTV = (TextView) convertView.findViewById(R.id.subTotalTV);
             myviews.addNumberBtn = (ImageButton) convertView.findViewById(R.id.addNumberBtn);
             myviews.subNumberBtn = (ImageButton) convertView.findViewById(R.id.subNumberBtn);
+
+
 
             if(lists.get(position).getPid().indexOf("A") != -1) { //如果有A
                 myviews.specSp = (Spinner) convertView.findViewById(R.id.specSp);
