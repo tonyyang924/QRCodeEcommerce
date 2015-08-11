@@ -31,7 +31,7 @@ public class AdminLoginActivity extends Activity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
+                        try { 
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("status", "login_check");
                             params.put("id", adminid.getText().toString());
