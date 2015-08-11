@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.tony.qrcodeecommerce.gcm.RegistrationIntentService;
 import com.tony.qrcodeecommerce.utils.Tool;
 
@@ -22,13 +25,21 @@ public class LoginActivity extends Activity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private EditText userId, userPw;
     private Button submit;
-
+    private ImageButton adminLoginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
         userId = (EditText) findViewById(R.id.userid);
         userPw = (EditText) findViewById(R.id.userpw);
+        adminLoginButton = (ImageButton) findViewById(R.id.adminLoginButton);
+        adminLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,AdminLoginActivity.class);
+                startActivity(intent);
+            }
+        });
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +96,28 @@ public class LoginActivity extends Activity {
             }
         });
         if (checkPlayServices()) {
+            Log.i(TAG, "have playservices");
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
+        } else {
+            Log.i(TAG,"no playservices");
         }
+
+        //取得device token (要在背景作業取得)
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                    String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                    Log.i(TAG,"token: "+token);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 

@@ -2,8 +2,10 @@
     <string name="app_name">QRCodeEcommerce</string>
     <string name="action_settings">Settings</string>
 
+
     <!-- 登入頁面 -->
     <string name="userlogin_title">會員登入</string>
+    <string name="adminglogin_title">管理員登入</string>
 
     <!-- MainActivity主頁面 -->
     <string name="tab_qrcode">QRCode辨識</string>

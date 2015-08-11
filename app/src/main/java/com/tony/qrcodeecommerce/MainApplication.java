@@ -9,7 +9,9 @@ public class MainApplication extends Application {
     private static final String TAG = "MainApplication";
 
     //debug (測試時選true)
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
+
+    private static boolean isAdmin = false;
 
     //商品編號
     private static String pid;
@@ -38,6 +40,14 @@ public class MainApplication extends Application {
 
     public static String getLoginUserId() {
         return loginUserId;
+    }
+
+    public static void setIsAdmin(boolean isAdmin1) {
+        isAdmin = isAdmin1;
+    }
+
+    public static boolean getIsAdmin() {
+        return isAdmin;
     }
 
 }

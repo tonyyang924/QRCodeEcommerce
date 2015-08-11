@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.format.DateFormat;
@@ -154,45 +155,50 @@ public class CartUserOrderActivity extends Activity {
     private View.OnClickListener submitClkLis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //送出訂單
-            //http://mobile.dennychen.tw/mobile_order_insert.php?pid=A&username=Tony&userphone=0912345678
-            // &useremail=u0324813@nkfust.edu.tw&tplace=%E5%AD%B8%E6%A0%A1
-            // &ttime=%E4%B8%8B%E5%8D%88&devicetoken=1313213122
-            LayoutInflater inflater = getLayoutInflater();
-            View layout = inflater.inflate(R.layout.securitycode,null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(CartUserOrderActivity.this);
-            builder.setView(layout);
-            builder.setCancelable(true);
-            builder.create();
-            dialog = builder.show();
+            if(MainApplication.DEBUG) { //測試時略過驗證碼，但仍需取得驗證碼，為了oid
+                getCode = SecurityCode.getInstance().getCode(false);
+                DoThread();
+            } else { //實測時需輸入驗證碼
+                //送出訂單
+                //http://mobile.dennychen.tw/mobile_order_insert.php?pid=A&username=Tony&userphone=0912345678
+                // &useremail=u0324813@nkfust.edu.tw&tplace=%E5%AD%B8%E6%A0%A1
+                // &ttime=%E4%B8%8B%E5%8D%88&devicetoken=1313213122
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.securitycode, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(CartUserOrderActivity.this);
+                builder.setView(layout);
+                builder.setCancelable(true);
+                builder.create();
+                dialog = builder.show();
 
-            // 獲取顯示的驗證碼
-            getCode = SecurityCode.getInstance().getCode(false);
+                // 獲取顯示的驗證碼
+                getCode = SecurityCode.getInstance().getCode(false);
 
-            final ImageView vc_image = (ImageView) layout.findViewById(R.id.verify_imv);
-            final EditText vc_code = (EditText)layout.findViewById(R.id.myedit);
-            final Button vc_shuaxin = (Button) layout.findViewById(R.id.vc_shuaxin);
-            vc_shuaxin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    vc_image.setImageBitmap(SecurityCode.getInstance().getBitmap());
-                    getCode = SecurityCode.getInstance().getCode(false);
-                }
-            });
-            final Button verfiy_btn = (Button)layout.findViewById(R.id.verfiy_btn);
-            verfiy_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String verfiyString = vc_code.getText().toString();
-                    if (verfiyString.equals(getCode)) {
-                        Toast.makeText(getApplicationContext(), "驗證碼輸入正確", Toast.LENGTH_LONG).show();
-                        DoThread();
-                        dialog.dismiss();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "驗證碼輸入錯誤", Toast.LENGTH_LONG).show();
+                final ImageView vc_image = (ImageView) layout.findViewById(R.id.verify_imv);
+                final EditText vc_code = (EditText) layout.findViewById(R.id.myedit);
+                final Button vc_shuaxin = (Button) layout.findViewById(R.id.vc_shuaxin);
+                vc_shuaxin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        vc_image.setImageBitmap(SecurityCode.getInstance().getBitmap());
+                        getCode = SecurityCode.getInstance().getCode(false);
                     }
-                }
-            });
+                });
+                final Button verfiy_btn = (Button) layout.findViewById(R.id.verfiy_btn);
+                verfiy_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String verfiyString = vc_code.getText().toString();
+                        if (verfiyString.equals(getCode)) {
+                            Toast.makeText(getApplicationContext(), "驗證碼輸入正確", Toast.LENGTH_LONG).show();
+                            DoThread();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "驗證碼輸入錯誤", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
         }
     };
 
@@ -226,6 +232,12 @@ public class CartUserOrderActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), getString(R.string.userorder_submit_success_text), Toast.LENGTH_LONG).show();
                             }
                         });
+                        Intent intent = new Intent(CartUserOrderActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        if(!MainApplication.DEBUG) {//如果不是測試，就刪除所有購物車資料
+                            itemDAO.deleteAll();
+                        }
                     } else {
                         runOnUiThread(new Runnable() {
                             @Override
