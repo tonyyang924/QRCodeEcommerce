@@ -20,9 +20,9 @@ public class UserOrderDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userorderdetails);
         SetView();
-//        Bundle bundle = getIntent().getExtras();
-//        oid = bundle.getString("oid");
-        oid="20150811171118MaJt100";
+        Bundle bundle = getIntent().getExtras();
+        oid = bundle.getString("oid");
+//        oid="20150811171118MaJt100";
         DoThread();
     }
     private void SetView() {
@@ -43,20 +43,25 @@ public class UserOrderDetails extends Activity {
                     params.put("oid", oid);
                     String resultData = Tool.submitPostData("http://mobile.dennychen.tw/mobile_details_select.php", params, "utf-8");
                     String[] result = resultData.split("\n");
-                    String[] userArr = result[0].split(",");
-                    String itemHtml = result[1];
-                    String sum = result[2];
-                    Log.i(TAG, "resultData:"+resultData);
-                    Log.i(TAG, "userArr[0]:"+userArr[0]+"userArr[1]:"+userArr[1]);
-                    Log.i(TAG, "itemHtml:"+itemHtml);
+                    final String[] userArr = result[0].split(",");
+                    final String itemHtml = result[1];
+                    final String sum = result[2];
+                    Log.i(TAG, "resultData:" + resultData);
+                    Log.i(TAG, "userArr[0]:" + userArr[0] + "userArr[1]:" + userArr[1]);
+                    Log.i(TAG, "itemHtml:" + itemHtml);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            usernameTV.setText(String.format(getString(R.string.details_username), userArr[0]));
+                            userphoneTV.setText(String.format(getString(R.string.details_userphone), userArr[1]));
+                            usermailTV.setText(String.format(getString(R.string.details_usermail), userArr[2]));
+                            tplaceTV.setText(String.format(getString(R.string.details_tplace), userArr[3]));
+                            ttimeTV.setText(String.format(getString(R.string.details_ttime), userArr[4]));
+                            itemTV.setText(Html.fromHtml(itemHtml));
+                            sumTv.setText("總金額：" + sum);
+                        }
+                    });
 
-                    usernameTV.setText(String.format(getString(R.string.details_username), userArr[0]));
-                    userphoneTV.setText(String.format(getString(R.string.details_userphone), userArr[1]));
-                    usermailTV.setText(String.format(getString(R.string.details_usermail), userArr[2]));
-                    tplaceTV.setText(String.format(getString(R.string.details_tplace),userArr[3]));
-                    ttimeTV.setText(String.format(getString(R.string.details_ttime),userArr[4]));
-                    itemTV.setText(Html.fromHtml(itemHtml));
-                    sumTv.setText("總金額："+sum);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
