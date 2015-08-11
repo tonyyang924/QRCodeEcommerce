@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 public class MainActivity extends FragmentActivity {
+    private static final String TAG = "MainActivity";
 
     // reference
     // http://dean-android.blogspot.tw/2015/01/androidfragmenttabactivitytab.html
@@ -51,6 +53,8 @@ public class MainActivity extends FragmentActivity {
             x.setTextSize(getResources().getDimension(R.dimen.main_tabhost_textsize));
         }
         */
+
+        Log.i(TAG,"isadmin:"+MainApplication.getIsAdmin());
     }
 
     public String getQRCodeText() {

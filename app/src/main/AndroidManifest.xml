@@ -54,7 +54,14 @@
         <activity android:name="com.tony.qrcodeecommerce.CartReviewActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.CartUserOrderActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.AdminLoginActivity"></activity>
-        <activity android:name="com.tony.qrcodeecommerce.UserOrderDetails"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.UserOrderDetails">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

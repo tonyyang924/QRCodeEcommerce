@@ -16,28 +16,48 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="姓名：楊東霖"
+        android:text="@string/details_username"
         android:textSize="18sp"
-        android:id="@+id/textView4" />
+        android:id="@+id/username_tv" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="電話：0912345678"
+        android:text="@string/details_userphone"
         android:textSize="18sp"
-        android:id="@+id/textView5" />
+        android:id="@+id/userphone_tv" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email：u0324813@nkfust.edu.tw"
+        android:text="@string/details_usermail"
         android:textSize="18sp"
-        android:id="@+id/textView6" />
+        android:id="@+id/usermail_tv" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="訂購產品 ......"/>
+        android:text="@string/details_tplace"
+        android:textSize="18sp"
+        android:id="@+id/tplace_tv" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/details_ttime"
+        android:textSize="18sp"
+        android:id="@+id/ttime_tv" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:id="@+id/item_tv"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:id="@+id/sum"/>
 
 </LinearLayout>

@@ -55,9 +55,13 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
+        String[] strArr = message.split(":");
         Intent intent;
         if(MainApplication.getIsAdmin()) {
             intent = new Intent(this, UserOrderDetails.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("oid",strArr[1]);
+            intent.putExtras(bundle);
         } else {
             intent = new Intent(this, MainActivity.class);
         }

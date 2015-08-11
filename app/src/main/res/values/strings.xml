@@ -114,6 +114,13 @@
     <string name="userorder_submit_fails_text">訂單送出失敗！</string>
 
 
+    <!-- 查看消費者訂單 -->
+    <string name="details_username">姓名：%s</string>
+    <string name="details_userphone">電話：%s</string>
+    <string name="details_usermail">信箱：%s</string>
+    <string name="details_tplace">交易地點：%s</string>
+    <string name="details_ttime">交易時間：%s</string>
+
 
         <!-- 參數 -->
     <string name="userorder_params_ttime">%1$d年%2$d月%3$d日 %4$d點%5$d分</string>
@@ -121,4 +128,6 @@
     <!-- 其他 -->
     <string name="email_nkfust">%1$s@nkfust.edu.tw</string>
     <string name="oid_text">%1$s%2$s%3$d</string> <!-- 年月日時分秒驗證碼三位亂數 -->
+
+
 </resources>

@@ -214,7 +214,7 @@ public class CartUserOrderActivity extends Activity {
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
                     Map<String, String> params = new HashMap<String, String>();
-                    Log.i(TAG,"oid:"+Tool.getOrderId(getApplicationContext(),getCode));
+                    Log.i(TAG, "oid:" + Tool.getOrderId(getApplicationContext(), getCode));
                     params.put("oid", Tool.getOrderId(getApplicationContext(), getCode));
                     params.put("username",userOrderNameEt.getText().toString());
                     params.put("userphone",userOrderTelphoneEt.getText().toString());
@@ -225,7 +225,14 @@ public class CartUserOrderActivity extends Activity {
                     params.put("devicetoken", token);
                     params.put("orderitems",getOrderItems().toString()); //所有訂購的產品
 
-                    if(Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
+                    String resultData = Tool.submitPostData(urlstr, params, "utf-8");
+
+                    Log.i(TAG,"resultData:"+resultData);
+
+                    //切割結果字串
+                    String[] strArr = resultData.split(",");
+
+                    if(strArr[0].equals("success")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

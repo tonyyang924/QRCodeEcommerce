@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <!-- 標題-->
     <TextView
@@ -17,6 +18,7 @@
         android:id="@+id/textView3" />
 
     <TextView
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/adminglogin_title"
@@ -27,6 +29,8 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/adminid"
@@ -38,6 +42,8 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/adminpw"
@@ -60,15 +66,5 @@
         android:layout_alignRight="@+id/adminpw"
         android:layout_alignEnd="@+id/adminpw" />
 
-    <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/adminicon"
-        android:background="#00000000"
-        android:id="@+id/adminLoginButton"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
