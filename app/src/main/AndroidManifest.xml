@@ -28,14 +28,14 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".gcm.MyGcmListenerService"
+            android:name="com.tony.qrcodeecommerce.gcm.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".gcm.MyInstanceIDListenerService"
+            android:name="com.tony.qrcodeecommerce.gcm.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID"/>
@@ -53,7 +53,8 @@
         <activity android:name="com.tony.qrcodeecommerce.MainActivity" ></activity>
         <activity android:name="com.tony.qrcodeecommerce.CartReviewActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.CartUserOrderActivity"></activity>
-
+        <activity android:name="com.tony.qrcodeecommerce.AdminLoginActivity"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.UserOrderDetails"></activity>
     </application>
 
 </manifest>

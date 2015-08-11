@@ -42,7 +42,6 @@ public class ContinuousCaptureFragment extends Fragment {
     private Tool tool;
     private ItemDAO itemDAO;
     private Item item;
-    private MainApplication m;
 
     private float scale;
 
@@ -52,7 +51,6 @@ public class ContinuousCaptureFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        m = (MainApplication) getActivity().getApplication();
         //取得MainActivity的方法，將文字放入text字串
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getQRCodeText();
@@ -85,7 +83,7 @@ public class ContinuousCaptureFragment extends Fragment {
 //                barcodeView.setStatusText(result.getText());
 //            }
 
-            m.setPid(result.getText());
+            MainApplication.setPid(result.getText());
 
             String sql = "SELECT id,name,price,pic,pic_link,link FROM item "
                     + " WHERE id = '" + result.getText() + "';";
