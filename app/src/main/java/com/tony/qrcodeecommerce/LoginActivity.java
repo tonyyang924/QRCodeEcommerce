@@ -63,7 +63,9 @@ public class LoginActivity extends Activity {
 
                                 //成功
                                 if (Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
-                                    //將帳號存入UserId
+                                    //設定不是管理員
+                                    MainApplication.setIsAdmin(false);
+                                    //儲存登入帳號
                                     MainApplication.setLoginUserId(userId.getText().toString());
                                     //Toast訊息，需調用runOnUiThread
                                     LoginActivity.this.runOnUiThread(new Runnable() {

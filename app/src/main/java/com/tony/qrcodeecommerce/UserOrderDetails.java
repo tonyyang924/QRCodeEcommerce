@@ -40,8 +40,9 @@ public class UserOrderDetails extends Activity {
             public void run() {
                 try {
                     Map<String, String> params = new HashMap<String, String>();
+                    params.put("proc","details_select");
                     params.put("oid", oid);
-                    String resultData = Tool.submitPostData("http://mobile.dennychen.tw/mobile_details_select.php", params, "utf-8");
+                    String resultData = Tool.submitPostData("http://mobile.dennychen.tw/mobile_process.php", params, "utf-8");
                     String[] result = resultData.split("\n");
                     final String[] userArr = result[0].split(",");
                     final String itemHtml = result[1];

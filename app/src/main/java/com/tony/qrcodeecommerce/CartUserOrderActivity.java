@@ -207,7 +207,7 @@ public class CartUserOrderActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    String urlstr = "http://mobile.dennychen.tw/mobile_order_insert.php";
+                    String urlstr = "http://mobile.dennychen.tw/mobile_process.php";
 
                     InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
@@ -215,6 +215,7 @@ public class CartUserOrderActivity extends Activity {
 
                     Map<String, String> params = new HashMap<String, String>();
                     Log.i(TAG, "oid:" + Tool.getOrderId(getApplicationContext(), getCode));
+                    params.put("proc","order_insert");
                     params.put("oid", Tool.getOrderId(getApplicationContext(), getCode));
                     params.put("username",userOrderNameEt.getText().toString());
                     params.put("userphone",userOrderTelphoneEt.getText().toString());

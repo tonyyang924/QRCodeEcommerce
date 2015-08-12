@@ -33,15 +33,18 @@ public class AdminLoginActivity extends Activity {
                     public void run() {
                         try {
                             Map<String, String> params = new HashMap<String, String>();
+                            params.put("proc", "admin_login");
                             params.put("status", "login_check");
                             params.put("id", adminid.getText().toString());
                             params.put("pw", adminpw.getText().toString());
-                            String urlstr = "http://mobile.dennychen.tw/mobile_admin_login.php";
+                            String urlstr = "http://mobile.dennychen.tw/mobile_process.php";
 
                             //成功
                             if (Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
+                                //設定成為管理員
                                 MainApplication.setIsAdmin(true);
-                                MainApplication.setLoginUserId("qrcodeadmin");
+                                //儲存管理員登入帳號
+                                MainApplication.setLoginUserId(adminid.getText().toString());
                                 //Toast訊息，需調用runOnUiThread
                                 AdminLoginActivity.this.runOnUiThread(new Runnable() {
                                     @Override
