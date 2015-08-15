@@ -19,6 +19,9 @@ public class MainApplication extends Application {
     //使用者帳號
     private static String loginUserId;
 
+    //Server
+    public static final String SERVER_PROC = "http://163.18.42.142/mobile_process.php";
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -37,10 +37,9 @@ public class AdminLoginActivity extends Activity {
                             params.put("status", "login_check");
                             params.put("id", adminid.getText().toString());
                             params.put("pw", adminpw.getText().toString());
-                            String urlstr = "http://mobile.dennychen.tw/mobile_process.php";
 
                             //成功
-                            if (Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
+                            if (Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8").equals("success")) {
                                 //設定成為管理員
                                 MainApplication.setIsAdmin(true);
                                 //儲存管理員登入帳號

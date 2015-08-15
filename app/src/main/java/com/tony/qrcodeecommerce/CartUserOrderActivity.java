@@ -207,9 +207,7 @@ public class CartUserOrderActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    String urlstr = "http://mobile.dennychen.tw/mobile_process.php";
-
-                    InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                                        InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
@@ -226,7 +224,7 @@ public class CartUserOrderActivity extends Activity {
                     params.put("devicetoken", token);
                     params.put("orderitems",getOrderItems().toString()); //所有訂購的產品
 
-                    String resultData = Tool.submitPostData(urlstr, params, "utf-8");
+                    String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
 
                     Log.i(TAG,"resultData:"+resultData);
 
