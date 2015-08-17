@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.HashMap;
@@ -37,6 +39,10 @@ public class AdminLoginActivity extends Activity {
                             params.put("status", "login_check");
                             params.put("id", adminid.getText().toString());
                             params.put("pw", adminpw.getText().toString());
+                            InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                            String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                            params.put("token", token);
 
                             //成功
                             if (Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8").equals("success")) {

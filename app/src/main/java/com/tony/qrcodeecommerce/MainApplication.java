@@ -20,7 +20,7 @@ public class MainApplication extends Application {
     private static String loginUserId;
 
     //Server
-    public static final String SERVER_PROC = "http://163.18.42.142/mobile_process.php";
+    public static final String SERVER_PROC = "http://mobile.superzoro.idv.tw/mobile_process.php";
 
     @Override
     public void onCreate() {
