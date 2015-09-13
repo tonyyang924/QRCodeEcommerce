@@ -29,4 +29,7 @@
     <dimen name="userorder_totalprice">20sp</dimen>
     <dimen name="userorder_totalprice_margin_bottom">30dp</dimen>
     <dimen name="userorder_edittext_margin_left_and_right">40dp</dimen>
+    <!-- 使用者資料頁面 -->
+    <dimen name="profile_margin_top">30dp</dimen>
+    <dimen name="profile_margin_left_and_right">40dp</dimen>
 </resources>

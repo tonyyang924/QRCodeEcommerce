@@ -287,16 +287,16 @@ public class CartFragment extends Fragment {
 
     private void itemDAOUpdate(Item item) {
         if (itemDAO.update(item))
-            Log.i(TAG, "商品"+item.getName()+"更新成功");
+            Log.i(TAG, "商品"+ item.getName()+"更新成功");
         else
-            Log.i(TAG, "商品"+item.getName()+"更新失敗");
+            Log.i(TAG, "商品"+ item.getName()+"更新失敗");
     }
 
     private void itemDAODelete(Item item) {
         if (itemDAO.delete(item.getId()))
-            Log.i(TAG, "商品"+item.getName()+"刪除成功");
+            Log.i(TAG, "商品"+ item.getName()+"刪除成功");
         else
-            Log.i(TAG, "商品"+item.getName()+"刪除失敗");
+            Log.i(TAG, "商品"+ item.getName()+"刪除失敗");
     }
 
     // 判斷可否前進下一頁

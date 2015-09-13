@@ -27,6 +27,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
+import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.SecurityCode;
 import com.tony.qrcodeecommerce.utils.Tool;
 
@@ -57,6 +58,9 @@ public class CartUserOrderActivity extends Activity {
 
     //驗證碼
     private String getCode;
+
+    //
+    private ProfileSP profileSP;
 
     //取得所有訂購之商品
     private JSONArray getOrderItems() {
@@ -104,6 +108,10 @@ public class CartUserOrderActivity extends Activity {
             totalPrice += list.getPrice() * list.getNumber();
         }
         totalPriceTv.setText(Html.fromHtml(String.format(getString(R.string.userorder_totalprice), totalPrice)));
+
+        profileSP = new ProfileSP(getApplicationContext());
+        userOrderNameEt.setText(profileSP.getUserProfile().getStuName());
+        userOrderTelphoneEt.setText(profileSP.getUserProfile().getStuPhone());
     }
 
     private View.OnClickListener pickTimeClkLis = new View.OnClickListener() {

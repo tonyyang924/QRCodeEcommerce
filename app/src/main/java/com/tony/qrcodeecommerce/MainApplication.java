@@ -2,6 +2,7 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Application;
 
+import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 public class MainApplication extends Application {
@@ -21,6 +22,8 @@ public class MainApplication extends Application {
 
     //Server
     public static final String SERVER_PROC = "http://mobile.superzoro.idv.tw/mobile_process.php";
+
+    private ProfileSP profileSP;
 
     @Override
     public void onCreate() {

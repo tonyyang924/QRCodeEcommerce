@@ -55,6 +55,10 @@
         <activity android:name="com.tony.qrcodeecommerce.CartUserOrderActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.AdminLoginActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.UserOrderDetails"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.HomeActivity"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.ProfileActivity"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.OrderViewActivity"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.TeamActivity"></activity>
     </application>
 
 </manifest>

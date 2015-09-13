@@ -15,6 +15,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.tony.qrcodeecommerce.gcm.RegistrationIntentService;
+import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.HashMap;
@@ -26,10 +27,12 @@ public class LoginActivity extends Activity {
     private EditText userId, userPw;
     private Button submit;
     private ImageButton adminLoginButton;
+    private ProfileSP profileSP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
+        profileSP = new ProfileSP(getApplicationContext());
         userId = (EditText) findViewById(R.id.userid);
         userPw = (EditText) findViewById(R.id.userpw);
         adminLoginButton = (ImageButton) findViewById(R.id.adminLoginButton);
@@ -67,6 +70,7 @@ public class LoginActivity extends Activity {
                                     MainApplication.setIsAdmin(false);
                                     //儲存登入帳號
                                     MainApplication.setLoginUserId(userId.getText().toString());
+                                    profileSP.setUserId(userId.getText().toString());
                                     //Toast訊息，需調用runOnUiThread
                                     LoginActivity.this.runOnUiThread(new Runnable() {
                                         @Override
@@ -75,9 +79,7 @@ public class LoginActivity extends Activity {
                                         }
                                     });
                                     //進入主畫面
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    enterNextPage();
                                 }
                                 //失敗
                                 else if (Tool.submitPostData(urlstr, params, "utf-8").equals("fails")) {
@@ -122,6 +124,11 @@ public class LoginActivity extends Activity {
         }).start();
     }
 
+    private void enterNextPage() {
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If

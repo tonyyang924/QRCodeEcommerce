@@ -113,7 +113,6 @@
     <string name="userorder_submit_success_text">訂單送出成功！</string>
     <string name="userorder_submit_fails_text">訂單送出失敗！</string>
 
-
     <!-- 查看消費者訂單 -->
     <string name="details_username">姓名：%s</string>
     <string name="details_userphone">電話：%s</string>
@@ -121,13 +120,19 @@
     <string name="details_tplace">交易地點：%s</string>
     <string name="details_ttime">交易時間：%s</string>
 
-
-        <!-- 參數 -->
+    <!-- 參數 -->
     <string name="userorder_params_ttime">%1$d年%2$d月%3$d日 %4$d點%5$d分</string>
 
     <!-- 其他 -->
     <string name="email_nkfust">%1$s@nkfust.edu.tw</string>
     <string name="oid_text">%1$s%2$s%3$d</string> <!-- 年月日時分秒驗證碼三位亂數 -->
 
-
+    <!-- 使用者個人資料頁面 -->
+    <string name="profile_name">姓名：</string>
+    <string name="profile_name_hint">請輸入姓名</string>
+    <string name="profile_phone">電話：</string>
+    <string name="profile_phone_hint">請輸入聯絡電話</string>
+    <string name="profile_email">信箱：</string>
+    <string name="profile_email_hint">請輸入電子信箱</string>
+    <string name="profile_submit">修改資料</string>
 </resources>
