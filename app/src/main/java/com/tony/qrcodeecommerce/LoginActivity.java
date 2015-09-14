@@ -69,8 +69,18 @@ public class LoginActivity extends Activity {
                                     //設定不是管理員
                                     MainApplication.setIsAdmin(false);
                                     //儲存登入帳號
-                                    MainApplication.setLoginUserId(userId.getText().toString());
-                                    profileSP.setUserId(userId.getText().toString());
+                                    String userloginId = "";
+                                    if(userId.getText().toString().indexOf("u") == -1) { //如果沒有u
+                                        userloginId = "u"+userId.getText().toString();
+                                    } else {
+                                        userloginId = userId.getText().toString();
+                                    }
+                                    MainApplication.setLoginUserId(userloginId);
+                                    profileSP.setUserId(userloginId);
+                                    if(profileSP.getUserProfile().getStuEmail().equals("")) {
+                                        Log.i(TAG,"email == \"\"");
+                                        profileSP.setUserEmail(String.format(getString(R.string.email_nkfust),userloginId));
+                                    }
                                     //Toast訊息，需調用runOnUiThread
                                     LoginActivity.this.runOnUiThread(new Runnable() {
                                         @Override

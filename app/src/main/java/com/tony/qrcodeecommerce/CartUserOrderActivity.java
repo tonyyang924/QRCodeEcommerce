@@ -86,7 +86,6 @@ public class CartUserOrderActivity extends Activity {
         userOrderNameEt = (EditText) findViewById(R.id.userorder_name);
         userOrderTelphoneEt = (EditText) findViewById(R.id.userorder_telphone);
         userOrderEmailEt = (EditText) findViewById(R.id.userorder_email);
-        userOrderEmailEt.setText(String.format(getString(R.string.email_nkfust),MainApplication.getLoginUserId()));
         userOrderPlaceSp = (Spinner) findViewById(R.id.userorder_place);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(this,
@@ -112,6 +111,7 @@ public class CartUserOrderActivity extends Activity {
         profileSP = new ProfileSP(getApplicationContext());
         userOrderNameEt.setText(profileSP.getUserProfile().getStuName());
         userOrderTelphoneEt.setText(profileSP.getUserProfile().getStuPhone());
+        userOrderEmailEt.setText(profileSP.getUserProfile().getStuEmail());
     }
 
     private View.OnClickListener pickTimeClkLis = new View.OnClickListener() {

@@ -44,4 +44,22 @@ public class ProfileSP {
         SP.edit()
                 .putString(ID_FIELD, id).commit();
     }
+    //設定使用者名稱
+    public void setUserName(String name) {
+        SP = context.getSharedPreferences(DATA, 0);
+        SP.edit()
+                .putString(NAME_FIELD, name).commit();
+    }
+    //設定使用者電話
+    public void setUserPhone(String phone) {
+        SP = context.getSharedPreferences(DATA, 0);
+        SP.edit()
+                .putString(PHONE_FIELD, phone).commit();
+    }
+    //設定使用者Email
+    public void setUserEmail(String email) {
+        SP = context.getSharedPreferences(DATA, 0);
+        SP.edit()
+                .putString(EMAIL_FIELD, email).commit();
+    }
 }
