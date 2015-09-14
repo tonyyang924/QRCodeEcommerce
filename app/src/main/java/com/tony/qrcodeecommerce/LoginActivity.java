@@ -57,15 +57,30 @@ public class LoginActivity extends Activity {
                         @Override
                         public void run() {
                             try {
+
+                                String token = null;
+                                try {
+                                    InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                                    token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                                 Map<String, String> params = new HashMap<String, String>();
-                                params.put("status", "login_check");
+                                params.put("proc", "login_check");
                                 params.put("acc", userId.getText().toString());
                                 params.put("pwd", userPw.getText().toString());
+                                params.put("devicetoken", token);
 
-                                String urlstr = "http://163.18.42.145/login/index.php";
+//                                String urlstr = "http://163.18.42.145/login/index.php";
+                                String urlstr = "http://163.18.42.145/mobile/mobile_process.php";
+
+                                //回傳訊息
+                                String responseMsg = Tool.submitPostData(urlstr, params, "utf-8");
 
                                 //成功
-                                if (Tool.submitPostData(urlstr, params, "utf-8").equals("success")) {
+                                if (responseMsg.equals("success")) {
                                     //設定不是管理員
                                     MainApplication.setIsAdmin(false);
                                     //儲存登入帳號
@@ -91,13 +106,31 @@ public class LoginActivity extends Activity {
                                     //進入主畫面
                                     enterNextPage();
                                 }
-                                //失敗
-                                else if (Tool.submitPostData(urlstr, params, "utf-8").equals("fails")) {
+                                //帳號密碼錯誤
+                                else if (responseMsg.equals("fails")) {
                                     //Toast訊息，需調用runOnUiThread
                                     LoginActivity.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             Toast.makeText(getApplicationContext(), "帳號或密碼錯誤！", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                                //系統發生問題
+                                else if (responseMsg.equals("error")) {
+                                    LoginActivity.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "系統發生問題！", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                                //此帳號被禁止進入
+                                else if (responseMsg.equals("forbidden")) {
+                                    LoginActivity.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "此帳號被禁止進入！", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
