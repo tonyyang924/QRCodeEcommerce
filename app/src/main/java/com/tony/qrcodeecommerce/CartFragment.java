@@ -30,7 +30,11 @@ import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
 
+import org.json.JSONArray;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartFragment extends Fragment {
     private static final String TAG = "CartFragment";
@@ -72,6 +76,18 @@ public class CartFragment extends Fragment {
         listView.setAdapter(adapter);
         noItemLayout = (RelativeLayout) getActivity().findViewById(R.id.noItemLayout);
         showNoItem();
+        checkItemNumber();
+    }
+
+    private void checkItemNumber() {
+        JSONArray jsonArray = new JSONArray();
+        for(int i=0;i<lists.size();i++) {
+            Map m = new HashMap();
+            m.put("pid",lists.get(i).getPid());
+            m.put("spec",lists.get(i).getSpec());
+            jsonArray.put(m);
+        }
+        Log.i(TAG,"jsonArray:      "+jsonArray.toString());
     }
 
     private final class MyView {
