@@ -31,6 +31,8 @@ import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -82,12 +84,47 @@ public class CartFragment extends Fragment {
     private void checkItemNumber() {
         JSONArray jsonArray = new JSONArray();
         for(int i=0;i<lists.size();i++) {
-            Map m = new HashMap();
-            m.put("pid",lists.get(i).getPid());
-            m.put("spec",lists.get(i).getSpec());
-            jsonArray.put(m);
+            JSONObject json = new JSONObject();
+            try {
+                json.put("pid", lists.get(i).getPid());
+                json.put("spec", lists.get(i).getSpec());
+                jsonArray.put(json);
+            } catch (JSONException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
         }
-        Log.i(TAG,"jsonArray:      "+jsonArray.toString());
+
+        final String jsonArrayStr = jsonArray.toString();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String urlstr = "http://163.18.42.145/mobile/mobile_process.php";
+
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("proc", "product_search");
+                    params.put("json", jsonArrayStr);
+                    String responseMsg = Tool.submitPostData(urlstr, params, "utf-8");
+                    //如果沒有error就是代表有回傳json格式的資料
+                    if (!responseMsg.equals("error")) {
+                        Log.i(TAG,"responseMsg: "+responseMsg);
+                        JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
+                        for(int i=0;i<jsonArrayResponse.length();i++) {
+                            Log.i(TAG,"object ===> "+jsonArrayResponse.getJSONObject(i));
+                            String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
+                            String spec = jsonArrayResponse.getJSONObject(i).getString("spec");
+                            String amount = jsonArrayResponse.getJSONObject(i).getString("amount");
+
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private final class MyView {
