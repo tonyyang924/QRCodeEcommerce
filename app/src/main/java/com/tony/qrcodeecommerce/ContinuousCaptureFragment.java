@@ -2,21 +2,22 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,57 +104,52 @@ public class ContinuousCaptureFragment extends Fragment {
                 image_path = Tool.QRCodeEcommercePath + "/images/image-not-found.jpg";
             }
 
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.continous_sublayout,null);
+
+            //商品圖片
             Bitmap bitmap = BitmapFactory.decodeFile(image_path);
-            ImageView imageView = new ImageView(getActivity());
+            ImageView imageView = (ImageView) view.findViewById(R.id.img);
             imageView.setImageBitmap(bitmap);
-            int sizew = (int) (getActivity().getResources().getDimension(R.dimen.cca_img_size) * scale);
-            int sizeh = (int) (getActivity().getResources().getDimension(R.dimen.cca_img_size) * scale);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(sizew, sizeh));
-            imageView.setOnClickListener(addCartClickLis);
+//            imageView.setOnClickListener(addCartClickLis);
 
-            TextView tv = new TextView(getActivity());
+            //商品名稱標題
+            TextView tv = (TextView) view.findViewById(R.id.title);
             tv.setText(str);
-            tv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            tv.setPadding(20, 20, 20, 20);
-            tv.setBackgroundColor(Color.RED);
-            tv.setTextSize(20);
-            tv.setTextColor(Color.WHITE);
 
-            int size = (int) (getActivity().getResources().getDimension(R.dimen.cca_icon_size) * scale);
-            ImageView addCart = new ImageView(getActivity());
-            addCart.setImageResource(R.drawable.addtocartlight);
+            //尺寸規格 (Spinner)
+            Spinner specSP = (Spinner) view.findViewById(R.id.specSP);
+            if(item.getPid().indexOf("A") != -1) { //如果是衣服
+                // Create an ArrayAdapter using the string array and a default spinner layout
+                ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.cart_size_spinner, android.R.layout.simple_spinner_item);
+                // Specify the layout to use when the list of choices appears
+                spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                specSP.setAdapter(spinner_adapter);
+                specSP.setVisibility(View.VISIBLE);
+                specSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        //取得目前選擇的尺寸
+                        String choiceSize = parent.getSelectedItem().toString();
+                        item.setSpec(choiceSize);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                specSP.setVisibility(View.GONE);
+            }
+
+            // 新增購物車
+            ImageView addCart = (ImageView) view.findViewById(R.id.addCart);
             addCart.setOnClickListener(addCartClickLis);
-            addCart.setLayoutParams(new RelativeLayout.LayoutParams(size, size));
 
-            /**
-             * 下半部
-             */
-            LinearLayout ll_ho = new LinearLayout(getActivity());
-            ll_ho.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            ll_ho.setOrientation(LinearLayout.HORIZONTAL);
-
-            //左邊圖片
-            ll_ho.addView(imageView);
-
-            //讓add cart置中
-            RelativeLayout rl = new RelativeLayout(getActivity());
-            rl.setLayoutParams(new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.MATCH_PARENT));
-            RelativeLayout.LayoutParams addcart_layoutParams =
-                    (RelativeLayout.LayoutParams) addCart.getLayoutParams();
-            addcart_layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-            addCart.setLayoutParams(addcart_layoutParams);
-
-            rl.addView(addCart);
-            ll_ho.addView(rl);
-
+            // 新增
             detailsLL.removeAllViews();
-            detailsLL.addView(tv);
-            detailsLL.addView(ll_ho);
+            detailsLL.addView(view);
         }
 
         @Override

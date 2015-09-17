@@ -14,17 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
@@ -81,6 +77,7 @@ public class CartFragment extends Fragment {
         checkItemNumber();
     }
 
+    //向Server端確認目前的商品數量
     private void checkItemNumber() {
         JSONArray jsonArray = new JSONArray();
         for(int i=0;i<lists.size();i++) {
@@ -135,7 +132,7 @@ public class CartFragment extends Fragment {
         public TextView subTotalTV;
         public ImageButton addNumberBtn;
         public ImageButton subNumberBtn;
-        public Spinner specSp;
+        public TextView specTV;
         public ImageButton delBtn;
     }
 
@@ -178,64 +175,9 @@ public class CartFragment extends Fragment {
             myviews.subTotalTV = (TextView) convertView.findViewById(R.id.subTotalTV);
             myviews.addNumberBtn = (ImageButton) convertView.findViewById(R.id.addNumberBtn);
             myviews.subNumberBtn = (ImageButton) convertView.findViewById(R.id.subNumberBtn);
-
-
-
-            if(lists.get(position).getPid().indexOf("A") != -1) { //如果有A
-                myviews.specSp = (Spinner) convertView.findViewById(R.id.specSp);
-                // Create an ArrayAdapter using the string array and a default spinner layout
-                ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.cart_size_spinner, android.R.layout.simple_spinner_item);
-                // Specify the layout to use when the list of choices appears
-                spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                myviews.specSp.setAdapter(spinner_adapter);
-                myviews.specSp.setVisibility(View.VISIBLE);
-                /**
-                 * 判斷目前規格為何
-                 */
-                //取得所有規格(衣服size)
-                String spec[] = getResources().getStringArray(R.array.cart_size_spinner);
-                //取得此Item的規格
-                String item_spec = lists.get(position).getSpec();
-                Log.i(TAG,"item_spec:"+item_spec);
-                //存放index的int變數
-                int specIndex = 0;
-                //跑迴圈找出此Item規格在spec array中的Index
-                for(int i=0;i<spec.length;i++) {
-                    if(spec[i].equals(item_spec)) {
-                        specIndex = i;
-                        break;
-                    }
-                }
-                Log.i(TAG,"index:"+specIndex);
-                //選擇目前規格
-                myviews.specSp.setSelection(specIndex);
-
-                myviews.specSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        //取得尺寸的預設名稱
-                        String none = getResources().getStringArray(R.array.cart_size_spinner)[0];
-                        //取得目前選擇的尺寸
-                        String choiceSize = parent.getSelectedItem().toString();
-                        //如果選項上依然是預設名稱
-                        if (choiceSize.equals(none)) {
-                            lists.get(position).setSpec("none");
-                            Log.i(TAG, "尚未選擇尺寸。");
-                        } else { //如果選擇尺寸
-                            lists.get(position).setSpec(choiceSize);
-                            Log.i(TAG, "你選擇:" + choiceSize);
-                        }
-                        itemDAOUpdate(lists.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-            }
-
+            myviews.specTV = (TextView) convertView.findViewById(R.id.specTV);
+            myviews.specTV.setText(Html.fromHtml(String.format(getResources().getString(R.string.cart_spec),
+                    lists.get(position).getSpec())));
             myviews.delBtn = (ImageButton) convertView.findViewById(R.id.delBtn);
             myviews.addNumberBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -325,6 +267,7 @@ public class CartFragment extends Fragment {
                         itemDAODelete(lists.get(position));
                         lists.clear();
                         lists = itemDAO.getAll();
+                        checkItemNumber();
                         adapter.notifyDataSetChanged();
                         refreshTotalPrice();
                         showNoItem();
@@ -372,12 +315,12 @@ public class CartFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            if(goToNextPage()) {
+//            if(goToNextPage()) {
                 Intent intent = new Intent(getActivity(), CartReviewActivity.class);
                 getActivity().startActivity(intent);
-            } else {
-                Toast.makeText(getActivity(),"未選擇規格。",Toast.LENGTH_SHORT).show();
-            }
+//            } else {
+//                Toast.makeText(getActivity(),"未選擇規格。",Toast.LENGTH_SHORT).show();
+//            }
         }
     };
 }

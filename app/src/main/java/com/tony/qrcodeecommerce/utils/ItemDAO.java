@@ -185,8 +185,8 @@ public class ItemDAO {
 
     // 確認是否有相同pid
     public boolean checkPid(Item item) {
-        // 使用pid為查詢條件
-        String where = PID_COLUMN + "='" + item.getPid() + "'";
+        // 使用pid與spec為檢察條件
+        String where = PID_COLUMN + "='" + item.getPid() + "' AND " + SPEC_COLUMN + "='" + item.getSpec() + "'";
         // 執行查詢
         Cursor result = db.query(
                 TABLE_NAME, null, where, null, null, null, null, null);

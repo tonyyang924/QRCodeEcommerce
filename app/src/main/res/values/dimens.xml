@@ -9,8 +9,8 @@
     <!-- 會員登入頁面 -->
     <dimen name="userlogin_title_size">40sp</dimen>
     <!-- QR Code辨識頁面 -->
-    <dimen name="cca_icon_size">30dp</dimen>
-    <dimen name="cca_img_size">50dp</dimen>
+    <dimen name="cca_icon_size">80dp</dimen>
+    <dimen name="cca_img_size">150dp</dimen>
     <!-- 詳細資訊頁面 -->
     <dimen name="details_no_product_text_size">30sp</dimen>
     <!-- 購物車及預覽頁面 -->
