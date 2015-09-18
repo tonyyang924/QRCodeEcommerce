@@ -22,6 +22,8 @@ public class Item implements java.io.Serializable {
     // 以衣服來說：尺寸為何(XS,S,M,L,XL)
     // 或是其他商品的大小等等。
     private String spec = "none";
+    //此商品剩餘幾個
+    private int limitNumber = 0;
 
     //建構元
     public Item() {
@@ -117,6 +119,14 @@ public class Item implements java.io.Serializable {
 
     public void setSpec(String spec) {
         this.spec = spec;
+    }
+
+    public int getLimitNumber() {
+        return limitNumber;
+    }
+
+    public void setLimitNumber(int limitNumber) {
+        this.limitNumber = limitNumber;
     }
 
     // 裝置區域的日期時間

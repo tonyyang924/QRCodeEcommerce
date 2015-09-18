@@ -95,6 +95,8 @@ public class CartFragment extends Fragment {
 
         final String jsonArrayStr = jsonArray.toString();
 
+        Log.i(TAG,"jsonArrayStr:"+jsonArrayStr);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -109,12 +111,16 @@ public class CartFragment extends Fragment {
                     if (!responseMsg.equals("error")) {
                         Log.i(TAG,"responseMsg: "+responseMsg);
                         JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
+                        Log.i(TAG,"jsonArrayResponse:"+jsonArrayResponse.toString());
                         for(int i=0;i<jsonArrayResponse.length();i++) {
                             Log.i(TAG,"object ===> "+jsonArrayResponse.getJSONObject(i));
+                            // 商品編號、規格、數量
                             String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
                             String spec = jsonArrayResponse.getJSONObject(i).getString("spec");
-                            String amount = jsonArrayResponse.getJSONObject(i).getString("amount");
-
+                            int amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("amount")); //強制轉型
+                            // 購物車內的商品數量處理
+                            lists.get(i).setLimitNumber(amount);
+//                            itemDAOUpdate(lists.get(i));
                         }
                     }
                 } catch (Exception e) {

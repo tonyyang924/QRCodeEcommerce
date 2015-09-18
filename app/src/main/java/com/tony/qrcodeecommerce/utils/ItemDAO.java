@@ -30,11 +30,12 @@ public class ItemDAO {
     public static final String DATETIME_COLUMN = "datetime";
     public static final String NUMBER_COLUMN = "number";
     public static final String SPEC_COLUMN = "spec";
+    public static final String LIMITNUMBER_COLUMN = "limitnumber";
 
     // 使用上面宣告的變數建立表格的SQL指令
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
-                    KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +   //primary key
+                    KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +     //primary key
                     PID_COLUMN + " TEXT NOT NULL, " +                   //string
                     NAME_COLUMN + " TEXT NOT NULL, " +                  //string
                     PRICE_COLUMN + " INTEGER NOT NULL, " +              //int
@@ -43,7 +44,8 @@ public class ItemDAO {
                     LINK_COLUMN + " TEXT NOT NULL, " +                  //string
                     DATETIME_COLUMN + " INTEGER NOT NULL, " +           //int
                     NUMBER_COLUMN + " INTEGER NOT NULL, " +             //int
-                    SPEC_COLUMN + " TEXT NOT NULL)";                    //string
+                    SPEC_COLUMN + " TEXT NOT NULL, " +                    //string
+                    LIMITNUMBER_COLUMN + " INTEGER NOT NULL)";          //int
 
     // 資料庫物件
     private SQLiteDatabase db;
@@ -101,6 +103,7 @@ public class ItemDAO {
         cv.put(DATETIME_COLUMN, item.getDatetime());
         cv.put(NUMBER_COLUMN, item.getNumber());
         cv.put(SPEC_COLUMN, item.getSpec());
+        cv.put(LIMITNUMBER_COLUMN, item.getLimitNumber());
         return cv;
     }
 
