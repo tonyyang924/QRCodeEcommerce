@@ -174,9 +174,22 @@ public class ContinuousCaptureFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (item != null) {
                             if (!itemDAO.checkPid(item)) { //如果裡面沒有同樣的pid
-                                Item item1 = itemDAO.insert(item);
-                                Log.i(TAG, item1.getName());
-                                Toast.makeText(getActivity(), "成功加入購物車！", Toast.LENGTH_SHORT).show();
+                                if (item.getPid().indexOf("A") != -1) { //如果是衣服
+                                    /**
+                                     * 判斷是否有選擇尺寸
+                                     **/
+
+                                    //取得第一個選項
+                                    String sizeArr01 = getResources().getStringArray(R.array.cart_size_spinner)[0];
+                                    //如果有選擇尺寸，就加入購物車
+                                    if(!item.getSpec().equals("none") && !item.getSpec().equals(sizeArr01)) {
+                                        submitAddCart();
+                                    } else { //如果沒選擇尺寸，就顯示提示訊息
+                                        Toast.makeText(getActivity(), "尚未選擇尺寸！", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    submitAddCart();
+                                }
                             } else {
                                 Toast.makeText(getActivity(), "已有相同商品！", Toast.LENGTH_SHORT).show();
                             }
@@ -191,6 +204,12 @@ public class ContinuousCaptureFragment extends Fragment {
                     }
                 })
                 .show();
+    }
+
+    private void submitAddCart() {
+        Item item1 = itemDAO.insert(item);
+        Log.i(TAG, item1.getName());
+        Toast.makeText(getActivity(), "成功加入購物車！", Toast.LENGTH_SHORT).show();
     }
 
     @Override
