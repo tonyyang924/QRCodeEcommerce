@@ -60,6 +60,11 @@ public class ItemDAO {
         db.close();
     }
 
+    // query
+    public Cursor query(String SQL) {
+        return db.rawQuery(SQL,null);
+    }
+
     // 新增參數指定的物件
     public Item insert(Item item) {
         // 建立準備新增資料的ContentValues物件
@@ -186,8 +191,8 @@ public class ItemDAO {
         return result;
     }
 
-    // 確認是否有相同pid
-    public boolean checkPid(Item item) {
+    // 確認是否有相同pid與spec
+    public boolean checkPidAndSpec(Item item) {
         // 使用pid與spec為檢察條件
         String where = PID_COLUMN + "='" + item.getPid() + "' AND " + SPEC_COLUMN + "='" + item.getSpec() + "'";
         // 執行查詢

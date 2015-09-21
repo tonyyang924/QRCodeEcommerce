@@ -68,11 +68,14 @@ public class CartFragment extends Fragment {
         submit.setOnClickListener(submitClkLis);
         listView = (ListView) getActivity().findViewById(R.id.listView);
         totalpriceTV = (TextView) getActivity().findViewById(R.id.totalpriceTV);
+        noItemLayout = (RelativeLayout) getActivity().findViewById(R.id.noItemLayout);
+
         itemDAO = new ItemDAO(getActivity());
         lists = itemDAO.getAll();
+
         adapter = new MyAdapter(getActivity());
         listView.setAdapter(adapter);
-        noItemLayout = (RelativeLayout) getActivity().findViewById(R.id.noItemLayout);
+
         showNoItem();
         checkItemNumber();
     }
@@ -90,11 +93,9 @@ public class CartFragment extends Fragment {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-
         }
 
         final String jsonArrayStr = jsonArray.toString();
-
         Log.i(TAG,"jsonArrayStr:"+jsonArrayStr);
 
         new Thread(new Runnable() {
@@ -109,6 +110,7 @@ public class CartFragment extends Fragment {
                     String responseMsg = Tool.submitPostData(urlstr, params, "utf-8");
                     //如果沒有error就是代表有回傳json格式的資料
                     if (!responseMsg.equals("error")) {
+                        String sqlStr = "UPDATE shoppingcart SET limitnumber = CASE ";
                         Log.i(TAG,"responseMsg: "+responseMsg);
                         JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
                         Log.i(TAG,"jsonArrayResponse:"+jsonArrayResponse.toString());
@@ -117,11 +119,22 @@ public class CartFragment extends Fragment {
                             // 商品編號、規格、數量
                             String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
                             String spec = jsonArrayResponse.getJSONObject(i).getString("spec");
-                            int amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("amount")); //強制轉型
+                            // 該商品尺寸的數量，預設為0個
+                            int amount = 0;
+                            // 檢查如果會傳的值不是null就更改其尺寸數量
+                            Log.i(TAG,"check amount:"+jsonArrayResponse.getJSONObject(i).getString("amount"));
+                            if(!jsonArrayResponse.getJSONObject(i).getString("amount").equals("null")) {
+                                //強制轉型
+                                amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("amount"));
+                            }
                             // 購物車內的商品數量處理
-                            lists.get(i).setLimitNumber(amount);
+//                            lists.get(i).setLimitNumber(amount);
 //                            itemDAOUpdate(lists.get(i));
+                            sqlStr += " WHEN pid='"+pid+"' AND spec='"+spec+"' THEN "+amount+" ";
                         }
+                        sqlStr += " ELSE limitnumber END";
+                        Log.i(TAG, "sqlStr:" + sqlStr);
+                        itemDAO.query(sqlStr);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -301,32 +314,12 @@ public class CartFragment extends Fragment {
             Log.i(TAG, "商品"+ item.getName()+"刪除失敗");
     }
 
-    // 判斷可否前進下一頁
-    // 檢查尺寸是否有選擇
-    private boolean goToNextPage() {
-        boolean b = true;
-        for(int i=0;i<lists.size();i++){
-            if(lists.get(i).getPid().indexOf("A") != -1) {
-                if(lists.get(i).getSpec().equals("none")) {
-                    b = false;
-                    break;
-                }
-            }
-        }
-        return b;
-    }
-
     //結帳
     private View.OnClickListener submitClkLis = new View.OnClickListener() {
-
         @Override
         public void onClick(View v) {
-//            if(goToNextPage()) {
-                Intent intent = new Intent(getActivity(), CartReviewActivity.class);
-                getActivity().startActivity(intent);
-//            } else {
-//                Toast.makeText(getActivity(),"未選擇規格。",Toast.LENGTH_SHORT).show();
-//            }
+            Intent intent = new Intent(getActivity(), CartReviewActivity.class);
+            getActivity().startActivity(intent);
         }
     };
 }

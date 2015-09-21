@@ -173,7 +173,7 @@ public class ContinuousCaptureFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (item != null) {
-                            if (!itemDAO.checkPid(item)) { //如果裡面沒有同樣的pid
+                            if (!itemDAO.checkPidAndSpec(item)) { //如果裡面沒有同樣的pid
                                 if (item.getPid().indexOf("A") != -1) { //如果是衣服
                                     /**
                                      * 判斷是否有選擇尺寸
