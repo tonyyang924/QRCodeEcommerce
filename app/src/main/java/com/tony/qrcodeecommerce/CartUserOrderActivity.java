@@ -230,7 +230,7 @@ public class CartUserOrderActivity extends Activity {
                     params.put("ttime", String.format(getResources().getString(R.string.userorder_params_ttime),
                             year, monthOfYear, dayOfMonth, hourOfDay, minute));
                     params.put("devicetoken", token);
-                    params.put("orderitems",getOrderItems().toString()); //所有訂購的產品
+                    params.put("orderitems",getOrderItems().toString()); //所有訂購的商品
 
                     String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
 

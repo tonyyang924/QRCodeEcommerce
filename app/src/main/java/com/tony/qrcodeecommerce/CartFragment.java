@@ -2,9 +2,11 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -47,6 +49,9 @@ public class CartFragment extends Fragment {
     //顯示文字內容
     private String text = "";
 
+    //ProgressDialog
+    private ProgressDialog PD;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -76,12 +81,21 @@ public class CartFragment extends Fragment {
         adapter = new MyAdapter(getActivity());
         listView.setAdapter(adapter);
 
-        showNoItem();
         checkItemNumber();
+        showNoItemLayout();
     }
 
     //向Server端確認目前的商品數量
     private void checkItemNumber() {
+        //如果購物車內沒商品，就直接return離開此方法。
+        if(lists.size()==0)
+            return;
+        //loading讀取show
+        // activity 標題 內容 (true or false)
+        PD = ProgressDialog.show(getActivity(), "讀取中","向Server端更新數據中...",true);
+        /**
+                * 包裝購物車內所有商品為JSONArray送至伺服器
+                */
         JSONArray jsonArray = new JSONArray();
         for(int i=0;i<lists.size();i++) {
             JSONObject json = new JSONObject();
@@ -127,14 +141,32 @@ public class CartFragment extends Fragment {
                                 //強制轉型
                                 amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("amount"));
                             }
-                            // 購物車內的商品數量處理
-//                            lists.get(i).setLimitNumber(amount);
-//                            itemDAOUpdate(lists.get(i));
+                            Log.i(TAG,pid + " " + spec + " | amount:"+amount);
+                            // SQL指令加上去
                             sqlStr += " WHEN pid='"+pid+"' AND spec='"+spec+"' THEN "+amount+" ";
                         }
                         sqlStr += " ELSE limitnumber END";
                         Log.i(TAG, "sqlStr:" + sqlStr);
-                        itemDAO.query(sqlStr);
+                        // 下SQL指令更新資料庫
+                        Cursor cursor = itemDAO.query(sqlStr);
+                        cursor.moveToFirst();
+                        cursor.close();
+                        // List陣列清除
+                        lists.clear();
+                        // List取得購物車所有資料
+                        lists = itemDAO.getAll();
+                        //列出SQLite資料庫內的筆數
+                        for (int i=0;i<lists.size();i++) {
+                            Log.i(TAG,""+lists.get(i).getLimitNumber());
+                        }
+                        // 更新ListView
+                        adapter.notifyDataSetChanged();
+                        // 刷新總金額
+                        refreshTotalPrice();
+                        // 沒商品時顯示的介面
+                        showNoItemLayout();
+                        // 等購物車商品尺寸數量處理完成後，就關閉ProgressDialog
+                        PD.dismiss();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -143,6 +175,7 @@ public class CartFragment extends Fragment {
         }).start();
     }
 
+    // BaseAdapter對應的View
     private final class MyView {
         public ImageView itemImg;
         public TextView itemName;
@@ -155,7 +188,9 @@ public class CartFragment extends Fragment {
         public ImageButton delBtn;
     }
 
-    // 實作一個 Adapter 繼承 BaseAdapter
+    /**
+        * 實作一個 Adapter 繼承 BaseAdapter
+        */
     public class MyAdapter extends BaseAdapter {
         private LayoutInflater inflater;
 
@@ -185,8 +220,11 @@ public class CartFragment extends Fragment {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
-            final MyView myviews = new MyView();
+            // MyAdapter配置使用listview_cart的layout介面
             convertView = inflater.inflate(R.layout.listview_cart, null);
+            // new一個自訂View的class
+            final MyView myviews = new MyView();
+            // 指定元件
             myviews.itemImg = (ImageView) convertView.findViewById(R.id.imageView);
             myviews.itemName = (TextView) convertView.findViewById(R.id.textView);
             myviews.numberTv = (TextView) convertView.findViewById(R.id.NumberTv);
@@ -198,10 +236,13 @@ public class CartFragment extends Fragment {
             myviews.specTV.setText(Html.fromHtml(String.format(getResources().getString(R.string.cart_spec),
                     lists.get(position).getSpec())));
             myviews.delBtn = (ImageButton) convertView.findViewById(R.id.delBtn);
+            // set listener
             myviews.addNumberBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int num = lists.get(position).getNumber();
+                    Log.i(TAG,"最大數量:"+lists.get(position).getLimitNumber());
+//                    if (num + 1 <= lists.get(position).getLimitNumber())
                     if (num + 1 <= 5)
                         num++;
                     lists.get(position).setNumber(num);
@@ -238,6 +279,9 @@ public class CartFragment extends Fragment {
         }
     }
 
+    /**
+         * 刷新Item的Value
+         */
     private void refreshItemValue(MyView myviews, final int position) {
         //數量
         myviews.numberTv.setText("" + lists.get(position).getNumber());
@@ -249,6 +293,10 @@ public class CartFragment extends Fragment {
                 lists.get(position).getNumber() * lists.get(position).getPrice())));
     }
 
+    /**
+        * 刷新總金額
+        * 將每筆Item的price*number後累加
+        **/
     private void refreshTotalPrice() {
         //總金額
         int totalPrice = 0;
@@ -259,7 +307,13 @@ public class CartFragment extends Fragment {
                 totalPrice)));
     }
 
-    private void showNoItem() {
+    /**
+        * 顯示沒商品的文案
+        * 會判斷購物車內是否有商品
+        * 當沒商品時會把noItemLayout設定為顯示狀態
+        * 而[總金額]與[Submit]隱藏
+        */
+    private void showNoItemLayout() {
         if (lists.size() <= 0) {
             //顯示沒有項目的文案
             noItemLayout.setVisibility(View.VISIBLE);
@@ -275,7 +329,9 @@ public class CartFragment extends Fragment {
         }
     }
 
-    //刪除dialog
+    /**
+        * 刪除dialog
+        */
     private void delDialog(final int position) {
         new AlertDialog.Builder(getActivity())
                 .setTitle("提示訊息")
@@ -283,19 +339,23 @@ public class CartFragment extends Fragment {
                 .setPositiveButton("刪除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // SQLite資料庫刪除該筆資料
                         itemDAODelete(lists.get(position));
+                        // List陣列清除
                         lists.clear();
+                        // List取得購物車所有資料
                         lists = itemDAO.getAll();
-                        checkItemNumber();
+                        // 更新ListView
                         adapter.notifyDataSetChanged();
+                        // 刷新總金額
                         refreshTotalPrice();
-                        showNoItem();
+                        // 沒商品時顯示的介面
+                        showNoItemLayout();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
                 .show();
     }

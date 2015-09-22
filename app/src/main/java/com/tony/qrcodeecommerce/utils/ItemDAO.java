@@ -175,6 +175,7 @@ public class ItemDAO {
         result.setDatetime(cursor.getLong(7));
         result.setNumber(cursor.getInt(8));
         result.setSpec(cursor.getString(9));
+        result.setLimitNumber(cursor.getInt(10));
         // 回傳結果
         return result;
     }
