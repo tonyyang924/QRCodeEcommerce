@@ -242,8 +242,8 @@ public class CartFragment extends Fragment {
                 public void onClick(View v) {
                     int num = lists.get(position).getNumber();
                     Log.i(TAG,"最大數量:"+lists.get(position).getLimitNumber());
-//                    if (num + 1 <= lists.get(position).getLimitNumber())
-                    if (num + 1 <= 5)
+                    if (num + 1 <= lists.get(position).getLimitNumber())
+//                    if (num + 1 <= 5)
                         num++;
                     lists.get(position).setNumber(num);
                     itemDAOUpdate(lists.get(position));
