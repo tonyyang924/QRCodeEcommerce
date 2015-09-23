@@ -159,10 +159,15 @@ public class CartFragment extends Fragment {
                         for (int i=0;i<lists.size();i++) {
                             Log.i(TAG,""+lists.get(i).getLimitNumber());
                         }
-                        // 更新ListView
-                        adapter.notifyDataSetChanged();
-                        // 刷新總金額
-                        refreshTotalPrice();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 更新ListView
+                                adapter.notifyDataSetChanged();
+                                // 刷新總金額
+                                refreshTotalPrice();
+                            }
+                        });
                         // 沒商品時顯示的介面
                         showNoItemLayout();
                         // 等購物車商品尺寸數量處理完成後，就關閉ProgressDialog
@@ -346,7 +351,12 @@ public class CartFragment extends Fragment {
                         // List取得購物車所有資料
                         lists = itemDAO.getAll();
                         // 更新ListView
-                        adapter.notifyDataSetChanged();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                         // 刷新總金額
                         refreshTotalPrice();
                         // 沒商品時顯示的介面
@@ -355,7 +365,8 @@ public class CartFragment extends Fragment {
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) { }
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
                 .show();
     }
