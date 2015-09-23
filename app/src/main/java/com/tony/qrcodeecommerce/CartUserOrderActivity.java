@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +50,9 @@ public class CartUserOrderActivity extends Activity {
     private static TextView userorderTTimeTv;
     private List<Item> lists;
     private ItemDAO itemDAO;
+
+    //checkbox
+    private CheckBox checkbox;
 
     //使用者選擇的交易日期與時間
     private static int year = 0, monthOfYear = 0, dayOfMonth = 0, hourOfDay = 0, minute = 0;
@@ -83,10 +88,26 @@ public class CartUserOrderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cartuserorder);
+        profileSP = new ProfileSP(getApplicationContext());
         userOrderNameEt = (EditText) findViewById(R.id.userorder_name);
         userOrderTelphoneEt = (EditText) findViewById(R.id.userorder_telphone);
         userOrderEmailEt = (EditText) findViewById(R.id.userorder_email);
         userOrderPlaceSp = (Spinner) findViewById(R.id.userorder_place);
+        checkbox = (CheckBox) findViewById(R.id.checkbox);
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    userOrderNameEt.setText(profileSP.getUserProfile().getStuName());
+                    userOrderTelphoneEt.setText(profileSP.getUserProfile().getStuPhone());
+                    userOrderEmailEt.setText(profileSP.getUserProfile().getStuEmail());
+                } else {
+                    userOrderNameEt.setText("");
+                    userOrderTelphoneEt.setText("");
+                    userOrderEmailEt.setText("");
+                }
+            }
+        });
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(this,
                 R.array.userorder_place_spinner, android.R.layout.simple_spinner_item);
@@ -107,11 +128,6 @@ public class CartUserOrderActivity extends Activity {
             totalPrice += list.getPrice() * list.getNumber();
         }
         totalPriceTv.setText(Html.fromHtml(String.format(getString(R.string.userorder_totalprice), totalPrice)));
-
-        profileSP = new ProfileSP(getApplicationContext());
-        userOrderNameEt.setText(profileSP.getUserProfile().getStuName());
-        userOrderTelphoneEt.setText(profileSP.getUserProfile().getStuPhone());
-        userOrderEmailEt.setText(profileSP.getUserProfile().getStuEmail());
     }
 
     private View.OnClickListener pickTimeClkLis = new View.OnClickListener() {
