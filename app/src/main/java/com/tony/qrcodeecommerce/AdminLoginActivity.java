@@ -36,7 +36,6 @@ public class AdminLoginActivity extends Activity {
                         try {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("proc", "admin_login");
-                            params.put("status", "login_check");
                             params.put("id", adminid.getText().toString());
                             params.put("pw", adminpw.getText().toString());
                             InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
