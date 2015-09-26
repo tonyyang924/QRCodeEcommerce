@@ -28,6 +28,11 @@
         <item>L</item>
         <item>XL</item>
     </string-array>
+    <string name="cart_limitnumber">
+        <![CDATA[
+            剩餘數量：<font color="#dd0000">%1$d</font> 個
+        ]]>
+    </string>
     <string name="cart_number">
         <![CDATA[
             數量：<font color="#dd0000">%1$d</font> 個

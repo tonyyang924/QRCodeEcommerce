@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -116,12 +118,10 @@ public class CartFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    String urlstr = "http://163.18.42.145/mobile/mobile_process.php";
-
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("proc", "product_search");
                     params.put("json", jsonArrayStr);
-                    String responseMsg = Tool.submitPostData(urlstr, params, "utf-8");
+                    String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
                     //如果沒有error就是代表有回傳json格式的資料
                     if (!responseMsg.equals("error")) {
                         String sqlStr = "UPDATE shoppingcart SET limitnumber = CASE ";
@@ -278,6 +278,14 @@ public class CartFragment extends Fragment {
             Bitmap bmp = BitmapFactory.decodeFile(imgPath);
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());
+            if(lists.get(position).getLimitNumber()==0) {
+                // gone去除 + , - 的按鈕
+                myviews.addNumberBtn.setVisibility(View.GONE);
+                myviews.subNumberBtn.setVisibility(View.GONE);
+                // 將此item的使用者選擇的數量設定為0並Update SQLite資料庫
+                lists.get(position).setNumber(0);
+                itemDAOUpdate(lists.get(position));
+            }
             refreshItemValue(myviews, position);
             refreshTotalPrice();
             return convertView;
@@ -289,7 +297,16 @@ public class CartFragment extends Fragment {
          */
     private void refreshItemValue(MyView myviews, final int position) {
         //數量
-        myviews.numberTv.setText("" + lists.get(position).getNumber());
+        if(lists.get(position).getLimitNumber()>0) {
+            myviews.numberTv.setText("" + lists.get(position).getNumber());
+        } else {
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            llp.setMargins(0, 0, 0, 0);
+            myviews.numberTv.setLayoutParams(llp);
+            myviews.numberTv.setTextSize(TypedValue.COMPLEX_UNIT_SP,getResources().getDimension(R.dimen.cart_listview_textsize) / getResources().getDisplayMetrics().density);
+            myviews.numberTv.setText(Html.fromHtml(String.format(getResources().getString(R.string.cart_limitnumber),0)));
+        }
         //價格
         myviews.priceTv.setText(Html.fromHtml(String.format(getResources().getString(R.string.cart_price),
                 lists.get(position).getPrice())));

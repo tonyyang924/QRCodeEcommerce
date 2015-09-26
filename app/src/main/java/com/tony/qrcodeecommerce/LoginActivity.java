@@ -72,12 +72,8 @@ public class LoginActivity extends Activity {
                                 params.put("acc", userId.getText().toString());
                                 params.put("pwd", userPw.getText().toString());
                                 params.put("devicetoken", token);
-
-//                                String urlstr = "http://163.18.42.145/login/index.php";
-                                String urlstr = "http://163.18.42.145/mobile/mobile_process.php";
-
                                 //回傳訊息
-                                String responseMsg = Tool.submitPostData(urlstr, params, "utf-8");
+                                String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
 
                                 //成功
                                 if (responseMsg.equals("success")) {

@@ -21,7 +21,7 @@ public class MainApplication extends Application {
     private static String loginUserId;
 
     //Server
-    public static final String SERVER_PROC = "http://mobile.superzoro.idv.tw/mobile_process.php";
+    public static final String SERVER_PROC = "http://163.18.42.145/mobile/mobile_process.php";
 
     private ProfileSP profileSP;
 
