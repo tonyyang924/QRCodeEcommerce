@@ -72,6 +72,12 @@ public class CartUserOrderActivity extends Activity {
         ArrayList<HashMap<String,Object>> theOrderItems = new ArrayList<>();
         ItemDAO itemDAO = new ItemDAO(this);
         List<Item> lists = itemDAO.getAll();
+        //拿掉數量為0的Item
+        for(int i=0;i<lists.size();i++) {
+            if(lists.get(i).getLimitNumber() == 0) {
+                lists.remove(i);
+            }
+        }
         for(Item list : lists) {
             HashMap<String,Object> orderItem = new HashMap<>();
             orderItem.put("oid", Tool.getOrderId(getApplicationContext(),getCode));
@@ -128,6 +134,8 @@ public class CartUserOrderActivity extends Activity {
             totalPrice += list.getPrice() * list.getNumber();
         }
         totalPriceTv.setText(Html.fromHtml(String.format(getString(R.string.userorder_totalprice), totalPrice)));
+
+        Log.i(TAG,getOrderItems().toString());
     }
 
     private View.OnClickListener pickTimeClkLis = new View.OnClickListener() {

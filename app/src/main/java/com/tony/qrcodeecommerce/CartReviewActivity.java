@@ -30,6 +30,7 @@ public class CartReviewActivity extends Activity {
     private ItemDAO itemDAO;
     private MyAdapter adapter;
     private MainApplication m;
+    private TextView totalpriceTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +38,38 @@ public class CartReviewActivity extends Activity {
         setContentView(R.layout.activity_cartreview);
         m = (MainApplication) getApplication();
         listView = (ListView) findViewById(R.id.listView2);
+        totalpriceTV = (TextView)findViewById(R.id.totalpriceTV);
         itemDAO = new ItemDAO(this);
-        lists = itemDAO.getAll();
+        getItemNumberNot0();
+        refreshTotalPrice();
         adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
         submit = (Button) findViewById(R.id.button);
         submit.setOnClickListener(submit_clklis);
+    }
+
+    /**
+        * 刷新總金額
+        * 將每筆Item的price*number後累加
+        **/
+    private void refreshTotalPrice() {
+        //總金額
+        int totalPrice = 0;
+        for (Item list : lists) {
+            totalPrice += list.getPrice() * list.getNumber();
+        }
+        totalpriceTV.setText(Html.fromHtml(String.format(getResources().getString(R.string.cart_totalprice),
+                totalPrice)));
+    }
+
+    //取出list後，刪除數量為0的選項，不要讓數量為0的顯示在listview上
+    private void getItemNumberNot0() {
+        lists = itemDAO.getAll();
+        for(int i=0;i<lists.size();i++) {
+            if(lists.get(i).getLimitNumber() == 0) {
+                lists.remove(i);
+            }
+        }
     }
 
     private View.OnClickListener submit_clklis = new View.OnClickListener() {

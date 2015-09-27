@@ -19,15 +19,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listView2"
-        android:layout_above="@id/button"
+        android:layout_above="@id/relativeLayout"
         android:layout_below="@+id/textView2" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cart_submit"
-        android:id="@+id/button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:id="@+id/relativeLayout">
+
+        <TextView
+            android:id="@+id/totalpriceTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/cart_listview_textsize"
+            android:text="@string/cart_totalprice"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cart_submit"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:id="@+id/button" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
