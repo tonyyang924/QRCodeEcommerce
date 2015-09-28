@@ -2,6 +2,7 @@ package com.tony.qrcodeecommerce.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class ProfileSP {
     private static final String TAG = "ProfileSP";
@@ -37,6 +38,7 @@ public class ProfileSP {
                 .putString(PHONE_FIELD,profile.getStuPhone())
                 .putString(EMAIL_FIELD,profile.getStuEmail())
                 .commit();
+        Log.i(TAG, "本地端個人資料已經更新");
     }
     //設定使用者ID
     public void setUserId(String id) {
