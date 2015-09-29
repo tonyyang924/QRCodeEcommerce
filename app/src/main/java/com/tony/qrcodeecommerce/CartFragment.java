@@ -155,6 +155,7 @@ public class CartFragment extends Fragment {
                         lists.clear();
                         // List取得購物車所有資料
                         lists = itemDAO.getAll();
+                        Log.i(TAG,"list size:"+lists.size());
                         //列出SQLite資料庫內的筆數
                         for (int i=0;i<lists.size();i++) {
                             Log.i(TAG,""+lists.get(i).getLimitNumber());

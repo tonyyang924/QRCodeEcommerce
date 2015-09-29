@@ -3,6 +3,10 @@ package com.tony.qrcodeecommerce.utils;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Item是用來放購物車內的所有商品
+ */
+
 public class Item implements java.io.Serializable {
     //資料庫
     private long id;

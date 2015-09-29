@@ -35,8 +35,10 @@ import com.tony.qrcodeecommerce.utils.Tool;
 
 import org.json.JSONArray;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,50 +189,47 @@ public class CartUserOrderActivity extends Activity {
     private View.OnClickListener submitClkLis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(MainApplication.DEBUG) { //測試時略過驗證碼，但仍需取得驗證碼，為了oid
-                getCode = SecurityCode.getInstance().getCode(false);
-                DoThread();
-            } else { //實測時需輸入驗證碼
-                //送出訂單
-                //http://mobile.dennychen.tw/mobile_order_insert.php?pid=A&username=Tony&userphone=0912345678
-                // &useremail=u0324813@nkfust.edu.tw&tplace=%E5%AD%B8%E6%A0%A1
-                // &ttime=%E4%B8%8B%E5%8D%88&devicetoken=1313213122
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.securitycode, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(CartUserOrderActivity.this);
-                builder.setView(layout);
-                builder.setCancelable(true);
-                builder.create();
-                dialog = builder.show();
 
-                // 獲取顯示的驗證碼
-                getCode = SecurityCode.getInstance().getCode(false);
+            //送出訂單
+            //http://mobile.dennychen.tw/mobile_order_insert.php?pid=A&username=Tony&userphone=0912345678
+            // &useremail=u0324813@nkfust.edu.tw&tplace=%E5%AD%B8%E6%A0%A1
+            // &ttime=%E4%B8%8B%E5%8D%88&devicetoken=1313213122
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.securitycode, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(CartUserOrderActivity.this);
+            builder.setView(layout);
+            builder.setCancelable(true);
+            builder.create();
+            dialog = builder.show();
 
-                final ImageView vc_image = (ImageView) layout.findViewById(R.id.verify_imv);
-                final EditText vc_code = (EditText) layout.findViewById(R.id.myedit);
-                final Button vc_shuaxin = (Button) layout.findViewById(R.id.vc_shuaxin);
-                vc_shuaxin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        vc_image.setImageBitmap(SecurityCode.getInstance().getBitmap());
-                        getCode = SecurityCode.getInstance().getCode(false);
+            // 獲取顯示的驗證碼
+            getCode = SecurityCode.getInstance().getCode(false);
+
+            final ImageView vc_image = (ImageView) layout.findViewById(R.id.verify_imv);
+            final EditText vc_code = (EditText) layout.findViewById(R.id.myedit);
+            final Button vc_shuaxin = (Button) layout.findViewById(R.id.vc_shuaxin);
+            vc_shuaxin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    vc_image.setImageBitmap(SecurityCode.getInstance().getBitmap());
+                    getCode = SecurityCode.getInstance().getCode(false);
+                }
+            });
+            final Button verfiy_btn = (Button) layout.findViewById(R.id.verfiy_btn);
+            verfiy_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String verfiyString = vc_code.getText().toString();
+                    if (verfiyString.equals(getCode)) {
+                        Toast.makeText(getApplicationContext(), "驗證碼輸入正確", Toast.LENGTH_LONG).show();
+                        DoThread();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "驗證碼輸入錯誤", Toast.LENGTH_LONG).show();
                     }
-                });
-                final Button verfiy_btn = (Button) layout.findViewById(R.id.verfiy_btn);
-                verfiy_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String verfiyString = vc_code.getText().toString();
-                        if (verfiyString.equals(getCode)) {
-                            Toast.makeText(getApplicationContext(), "驗證碼輸入正確", Toast.LENGTH_LONG).show();
-                            DoThread();
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "驗證碼輸入錯誤", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
+                }
+            });
+
         }
     };
 
@@ -238,26 +237,40 @@ public class CartUserOrderActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.i(TAG, "acc:" + Tool.getStuNumber(MainApplication.getLoginUserId()));
+                Log.i(TAG, "oid:" + Tool.getOrderId(getApplicationContext(), getCode));
+                Log.i(TAG, "oitem:" + getOrderItems().toString());
+                Log.i(TAG, "rname:" + userOrderNameEt.getText().toString());
+                Log.i(TAG, "rphone:" + userOrderTelphoneEt.getText().toString());
+                Log.i(TAG, "remail:" + userOrderEmailEt.getText().toString());
+                Log.i(TAG, "tplace:" + userOrderPlaceSp.getSelectedItem().toString());
+                Log.i(TAG, "ttime:" + String.format(getResources().getString(R.string.userorder_params_ttime),
+                        year, monthOfYear, dayOfMonth, hourOfDay, minute));
+
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis()); // 獲取當前時間
+                Log.i(TAG, "tupdate:" + formatter.format(curDate));
+                //Server端的update time格式為：2015-09-29 16:02:00
+
                 try {
-                                        InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                    InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
                     Map<String, String> params = new HashMap<String, String>();
-                    Log.i(TAG, "oid:" + Tool.getOrderId(getApplicationContext(), getCode));
-                    params.put("proc","order_insert");
+                    params.put("proc", "order_inserts");
+                    params.put("acc",Tool.getStuNumber(MainApplication.getLoginUserId()));
                     params.put("oid", Tool.getOrderId(getApplicationContext(), getCode));
-                    params.put("username",userOrderNameEt.getText().toString());
-                    params.put("userphone",userOrderTelphoneEt.getText().toString());
-                    params.put("useremail",userOrderEmailEt.getText().toString());
+                    params.put("oitem",getOrderItems().toString());
+                    params.put("rname",userOrderNameEt.getText().toString());
+                    params.put("rphone",userOrderTelphoneEt.getText().toString());
+                    params.put("remail",userOrderEmailEt.getText().toString());
                     params.put("tplace",userOrderPlaceSp.getSelectedItem().toString());
                     params.put("ttime", String.format(getResources().getString(R.string.userorder_params_ttime),
                             year, monthOfYear, dayOfMonth, hourOfDay, minute));
-                    params.put("devicetoken", token);
-                    params.put("orderitems",getOrderItems().toString()); //所有訂購的商品
+                    params.put("tupdate", formatter.format(curDate));
 
                     String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
-
                     Log.i(TAG,"resultData:"+resultData);
 
                     //切割結果字串
@@ -273,9 +286,7 @@ public class CartUserOrderActivity extends Activity {
                         Intent intent = new Intent(CartUserOrderActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                        if(!MainApplication.DEBUG) {//如果不是測試，就刪除所有購物車資料
-                            itemDAO.deleteAll();
-                        }
+                        itemDAO.deleteAll();
                     } else {
                         runOnUiThread(new Runnable() {
                             @Override

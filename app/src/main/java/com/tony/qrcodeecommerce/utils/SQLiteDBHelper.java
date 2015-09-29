@@ -14,8 +14,16 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     private static final String TAG = "SQLiteDBHelper";
 
     public static final String DATABASE_NAME = "database.db";
-    //
-    public static final int VERSION = 1;
+
+    /**
+     * version1:
+     * 只有購物車資料表
+     * version2更改:
+     * 1.不使用assets內的item.db與images
+     * 2.新增一個名為product表格用來存放SV端的product
+     */
+    public static final int VERSION = 2;
+
     //
     private static SQLiteDatabase database;
 
@@ -37,16 +45,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG,"onCreate");
-        //
+        //建立用來儲存購物車的table
         db.execSQL(ItemDAO.CREATE_TABLE);
+        //建立用來儲存商品的table
+        db.execSQL(ProductDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG,"onUpgrade");
-        //
+        //每當有更新時一律刪除資料表
         db.execSQL("DROP TABLE IF EXISTS " + ItemDAO.TABLE_NAME);
-        //
+        db.execSQL("DROP TABLE IF EXISTS " + ProductDAO.TABLE_NAME);
+        //再create table
         onCreate(db);
     }
 }
