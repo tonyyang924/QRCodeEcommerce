@@ -268,7 +268,7 @@ public class CartUserOrderActivity extends Activity {
                     params.put("tplace",userOrderPlaceSp.getSelectedItem().toString());
                     params.put("ttime", String.format(getResources().getString(R.string.userorder_params_ttime),
                             year, monthOfYear, dayOfMonth, hourOfDay, minute));
-                    params.put("tupdate", formatter.format(curDate));
+//                    params.put("tupdate", formatter.format(curDate));
 
                     String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
                     Log.i(TAG,"resultData:"+resultData);
