@@ -198,5 +198,21 @@ public class Tool {
         String oid = String.format(context.getResources().getString(R.string.oid_text),str,veritycode,(int)Math.random()*900+100);
         return oid;
     }
+
+    // 檢查學生學號，去除學號的"u"後回傳數字學號
+    public static String getStuNumber(String loginId) {
+        String uNumber;
+        /**
+         * 假設學號為u0324813
+         * 在這的判斷只判斷登入id是否有u
+         * 有u就把u去除
+         */
+        if(loginId.indexOf("u") != -1) { //如果登入字串中有"u"
+            uNumber = loginId.substring(1); //從char[1]開始
+        } else { //如果沒有
+            uNumber = loginId;
+        }
+        return uNumber;
+    }
 }
 

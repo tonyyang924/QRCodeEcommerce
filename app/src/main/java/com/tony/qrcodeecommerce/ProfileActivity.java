@@ -52,9 +52,12 @@ public class ProfileActivity extends Activity {
                 @Override
                 public void run() {
                     try {
+                        /**
+                         * 使用proc:user_update 更新user table的使用者資料
+                         */
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("proc", "user_update");
-                        params.put("acc", MainApplication.getLoginUserId());
+                        params.put("acc", Tool.getStuNumber(MainApplication.getLoginUserId()));
                         params.put("phone", profilePhone.getText().toString());
                         params.put("name", profileName.getText().toString());
                         params.put("email", profileEmail.getText().toString());
@@ -67,7 +70,7 @@ public class ProfileActivity extends Activity {
                                     Toast.makeText(getApplicationContext(),"修改成功！",Toast.LENGTH_SHORT).show();
                                 } else if (responseMsg.equals("參數有誤")) {
                                     Log.i(TAG,"參數有誤");
-                                    Toast.makeText(getApplicationContext(),"參數有誤！",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),"資料未填寫完整！",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

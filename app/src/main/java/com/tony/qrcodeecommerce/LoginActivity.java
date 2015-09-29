@@ -47,95 +47,87 @@ public class LoginActivity extends Activity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MainApplication.DEBUG) {
-                    //進入主畫面
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String token = null;
                             try {
-
-                                String token = null;
-                                try {
-                                    InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
-                                    token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("proc", "login_check");
-                                params.put("acc", userId.getText().toString());
-                                params.put("pwd", userPw.getText().toString());
-                                params.put("devicetoken", token);
-                                //回傳訊息
-                                String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
-
-                                //成功
-                                if (responseMsg.equals("success")) {
-                                    //設定不是管理員
-                                    MainApplication.setIsAdmin(false);
-                                    //儲存登入帳號
-                                    String userloginId = "";
-                                    if(userId.getText().toString().indexOf("u") == -1) { //如果沒有u
-                                        userloginId = "u"+userId.getText().toString();
-                                    } else {
-                                        userloginId = userId.getText().toString();
-                                    }
-                                    MainApplication.setLoginUserId(userloginId);
-                                    profileSP.setUserId(userloginId);
-                                    if(profileSP.getUserProfile().getStuEmail().equals("")) {
-                                        Log.i(TAG,"email == \"\"");
-                                        profileSP.setUserEmail(String.format(getString(R.string.email_nkfust),userloginId));
-                                    }
-                                    //Toast訊息，需調用runOnUiThread
-                                    LoginActivity.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(getApplicationContext(), "登入成功！", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    //進入主畫面
-                                    enterNextPage();
-                                }
-                                //帳號密碼錯誤
-                                else if (responseMsg.equals("fails")) {
-                                    //Toast訊息，需調用runOnUiThread
-                                    LoginActivity.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(getApplicationContext(), "帳號或密碼錯誤！", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                                //系統發生問題
-                                else if (responseMsg.equals("error")) {
-                                    LoginActivity.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(getApplicationContext(), "系統發生問題！", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                                //此帳號被禁止進入
-                                else if (responseMsg.equals("forbidden")) {
-                                    LoginActivity.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(getApplicationContext(), "此帳號被禁止進入！", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
+                                InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                                token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("proc", "login_check");
+                            params.put("acc", userId.getText().toString());
+                            params.put("pwd", userPw.getText().toString());
+                            params.put("devicetoken", token);
+                            //回傳訊息
+                            String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+
+                            //成功
+                            if (responseMsg.equals("success")) {
+                                //設定不是管理員
+                                MainApplication.setIsAdmin(false);
+                                //儲存登入帳號
+                                String userloginId = "";
+                                if(userId.getText().toString().indexOf("u") == -1) { //如果沒有u
+                                    userloginId = "u"+userId.getText().toString();
+                                } else {
+                                    userloginId = userId.getText().toString();
+                                }
+                                MainApplication.setLoginUserId(userloginId);
+                                profileSP.setUserId(userloginId);
+                                if(profileSP.getUserProfile().getStuEmail().equals("")) {
+                                    Log.i(TAG,"email == \"\"");
+                                    profileSP.setUserEmail(String.format(getString(R.string.email_nkfust),userloginId));
+                                }
+                                //Toast訊息，需調用runOnUiThread
+                                LoginActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "登入成功！", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                //進入主畫面
+                                enterNextPage();
+                            }
+                            //帳號密碼錯誤
+                            else if (responseMsg.equals("fails")) {
+                                //Toast訊息，需調用runOnUiThread
+                                LoginActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "帳號或密碼錯誤！", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            //系統發生問題
+                            else if (responseMsg.equals("error")) {
+                                LoginActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "系統發生問題！", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            //此帳號被禁止進入
+                            else if (responseMsg.equals("forbidden")) {
+                                LoginActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "此帳號被禁止進入！", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    }).start();
-                }
+                    }
+                }).start();
             }
         });
         if (checkPlayServices()) {

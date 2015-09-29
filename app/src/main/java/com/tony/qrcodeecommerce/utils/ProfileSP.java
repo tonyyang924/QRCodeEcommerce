@@ -11,7 +11,7 @@ public class ProfileSP {
     private Context context;
 
     //SharedPreference 儲存使用者個人資料
-    private SharedPreferences SP;
+    private static SharedPreferences SP;
     private static final String DATA = "userdata";
     private static final String ID_FIELD = "stu_id";
     private static final String NAME_FIELD = "stu_name";
