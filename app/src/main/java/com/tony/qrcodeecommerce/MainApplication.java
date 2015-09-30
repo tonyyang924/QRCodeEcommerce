@@ -27,6 +27,8 @@ public class MainApplication extends Application {
         super.onCreate();
         //剛進入App，Application會建立tool放置於MainApplication記憶體中
         Tool.CopyAssetsDBToSDCard(getApplicationContext());
+        //剛進入App，將SV端的商品資料抓下來
+        Tool.DownloadProductInfo();
     }
 
     public static void setPid(String pid1) {

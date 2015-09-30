@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
+import com.tony.qrcodeecommerce.MainApplication;
 import com.tony.qrcodeecommerce.R;
+
+import org.json.JSONArray;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +24,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Tool {
@@ -203,16 +207,53 @@ public class Tool {
     public static String getStuNumber(String loginId) {
         String uNumber;
         /**
-         * 假設學號為u0324813
-         * 在這的判斷只判斷登入id是否有u
-         * 有u就把u去除
-         */
+                 * 假設學號為u0324813
+                 * 在這的判斷只判斷登入id是否有u
+                 * 有u就把u去除
+                 */
         if(loginId.indexOf("u") != -1) { //如果登入字串中有"u"
             uNumber = loginId.substring(1); //從char[1]開始
         } else { //如果沒有
             uNumber = loginId;
         }
         return uNumber;
+    }
+
+    //下載商品資料
+    public static void DownloadProductInfo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //查詢所有商品
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("proc", "GetProduct");
+                    String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+                    JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
+                    for(int i=0;i<jsonArrayResponse.length();i++) {
+//                        Log.i(TAG,"object ===> "+jsonArrayResponse.getJSONObject(i));
+                        String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
+                        String name = jsonArrayResponse.getJSONObject(i).getString("name");
+                        String price = jsonArrayResponse.getJSONObject(i).getString("price");
+                        String pic = jsonArrayResponse.getJSONObject(i).getString("pic");
+                        String pic_link = jsonArrayResponse.getJSONObject(i).getString("pic_link");
+                        String link = jsonArrayResponse.getJSONObject(i).getString("link");
+                        String spec = jsonArrayResponse.getJSONObject(i).getString("product_spec");
+                        String amount = jsonArrayResponse.getJSONObject(i).getString("product_amount");
+                        Log.i(TAG,"編號:"+pid);
+                        Log.i(TAG,"名稱:"+name);
+                        Log.i(TAG,"價錢:"+price);
+                        Log.i(TAG,"照片檔名:"+pic);
+                        Log.i(TAG,"照片網址:"+pic_link);
+                        Log.i(TAG,"連結:"+link);
+                        Log.i(TAG,"規格:"+spec);
+                        Log.i(TAG,"數量:"+amount);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
 
