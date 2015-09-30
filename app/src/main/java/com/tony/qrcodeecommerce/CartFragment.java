@@ -54,6 +54,9 @@ public class CartFragment extends Fragment {
     //ProgressDialog
     private ProgressDialog PD;
 
+    //init
+    private boolean isInit = false;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -80,17 +83,13 @@ public class CartFragment extends Fragment {
         itemDAO = new ItemDAO(getActivity());
         lists = itemDAO.getAll();
 
-        adapter = new MyAdapter(getActivity());
-        listView.setAdapter(adapter);
-
         checkItemNumber();
-        showNoItemLayout();
     }
 
     //向Server端確認目前的商品數量
     private void checkItemNumber() {
         //如果購物車內沒商品，就直接return離開此方法。
-        if(lists.size()==0)
+        if(lists.size() == 0)
             return;
         //loading讀取show
         // activity 標題 內容 (true or false)
@@ -127,7 +126,7 @@ public class CartFragment extends Fragment {
                         String sqlStr = "UPDATE shoppingcart SET limitnumber = CASE ";
                         Log.i(TAG,"responseMsg: "+responseMsg);
                         JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
-                        Log.i(TAG,"jsonArrayResponse:"+jsonArrayResponse.toString());
+                        Log.i(TAG, "jsonArrayResponse:" + jsonArrayResponse.toString());
                         for(int i=0;i<jsonArrayResponse.length();i++) {
                             Log.i(TAG,"object ===> "+jsonArrayResponse.getJSONObject(i));
                             // 商品編號、規格、數量
@@ -155,24 +154,25 @@ public class CartFragment extends Fragment {
                         lists.clear();
                         // List取得購物車所有資料
                         lists = itemDAO.getAll();
-                        Log.i(TAG,"list size:"+lists.size());
+                        Log.i(TAG, "list size:" + lists.size());
                         //列出SQLite資料庫內的筆數
                         for (int i=0;i<lists.size();i++) {
-                            Log.i(TAG,""+lists.get(i).getLimitNumber());
+                            Log.i(TAG,"Pid:"+lists.get(i).getPid()+" Number:"+lists.get(i).getNumber()+" LimitNumber:"+lists.get(i).getLimitNumber());
                         }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // 更新ListView
-                                adapter.notifyDataSetChanged();
                                 // 刷新總金額
                                 refreshTotalPrice();
+                                // 配置ListView
+                                adapter = new MyAdapter(getActivity());
+                                listView.setAdapter(adapter);
+                                // 沒商品時顯示的介面
+                                showNoItemLayout();
+                                // 等購物車商品尺寸數量處理完成後，就關閉ProgressDialog
+                                PD.dismiss();
                             }
                         });
-                        // 沒商品時顯示的介面
-                        showNoItemLayout();
-                        // 等購物車商品尺寸數量處理完成後，就關閉ProgressDialog
-                        PD.dismiss();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -247,12 +247,9 @@ public class CartFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     int num = lists.get(position).getNumber();
-                    Log.i(TAG,"最大數量:"+lists.get(position).getLimitNumber());
                     if (num + 1 <= lists.get(position).getLimitNumber())
-//                    if (num + 1 <= 5)
                         num++;
                     lists.get(position).setNumber(num);
-                    itemDAOUpdate(lists.get(position));
                     refreshItemValue(myviews, position);
                     refreshTotalPrice();
                 }
@@ -264,7 +261,6 @@ public class CartFragment extends Fragment {
                     if (num - 1 > 0)
                         num--;
                     lists.get(position).setNumber(num);
-                    itemDAOUpdate(lists.get(position));
                     refreshItemValue(myviews, position);
                     refreshTotalPrice();
                 }
@@ -279,13 +275,26 @@ public class CartFragment extends Fragment {
             Bitmap bmp = BitmapFactory.decodeFile(imgPath);
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());
-            if(lists.get(position).getLimitNumber()==0) {
+            if(lists.get(position).getLimitNumber()==0) { // 該商品如果剩餘數量為0
                 // gone去除 + , - 的按鈕
                 myviews.addNumberBtn.setVisibility(View.GONE);
                 myviews.subNumberBtn.setVisibility(View.GONE);
-                // 將此item的使用者選擇的數量設定為0並Update SQLite資料庫
-                lists.get(position).setNumber(0);
-                itemDAOUpdate(lists.get(position));
+                if(!isInit) {
+                    // 將此商品的數量設定為0並Update SQLite資料庫
+                    lists.get(position).setNumber(0);
+                    itemDAOUpdate(lists.get(position));
+                    isInit = true;
+                }
+            } else { // 該商品不為0
+                // 顯示商品數量增加減少的按鈕
+                myviews.addNumberBtn.setVisibility(View.VISIBLE);
+                myviews.subNumberBtn.setVisibility(View.VISIBLE);
+                if(!isInit) {
+                    // 將此商品的數量設定為1並Update SQLite資料庫
+                    lists.get(position).setNumber(1);
+                    itemDAOUpdate(lists.get(position));
+                    isInit = true;
+                }
             }
             refreshItemValue(myviews, position);
             refreshTotalPrice();
@@ -369,12 +378,7 @@ public class CartFragment extends Fragment {
                         // List取得購物車所有資料
                         lists = itemDAO.getAll();
                         // 更新ListView
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
+                        adapter.notifyDataSetChanged();
                         // 刷新總金額
                         refreshTotalPrice();
                         // 沒商品時顯示的介面

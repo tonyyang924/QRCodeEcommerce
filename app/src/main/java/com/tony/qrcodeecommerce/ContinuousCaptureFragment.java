@@ -208,7 +208,8 @@ public class ContinuousCaptureFragment extends Fragment {
 
     private void submitAddCart() {
         Item item1 = itemDAO.insert(item);
-        Log.i(TAG, item1.getName());
+        Log.i(TAG, "item name:"+item1.getName());
+        Log.i(TAG, "item number:"+item1.getNumber());
         Toast.makeText(getActivity(), "成功加入購物車！", Toast.LENGTH_SHORT).show();
     }
 
