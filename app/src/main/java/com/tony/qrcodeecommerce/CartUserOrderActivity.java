@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.ProfileSP;
@@ -68,6 +69,8 @@ public class CartUserOrderActivity extends Activity {
 
     //
     private ProfileSP profileSP;
+    //
+    private AppSP appSP;
 
     //取得所有訂購之商品
     private JSONArray getOrderItems() {
@@ -97,6 +100,7 @@ public class CartUserOrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cartuserorder);
         profileSP = new ProfileSP(getApplicationContext());
+        appSP = new AppSP(getApplicationContext());
         userOrderNameEt = (EditText) findViewById(R.id.userorder_name);
         userOrderTelphoneEt = (EditText) findViewById(R.id.userorder_telphone);
         userOrderEmailEt = (EditText) findViewById(R.id.userorder_email);
@@ -237,7 +241,7 @@ public class CartUserOrderActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "acc:" + Tool.getStuNumber(MainApplication.getLoginUserId()));
+                Log.i(TAG, "acc:" + Tool.getStuNumber(appSP.getLoginUserId()));
                 Log.i(TAG, "oid:" + Tool.getOrderId(getApplicationContext(), getCode));
                 Log.i(TAG, "oitem:" + getOrderItems().toString());
                 Log.i(TAG, "rname:" + userOrderNameEt.getText().toString());
@@ -259,7 +263,7 @@ public class CartUserOrderActivity extends Activity {
 
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("proc", "order_inserts");
-                    params.put("acc",Tool.getStuNumber(MainApplication.getLoginUserId()));
+                    params.put("acc",Tool.getStuNumber(appSP.getLoginUserId()));
                     params.put("oid", Tool.getOrderId(getApplicationContext(), getCode));
                     params.put("oitem",getOrderItems().toString());
                     params.put("rname",userOrderNameEt.getText().toString());

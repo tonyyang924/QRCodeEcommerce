@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 public class DetailsFragment extends Fragment {
@@ -20,18 +21,17 @@ public class DetailsFragment extends Fragment {
     private TextView nameTV, priceTV;
     private ImageView imgIV;
     private Tool tool;
-    private MainApplication m;
     private RelativeLayout noProductLayout;
     //顯示文字內容
     private String text = "";
-
+    private AppSP appSP;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        m = (MainApplication) getActivity().getApplication();
         //取得MainActivity的方法，將文字放入text字串
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getDetailsText();
+        appSP = new AppSP(getActivity());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DetailsFragment extends Fragment {
         noProductLayout = (RelativeLayout) getActivity().findViewById(R.id.noProductLayout);
         tool = new Tool();
         Cursor c = tool.SQLQuery("SELECT name,pic,price FROM item "
-                + " WHERE id = '" + m.getPid() + "';");
+                + " WHERE id = '" + appSP.getScanPid() + "';");
         if (c.getCount() > 0) {
             c.moveToFirst();
             String name = c.getString(0);

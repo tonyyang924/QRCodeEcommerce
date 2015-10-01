@@ -25,6 +25,7 @@ import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CompoundBarcodeView;
+import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.Product;
@@ -54,12 +55,15 @@ public class ContinuousCaptureFragment extends Fragment {
 
     private ProductDAO productDAO;
 
+    private AppSP appSP;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         //取得MainActivity的方法，將文字放入text字串
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getQRCodeText();
+        appSP = new AppSP(getActivity());
     }
 
     @Override
@@ -109,7 +113,8 @@ public class ContinuousCaptureFragment extends Fragment {
             ImageView addCart = (ImageView) view.findViewById(R.id.addCart);
             addCart.setOnClickListener(addCartClickLis);
 
-            MainApplication.setPid(result.getText());
+//            MainApplication.setPid(result.getText());
+            appSP.setScanPid(result.getText());
 
             String titleStr = "";       //商品title
             String image_path = "";     //商品圖片資料夾位置
@@ -198,7 +203,6 @@ public class ContinuousCaptureFragment extends Fragment {
                                     /**
                                                                          * 判斷是否有選擇尺寸
                                                                          **/
-
                                     //取得第一個選項
                                     String sizeArr01 = getResources().getStringArray(R.array.cart_size_spinner)[0];
                                     //如果有選擇尺寸，就加入購物車

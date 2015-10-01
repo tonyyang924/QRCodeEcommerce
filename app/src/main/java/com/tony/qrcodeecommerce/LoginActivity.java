@@ -15,6 +15,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.tony.qrcodeecommerce.gcm.RegistrationIntentService;
+import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
@@ -28,11 +29,13 @@ public class LoginActivity extends Activity {
     private Button submit;
     private ImageButton adminLoginButton;
     private ProfileSP profileSP;
+    private AppSP appSP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
         profileSP = new ProfileSP(getApplicationContext());
+        appSP = new AppSP(getApplicationContext());
         userId = (EditText) findViewById(R.id.userid);
         userPw = (EditText) findViewById(R.id.userpw);
         adminLoginButton = (ImageButton) findViewById(R.id.adminLoginButton);
@@ -71,7 +74,8 @@ public class LoginActivity extends Activity {
                             //成功
                             if (responseMsg.equals("success")) {
                                 //設定不是管理員
-                                MainApplication.setIsAdmin(false);
+//                                MainApplication.setIsAdmin(false);
+                                appSP.setIsAdmin(false);
                                 //儲存登入帳號
                                 String userloginId = "";
                                 if(userId.getText().toString().indexOf("u") == -1) { //如果沒有u
@@ -79,7 +83,8 @@ public class LoginActivity extends Activity {
                                 } else {
                                     userloginId = userId.getText().toString();
                                 }
-                                MainApplication.setLoginUserId(userloginId);
+//                                MainApplication.setLoginUserId(userloginId);
+                                appSP.setLoginUserId(userloginId);
                                 profileSP.setUserId(userloginId);
                                 if(profileSP.getUserProfile().getStuEmail().equals("")) {
                                     Log.i(TAG,"email == \"\"");

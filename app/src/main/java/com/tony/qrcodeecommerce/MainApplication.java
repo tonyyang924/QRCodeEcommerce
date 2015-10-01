@@ -3,29 +3,14 @@ package com.tony.qrcodeecommerce;
 import android.app.Application;
 
 import com.tony.qrcodeecommerce.utils.ProductDAO;
-import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 public class MainApplication extends Application {
     //
     private static final String TAG = "MainApplication";
 
-    private static boolean isAdmin = false;
-
-    //商品編號
-    private static String pid;
-
-    //使用者帳號
-    private static String loginUserId;
-
     //Server
     public static final String SERVER_PROC = "http://163.18.42.145/mobile/mobile_process.php";
-
-    //
-    private ProfileSP profileSP;
-
-    //
-    private ProductDAO productDAO;
 
     @Override
     public void onCreate() {
@@ -33,32 +18,7 @@ public class MainApplication extends Application {
         //剛進入App，Application會建立tool放置於MainApplication記憶體中
         Tool.CopyAssetsDBToSDCard(getApplicationContext());
         //剛進入App，將SV端的商品資料抓下來
-        productDAO = new ProductDAO(getApplicationContext());
-        Tool.DownloadProductInfo(productDAO);
-    }
-
-    public static void setPid(String pid1) {
-        pid = pid1;
-    }
-
-    public static String getPid() {
-        return pid;
-    }
-
-    public static void setLoginUserId(String loginUserId1) {
-        loginUserId = loginUserId1;
-    }
-
-    public static String getLoginUserId() {
-        return loginUserId;
-    }
-
-    public static void setIsAdmin(boolean isAdmin1) {
-        isAdmin = isAdmin1;
-    }
-
-    public static boolean getIsAdmin() {
-        return isAdmin;
+        Tool.DownloadProductInfo(new ProductDAO(getApplicationContext()));
     }
 
 }

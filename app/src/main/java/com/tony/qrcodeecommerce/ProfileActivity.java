@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.Profile;
 import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class ProfileActivity extends Activity {
     private static final String TAG = "ProfileActivity";
     private ProfileSP profileSP;
-
+    private AppSP appSP;
     private EditText profileName,profilePhone,profileEmail;
     private Button submit;
     @Override
@@ -31,14 +32,14 @@ public class ProfileActivity extends Activity {
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(submitClk);
         profileSP = new ProfileSP(getApplicationContext());
-
+        appSP = new AppSP(getApplicationContext());
         profileName.setText(profileSP.getUserProfile().getStuName());
         profilePhone.setText(profileSP.getUserProfile().getStuPhone());
         profileEmail.setText(profileSP.getUserProfile().getStuEmail());
     }
 
     private Profile getEditTextProfile() {
-        return new Profile(MainApplication.getLoginUserId(),
+        return new Profile(appSP.getLoginUserId(),
                 profileName.getText().toString(),
                 profilePhone.getText().toString(),
                 profileEmail.getText().toString());
@@ -57,7 +58,7 @@ public class ProfileActivity extends Activity {
                          */
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("proc", "user_update");
-                        params.put("acc", Tool.getStuNumber(MainApplication.getLoginUserId()));
+                        params.put("acc", Tool.getStuNumber(appSP.getLoginUserId()));
                         params.put("phone", profilePhone.getText().toString());
                         params.put("name", profileName.getText().toString());
                         params.put("email", profileEmail.getText().toString());

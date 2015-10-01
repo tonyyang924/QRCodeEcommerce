@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.HashMap;
@@ -19,11 +20,13 @@ public class AdminLoginActivity extends Activity {
 
     private Button submit;
     private EditText adminid,adminpw;
+    private AppSP appSP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminlogin);
+        appSP = new AppSP(getApplicationContext());
         adminid = (EditText) findViewById(R.id.adminid);
         adminpw = (EditText) findViewById(R.id.adminpw);
         submit = (Button) findViewById(R.id.submit);
@@ -46,9 +49,9 @@ public class AdminLoginActivity extends Activity {
                             //成功
                             if (Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8").equals("success")) {
                                 //設定成為管理員
-                                MainApplication.setIsAdmin(true);
+                                appSP.setIsAdmin(true);
                                 //儲存管理員登入帳號
-                                MainApplication.setLoginUserId(adminid.getText().toString());
+                                appSP.setLoginUserId(adminid.getText().toString());
                                 //Toast訊息，需調用runOnUiThread
                                 AdminLoginActivity.this.runOnUiThread(new Runnable() {
                                     @Override
