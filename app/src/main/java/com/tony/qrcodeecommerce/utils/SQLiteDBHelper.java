@@ -21,8 +21,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
      * version2更改:
      * 1.不使用assets內的item.db與images
      * 2.新增一個名為product表格用來存放SV端的product
+     * version3更改:
+     * 增加spec(規格)與amount(剩餘數量)
      */
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
     //
     private static SQLiteDatabase database;

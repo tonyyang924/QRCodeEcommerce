@@ -22,6 +22,8 @@ public class ProductDAO {
     public static final String PIC_COLUMN = "pic";
     public static final String PICLINK_COLUMN = "pic_link";
     public static final String LINK_COLUMN = "link";
+    public static final String SPEC_COLUMN = "spec";
+    public static final String AMOUNT_COLUMN = "amount";
 
     //建立表格SQL指令
     public static final String CREATE_TABLE =
@@ -32,7 +34,9 @@ public class ProductDAO {
                     PRICE_COLUMN + " INTEGER NOT NULL, " +
                     PIC_COLUMN + " TEXT NOT NULL, " +
                     PICLINK_COLUMN + " TEXT NOT NULL, " +
-                    LINK_COLUMN + " TEXT NOT NULL)";
+                    LINK_COLUMN + " TEXT NOT NULL, " +
+                    SPEC_COLUMN + " TEXT NOT NULL, " +
+                    AMOUNT_COLUMN + " INTEGER NOT NULL)";
 
     // 資料庫物件
     private SQLiteDatabase db;
@@ -92,6 +96,8 @@ public class ProductDAO {
         cv.put(PIC_COLUMN, product.getPic());
         cv.put(PICLINK_COLUMN, product.getPicLink());
         cv.put(LINK_COLUMN, product.getLink());
+        cv.put(SPEC_COLUMN, product.getSpec());
+        cv.put(AMOUNT_COLUMN, product.getAmount());
         return cv;
     }
 
@@ -154,6 +160,9 @@ public class ProductDAO {
         result.setPrice(cursor.getInt(3));
         result.setPic(cursor.getString(4));
         result.setPicLink(cursor.getString(5));
+        result.setLink(cursor.getString(6));
+        result.setSpec(cursor.getString(7));
+        result.setAmount(cursor.getInt(8));
         // 回傳結果
         return result;
     }

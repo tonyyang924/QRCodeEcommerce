@@ -2,6 +2,7 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Application;
 
+import com.tony.qrcodeecommerce.utils.ProductDAO;
 import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
@@ -20,7 +21,11 @@ public class MainApplication extends Application {
     //Server
     public static final String SERVER_PROC = "http://163.18.42.145/mobile/mobile_process.php";
 
+    //
     private ProfileSP profileSP;
+
+    //
+    private ProductDAO productDAO;
 
     @Override
     public void onCreate() {
@@ -28,7 +33,8 @@ public class MainApplication extends Application {
         //剛進入App，Application會建立tool放置於MainApplication記憶體中
         Tool.CopyAssetsDBToSDCard(getApplicationContext());
         //剛進入App，將SV端的商品資料抓下來
-        Tool.DownloadProductInfo();
+        productDAO = new ProductDAO(getApplicationContext());
+        Tool.DownloadProductInfo(productDAO);
     }
 
     public static void setPid(String pid1) {

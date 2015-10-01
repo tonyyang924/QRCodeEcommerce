@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -220,7 +221,7 @@ public class Tool {
     }
 
     //下載商品資料
-    public static void DownloadProductInfo() {
+    public static void DownloadProductInfo(final ProductDAO productDAO) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -230,25 +231,58 @@ public class Tool {
                     params.put("proc", "GetProduct");
                     String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
                     JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
+                    String insertSQL = "INSERT INTO " + productDAO.TABLE_NAME
+                            +" ('" + productDAO.PID_COLUMN + "',"
+                            + "'" + productDAO.NAME_COLUMN + "',"
+                            + "'" + productDAO.PRICE_COLUMN + "',"
+                            + "'" + productDAO.PIC_COLUMN + "',"
+                            + "'" + productDAO.PICLINK_COLUMN + "',"
+                            + "'" + productDAO.LINK_COLUMN + "',"
+                            + "'" + productDAO.SPEC_COLUMN + "',"
+                            + "'" + productDAO.AMOUNT_COLUMN + "') VALUES ";
+
                     for(int i=0;i<jsonArrayResponse.length();i++) {
 //                        Log.i(TAG,"object ===> "+jsonArrayResponse.getJSONObject(i));
                         String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
                         String name = jsonArrayResponse.getJSONObject(i).getString("name");
-                        String price = jsonArrayResponse.getJSONObject(i).getString("price");
+                        int price = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("price"));
                         String pic = jsonArrayResponse.getJSONObject(i).getString("pic");
                         String pic_link = jsonArrayResponse.getJSONObject(i).getString("pic_link");
                         String link = jsonArrayResponse.getJSONObject(i).getString("link");
                         String spec = jsonArrayResponse.getJSONObject(i).getString("product_spec");
-                        String amount = jsonArrayResponse.getJSONObject(i).getString("product_amount");
-                        Log.i(TAG,"編號:"+pid);
-                        Log.i(TAG,"名稱:"+name);
-                        Log.i(TAG,"價錢:"+price);
-                        Log.i(TAG,"照片檔名:"+pic);
-                        Log.i(TAG,"照片網址:"+pic_link);
-                        Log.i(TAG,"連結:"+link);
-                        Log.i(TAG,"規格:"+spec);
-                        Log.i(TAG,"數量:"+amount);
+                        int amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("product_amount"));
+//                        Log.i(TAG,"編號:"+pid);
+//                        Log.i(TAG,"名稱:"+name);
+//                        Log.i(TAG,"價錢:"+price);
+//                        Log.i(TAG,"照片檔名:"+pic);
+//                        Log.i(TAG,"照片網址:"+pic_link);
+//                        Log.i(TAG,"連結:"+link);
+//                        Log.i(TAG,"規格:"+spec);
+//                        Log.i(TAG,"數量:"+amount);
+//                        Product product = new Product(0,pid,name,price,pic,pic_link,link,spec,amount);
+//                        productDAO.insert(product);
+
+                        insertSQL += " ('" + pid + "',"
+                                + "'" + name + "',"
+                                + "'" + price + "',"
+                                + "'" + pic + "',"
+                                + "'" + pic_link + "',"
+                                + "'" + link + "',"
+                                + "'" + spec + "',"
+                                + "'" + amount + "')";
+                        if(i!=jsonArrayResponse.length()-1) { //如果不是最後一個加入逗號
+                            insertSQL += ",";
+                        }
                     }
+                    Log.i(TAG, "" + insertSQL);
+                    //將SQL語法寫入external storage的文字檔做檢查
+                    File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
+                    sqlTxt.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(sqlTxt);
+                    OutputStreamWriter osw = new OutputStreamWriter(fos);
+                    osw.write(insertSQL);
+                    osw.close();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

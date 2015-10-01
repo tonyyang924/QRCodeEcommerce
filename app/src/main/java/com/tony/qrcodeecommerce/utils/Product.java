@@ -11,12 +11,14 @@ public class Product implements java.io.Serializable{
     private String name;        //產品名稱
     private int price;          //價格
     private String pic;         //圖片名稱
-    private String picLink;    //圖片網址
+    private String picLink;     //圖片網址
     private String link;        //商品網址
+    private String spec;        //規格
+    private int amount;         //數量
 
     public Product() {}
     public Product(long id,String pid,String name,int price,
-                   String pic,String picLink,String link) {
+                   String pic,String picLink,String link,String spec,int amount) {
         this.id = id;
         this.pid = pid;
         this.name = name;
@@ -24,6 +26,8 @@ public class Product implements java.io.Serializable{
         this.pic = pic;
         this.picLink = picLink;
         this.link = link;
+        this.spec = spec;
+        this.amount = amount;
     }
 
     public long getId() {
@@ -80,5 +84,21 @@ public class Product implements java.io.Serializable{
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getSpec() {
+        return spec;
+    }
+
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
