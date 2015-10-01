@@ -27,8 +27,11 @@ import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CompoundBarcodeView;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
+import com.tony.qrcodeecommerce.utils.Product;
+import com.tony.qrcodeecommerce.utils.ProductDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,8 +49,10 @@ public class ContinuousCaptureFragment extends Fragment {
 
     private float scale;
 
-    //顯示文字內容
+    // 顯示文字內容
     private String text = "";
+
+    private ProductDAO productDAO;
 
     @Override
     public void onAttach(Activity activity) {
@@ -74,6 +79,10 @@ public class ContinuousCaptureFragment extends Fragment {
         detailsLL = (LinearLayout) getActivity().findViewById(R.id.detailsLayout);
         tool = new Tool();
         itemDAO = new ItemDAO(getActivity());
+        productDAO = new ProductDAO(getActivity());
+
+        List<Product> productList = productDAO.getAll();
+        Log.i(TAG,"productList size:"+productList.size());
     }
 
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -84,69 +93,80 @@ public class ContinuousCaptureFragment extends Fragment {
 //                barcodeView.setStatusText(result.getText());
 //            }
 
-            MainApplication.setPid(result.getText());
-
-            String sql = "SELECT id,name,price,pic,pic_link,link FROM item "
-                    + " WHERE id = '" + result.getText() + "';";
-            Cursor c = tool.SQLQuery(sql);
-            String str = "";
-            String image_path = "";
-
-            if (c.getCount() > 0) {
-                c.moveToFirst();
-                item = new Item(0, c.getString(0), c.getString(1), c.getInt(2), c.getString(3),
-                        c.getString(4), c.getString(5), new Date().getTime());
-                str = c.getString(1);
-                image_path = Tool.QRCodeEcommercePath + "/images/" + c.getString(3);
-            } else {
-                item = null;
-                str = "找不到商品";
-                image_path = Tool.QRCodeEcommercePath + "/images/image-not-found.jpg";
-            }
-
+            /**
+                        *  init view
+                        */
+            // inflater 引入layout
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.continous_sublayout,null);
-
-            //商品圖片
-            Bitmap bitmap = BitmapFactory.decodeFile(image_path);
-            ImageView imageView = (ImageView) view.findViewById(R.id.img);
-            imageView.setImageBitmap(bitmap);
-//            imageView.setOnClickListener(addCartClickLis);
-
-            //商品名稱標題
+            // 標題
             TextView tv = (TextView) view.findViewById(R.id.title);
-            tv.setText(str);
-
-            //尺寸規格 (Spinner)
+            // 商品圖片
+            ImageView imageView = (ImageView) view.findViewById(R.id.img);
+            // 規格下拉式選單
             Spinner specSP = (Spinner) view.findViewById(R.id.specSP);
-            if(item.getPid().indexOf("A") != -1) { //如果是衣服
-                // Create an ArrayAdapter using the string array and a default spinner layout
-                ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.cart_size_spinner, android.R.layout.simple_spinner_item);
-                // Specify the layout to use when the list of choices appears
-                spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                specSP.setAdapter(spinner_adapter);
-                specSP.setVisibility(View.VISIBLE);
-                specSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        //取得目前選擇的尺寸
-                        String choiceSize = parent.getSelectedItem().toString();
-                        item.setSpec(choiceSize);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            } else {
-                specSP.setVisibility(View.GONE);
-            }
-
             // 新增購物車
             ImageView addCart = (ImageView) view.findViewById(R.id.addCart);
             addCart.setOnClickListener(addCartClickLis);
 
+            MainApplication.setPid(result.getText());
+
+            String titleStr = "";       //商品title
+            String image_path = "";     //商品圖片資料夾位置
+
+//            String sql = "SELECT id,name,price,pic,pic_link,link FROM item "
+//                    + " WHERE id = '" + result.getText() + "';";
+//            Cursor c = tool.SQLQuery(sql);
+            String sql = "SELECT pid,name,price,pic,pic_link,link,spec FROM product "
+                    + " WHERE pid = '" + result.getText() + "';";
+            Cursor c = productDAO.query(sql);
+
+            if (c.getCount() > 0) {
+                ArrayList<String> specArr = new ArrayList<>();
+                c.moveToFirst();
+                //編號，商品編號，名稱，價錢，圖片名稱，圖片連結，商品連結，加入日期
+                item = new Item(0, c.getString(0), c.getString(1), c.getInt(2), c.getString(3),
+                        c.getString(4), c.getString(5), new Date().getTime());
+                titleStr = c.getString(1);
+                image_path = Tool.QRCodeEcommercePath + "/images/" + c.getString(3);
+                specArr.add(c.getString(6));
+                while(c.moveToNext()) {
+                    specArr.add(c.getString(6));
+                }
+                //尺寸規格 (Spinner)
+                if(item.getPid().indexOf("A") != -1) { //如果是衣服
+                    ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, specArr);
+                    spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    specSP.setAdapter(spinner_adapter);
+                    specSP.setVisibility(View.VISIBLE);
+                    specSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                            //取得目前選擇的尺寸
+                            String choiceSize = parent.getSelectedItem().toString();
+                            item.setSpec(choiceSize);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+                } else { //如果不是衣服
+                    specSP.setVisibility(View.GONE);
+                }
+            } else {
+                item = null;
+                titleStr = "找不到商品";
+                image_path = Tool.QRCodeEcommercePath + "/images/image-not-found.jpg";
+                specSP.setVisibility(View.GONE);
+                addCart.setVisibility(View.GONE);
+            }
+
+            //設定商品標題
+            tv.setText(titleStr);
+            //設定商品圖片
+            Bitmap bitmap = BitmapFactory.decodeFile(image_path);
+            imageView.setImageBitmap(bitmap);
             // 新增
             detailsLL.removeAllViews();
             detailsLL.addView(view);
@@ -176,8 +196,8 @@ public class ContinuousCaptureFragment extends Fragment {
                             if (!itemDAO.checkPidAndSpec(item)) { //如果裡面沒有同樣的pid
                                 if (item.getPid().indexOf("A") != -1) { //如果是衣服
                                     /**
-                                     * 判斷是否有選擇尺寸
-                                     **/
+                                                                         * 判斷是否有選擇尺寸
+                                                                         **/
 
                                     //取得第一個選項
                                     String sizeArr01 = getResources().getStringArray(R.array.cart_size_spinner)[0];

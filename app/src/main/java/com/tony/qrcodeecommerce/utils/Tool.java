@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -226,6 +225,8 @@ public class Tool {
             @Override
             public void run() {
                 try {
+                    //清除所有儲存在本地端SQLite的商品資料，再匯入
+                    productDAO.deleteAll();
                     //查詢所有商品
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("proc", "GetProduct");
@@ -259,8 +260,6 @@ public class Tool {
 //                        Log.i(TAG,"連結:"+link);
 //                        Log.i(TAG,"規格:"+spec);
 //                        Log.i(TAG,"數量:"+amount);
-//                        Product product = new Product(0,pid,name,price,pic,pic_link,link,spec,amount);
-//                        productDAO.insert(product);
 
                         insertSQL += " ('" + pid + "',"
                                 + "'" + name + "',"
@@ -274,14 +273,19 @@ public class Tool {
                             insertSQL += ",";
                         }
                     }
-                    Log.i(TAG, "" + insertSQL);
-                    //將SQL語法寫入external storage的文字檔做檢查
-                    File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
-                    sqlTxt.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(sqlTxt);
-                    OutputStreamWriter osw = new OutputStreamWriter(fos);
-                    osw.write(insertSQL);
-                    osw.close();
+                    /**
+                                        //將SQL語法寫入external storage的文字檔做檢查
+                                        File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
+                                        sqlTxt.createNewFile();
+                                        FileOutputStream fos = new FileOutputStream(sqlTxt);
+                                        OutputStreamWriter osw = new OutputStreamWriter(fos);
+                                        osw.write(insertSQL);
+                                        osw.close();
+                                         **/
+
+                    Cursor cursor = productDAO.query(insertSQL);
+                    cursor.moveToFirst();
+                    cursor.close();
 
                 } catch (Exception e) {
                     e.printStackTrace();

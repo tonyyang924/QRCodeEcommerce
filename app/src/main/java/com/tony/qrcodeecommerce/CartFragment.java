@@ -88,9 +88,13 @@ public class CartFragment extends Fragment {
 
     //向Server端確認目前的商品數量
     private void checkItemNumber() {
+        Log.i(TAG,"checkItemNumber");
         //如果購物車內沒商品，就直接return離開此方法。
-        if(lists.size() == 0)
+        if(lists.size() == 0) {
+            // 沒商品時顯示的介面
+            showNoItemLayout();
             return;
+        }
         //loading讀取show
         // activity 標題 內容 (true or false)
         PD = ProgressDialog.show(getActivity(), "讀取中","向Server端更新數據中...",true);
@@ -121,6 +125,7 @@ public class CartFragment extends Fragment {
                     params.put("proc", "product_search");
                     params.put("json", jsonArrayStr);
                     String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+                    Log.i(TAG,"responseMsg:"+responseMsg);
                     //如果沒有error就是代表有回傳json格式的資料
                     if (!responseMsg.equals("error")) {
                         String sqlStr = "UPDATE shoppingcart SET limitnumber = CASE ";
@@ -167,8 +172,6 @@ public class CartFragment extends Fragment {
                                 // 配置ListView
                                 adapter = new MyAdapter(getActivity());
                                 listView.setAdapter(adapter);
-                                // 沒商品時顯示的介面
-                                showNoItemLayout();
                                 // 等購物車商品尺寸數量處理完成後，就關閉ProgressDialog
                                 PD.dismiss();
                             }
@@ -389,8 +392,7 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
-                })
-                .show();
+                }).show();
     }
 
     private void itemDAOUpdate(Item item) {
