@@ -54,8 +54,8 @@ public class ProfileActivity extends Activity {
                 public void run() {
                     try {
                         /**
-                         * 使用proc:user_update 更新user table的使用者資料
-                         */
+                                                 * 使用proc:user_update 更新user table的使用者資料
+                                                 */
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("proc", "user_update");
                         params.put("acc", Tool.getStuNumber(appSP.getLoginUserId()));
