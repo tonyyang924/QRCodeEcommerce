@@ -25,6 +25,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Tool {
@@ -292,6 +293,15 @@ public class Tool {
                 }
             }
         }).start();
+    }
+
+    //計算訂單總金額
+    public static int getTotalPrice(List<Item> lists) {
+        int totalPrice = 0;
+        for (Item list : lists) {
+            totalPrice += list.getPrice() * list.getNumber();
+        }
+        return totalPrice;
     }
 }
 

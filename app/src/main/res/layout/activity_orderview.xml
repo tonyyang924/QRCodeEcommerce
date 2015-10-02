@@ -3,4 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 標題-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="@dimen/main_title_size"
+        android:textColor="@color/white"
+        android:paddingLeft="@dimen/main_title_paddingleft"
+        android:paddingTop="@dimen/main_title_paddingtop_and_bottom"
+        android:paddingBottom="@dimen/main_title_paddingtop_and_bottom"
+        android:background="@drawable/bg_gradient"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview" />
 </LinearLayout>

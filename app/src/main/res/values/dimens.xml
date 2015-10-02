@@ -32,4 +32,16 @@
     <!-- 使用者資料頁面 -->
     <dimen name="profile_margin_top">30dp</dimen>
     <dimen name="profile_margin_left_and_right">40dp</dimen>
+    <!-- 我的訂單頁面 -->
+    <dimen name="orderview_listview_title_textsize">25sp</dimen>
+    <dimen name="orderview_listview_normal_textsize">15sp</dimen>
+    <dimen name="orderview_listview_next_icon_size">45dp</dimen>
+    <dimen name="orderview_listview_subtext_margin_top">30dp</dimen>
+    <dimen name="orderview_listview_subtext_dist">10dp</dimen>
+    <!-- 我的訂單詳細頁面 -->
+    <dimen name="orderview_detail_title_textsize">25sp</dimen>
+    <dimen name="orderview_detail_normal_textsize">15sp</dimen>
+    <dimen name="orderview_detail_subtext_margin_top">30dp</dimen>
+    <dimen name="orderview_detail_subtext_margin_left">30dp</dimen>
+    <dimen name="orderview_detail_subtext_dist">10dp</dimen>
 </resources>

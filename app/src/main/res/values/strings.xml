@@ -141,4 +141,16 @@
     <string name="profile_email">信箱：</string>
     <string name="profile_email_hint">請輸入電子信箱</string>
     <string name="profile_submit">修改資料</string>
+
+    <!-- 我的訂單與詳細頁面 -->
+    <string name="orderview_id">編號：%1$s</string>
+    <string name="orderview_oid">訂單編號：%1$s</string>
+    <string name="orderview_rname">收貨人姓名：%1$s</string>
+    <string name="orderview_rphone">收貨人電話：%1$s</string>
+    <string name="orderview_remail">收貨人電子信箱：%1$s</string>
+    <string name="orderview_tplace">交易地點：%1$s</string>
+    <string name="orderview_ttime">交易時間：%1$s</string>
+    <string name="orderview_oprice">訂單總金額：%1$s</string>
+    <string name="orderview_tupdate">訂單更新時間：%1$s</string>
+
 </resources>

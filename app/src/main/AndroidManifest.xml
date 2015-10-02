@@ -59,6 +59,7 @@
         <activity android:name="com.tony.qrcodeecommerce.ProfileActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.OrderViewActivity"></activity>
         <activity android:name="com.tony.qrcodeecommerce.TeamActivity"></activity>
+        <activity android:name="com.tony.qrcodeecommerce.OrderViewDetailActivity"></activity>
     </application>
 
 </manifest>

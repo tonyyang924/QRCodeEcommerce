@@ -51,7 +51,6 @@ public class CartUserOrderActivity extends Activity {
     private Spinner userOrderPlaceSp;
     private TextView totalPriceTv;
     private static TextView userorderTTimeTv;
-    private List<Item> lists;
     private ItemDAO itemDAO;
 
     //checkbox
@@ -133,13 +132,9 @@ public class CartUserOrderActivity extends Activity {
         totalPriceTv = (TextView) findViewById(R.id.userorder_totalprice_tv);
         userorderTTimeTv = (TextView) findViewById(R.id.userorder_ttime_tv); //使用者選擇的時間
         itemDAO = new ItemDAO(getApplicationContext());
-        lists = itemDAO.getAll();
         //總金額
-        int totalPrice = 0;
-        for (Item list : lists) {
-            totalPrice += list.getPrice() * list.getNumber();
-        }
-        totalPriceTv.setText(Html.fromHtml(String.format(getString(R.string.userorder_totalprice), totalPrice)));
+        totalPriceTv.setText(Html.fromHtml(String.format(getString(R.string.userorder_totalprice),
+                Tool.getTotalPrice(itemDAO.getAll()))));
 
         Log.i(TAG,getOrderItems().toString());
     }
@@ -266,6 +261,7 @@ public class CartUserOrderActivity extends Activity {
                     params.put("acc",Tool.getStuNumber(appSP.getLoginUserId()));
                     params.put("oid", Tool.getOrderId(getApplicationContext(), getCode));
                     params.put("oitem",getOrderItems().toString());
+                    params.put("oprice",""+Tool.getTotalPrice(itemDAO.getAll()));//總金額
                     params.put("rname",userOrderNameEt.getText().toString());
                     params.put("rphone",userOrderTelphoneEt.getText().toString());
                     params.put("remail",userOrderEmailEt.getText().toString());
