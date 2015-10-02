@@ -44,4 +44,5 @@
     <dimen name="orderview_detail_subtext_margin_top">30dp</dimen>
     <dimen name="orderview_detail_subtext_margin_left">30dp</dimen>
     <dimen name="orderview_detail_subtext_dist">10dp</dimen>
+    <dimen name="orderview_detail_img_size">150dp</dimen>
 </resources>

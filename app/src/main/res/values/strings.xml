@@ -152,5 +152,8 @@
     <string name="orderview_ttime">交易時間：%1$s</string>
     <string name="orderview_oprice">訂單總金額：%1$s</string>
     <string name="orderview_tupdate">訂單更新時間：%1$s</string>
-
+    <string name="orderview_listview_pid">商品編號：%1$s</string>
+    <string name="orderview_listview_spec">商品規格：%1$s</string>
+    <string name="orderview_listview_price">商品價格：%1$d</string>
+    <string name="orderview_listview_number">商品數量：%1$s</string>
 </resources>

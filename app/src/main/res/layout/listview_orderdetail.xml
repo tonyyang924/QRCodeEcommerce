@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="@dimen/orderview_detail_img_size"
+        android:layout_height="@dimen/orderview_detail_img_size"
+        android:id="@+id/img"
+        android:src="@drawable/qrcodereader"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orderview_listview_pid"
+        android:id="@+id/pid"
+        android:textSize="@dimen/orderview_detail_normal_textsize"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img" />
+
+    <TextView
+        android:layout_marginTop="@dimen/orderview_listview_subtext_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orderview_listview_spec"
+        android:id="@+id/spec"
+        android:textSize="@dimen/orderview_detail_normal_textsize"
+        android:layout_below="@+id/pid"
+        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img" />
+
+    <TextView
+        android:layout_marginTop="@dimen/orderview_listview_subtext_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orderview_listview_price"
+        android:id="@+id/price"
+        android:textSize="@dimen/orderview_detail_normal_textsize"
+        android:layout_below="@+id/spec"
+        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img" />
+
+    <TextView
+        android:layout_marginTop="@dimen/orderview_listview_subtext_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orderview_listview_number"
+        android:id="@+id/number"
+        android:textSize="@dimen/orderview_detail_normal_textsize"
+        android:layout_below="@+id/price"
+        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img" />
+</RelativeLayout>
