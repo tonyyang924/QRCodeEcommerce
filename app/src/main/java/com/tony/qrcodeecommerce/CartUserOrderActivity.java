@@ -84,7 +84,7 @@ public class CartUserOrderActivity extends Activity {
         }
         for(Item list : lists) {
             HashMap<String,Object> orderItem = new HashMap<>();
-            orderItem.put("oid", Tool.getOrderId(getApplicationContext(),getCode));
+//            orderItem.put("oid", Tool.getOrderId(getApplicationContext(),getCode));
             orderItem.put("pid", list.getPid());
             orderItem.put("num", list.getNumber());
             orderItem.put("spec", list.getSpec());
