@@ -5,16 +5,12 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.tony.qrcodeecommerce.utils.MyOrder;
-import com.tony.qrcodeecommerce.utils.Tool;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 
 public class OrderViewDetailActivity extends Activity{
     private static final String TAG = "OrderViewDetailActivity";
 
     private TextView oid,rname,rphone,remail,tplace,ttime,oprice,tupdate;
+    private MyOrder myOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +25,15 @@ public class OrderViewDetailActivity extends Activity{
         oprice = (TextView) findViewById(R.id.oprice);
         tupdate = (TextView) findViewById(R.id.tupdate);
 
-    }
+        myOrder = MainApplication.getMyOrder();
 
-    private MyOrder DeserializingMyOrder() {
-        MyOrder myOrder = null;
-        try {
-            FileInputStream fis = new FileInputStream(Tool.QRCodeEcommercePath + "/tempdata.ser");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            myOrder = (MyOrder) ois.readObject();
-            ois.close();
-            // Clean up the file
-            new File("tempdata.ser").delete();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return myOrder;
+        oid.setText(String.format(getResources().getString(R.string.orderview_oid),myOrder.getOid()));
+        rname.setText(String.format(getResources().getString(R.string.orderview_rname),myOrder.getRname()));
+        rphone.setText(String.format(getResources().getString(R.string.orderview_rphone),myOrder.getRphone()));
+        remail.setText(String.format(getResources().getString(R.string.orderview_remail),myOrder.getRemail()));
+        tplace.setText(String.format(getResources().getString(R.string.orderview_tplace),myOrder.getTplace()));
+        ttime.setText(String.format(getResources().getString(R.string.orderview_ttime),myOrder.getTtime()));
+        oprice.setText(String.format(getResources().getString(R.string.orderview_oprice),myOrder.getOprice()));
+        tupdate.setText(String.format(getResources().getString(R.string.orderview_tupdate),myOrder.getTupdate()));
     }
 }

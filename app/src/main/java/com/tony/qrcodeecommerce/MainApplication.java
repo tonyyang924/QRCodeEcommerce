@@ -2,6 +2,7 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Application;
 
+import com.tony.qrcodeecommerce.utils.MyOrder;
 import com.tony.qrcodeecommerce.utils.ProductDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
 
@@ -12,6 +13,8 @@ public class MainApplication extends Application {
     //Server
     public static final String SERVER_PROC = "http://163.18.42.145/mobile/mobile_process.php";
 
+    private static MyOrder myOrder;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,4 +24,11 @@ public class MainApplication extends Application {
         Tool.DownloadProductInfo(new ProductDAO(getApplicationContext()));
     }
 
+    public static MyOrder getMyOrder() {
+        return myOrder;
+    }
+
+    public static void setMyOrder(MyOrder myOrder) {
+        MainApplication.myOrder = myOrder;
+    }
 }

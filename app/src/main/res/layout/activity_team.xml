@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <!-- 標題-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="@dimen/main_title_size"
+        android:textColor="@color/white"
+        android:paddingLeft="@dimen/main_title_paddingleft"
+        android:paddingTop="@dimen/main_title_paddingtop_and_bottom"
+        android:paddingBottom="@dimen/main_title_paddingtop_and_bottom"
+        android:background="@drawable/bg_gradient"
+        android:id="@+id/textView5" />
+
+    <ScrollView
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@id/textView5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/name01"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:padding="10dp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#77DDFF"
+                android:text="楊東霖"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/img01"
+                android:layout_below="@id/name01"
+                android:layout_alignLeft="@id/name01"
+                android:layout_alignStart="@id/name01"
+                android:src="@drawable/person01"
+                android:layout_alignRight="@id/name01"
+                android:layout_alignEnd="@id/name01" />
+
+            <TextView
+                android:id="@+id/name02"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_below="@id/img01"
+                android:padding="10dp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#77DDFF"
+                android:text="陳瑋俊"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/img02"
+                android:layout_below="@id/name02"
+                android:layout_alignLeft="@id/name02"
+                android:layout_alignStart="@id/name02"
+                android:src="@drawable/person02"
+                android:layout_alignRight="@id/name02"
+                android:layout_alignEnd="@id/name02" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

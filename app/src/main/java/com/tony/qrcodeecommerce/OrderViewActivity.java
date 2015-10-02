@@ -142,14 +142,7 @@ public class OrderViewActivity extends Activity {
             myviews.gonextbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    try {
-//                        FileOutputStream fos = new FileOutputStream(Tool.QRCodeEcommercePath + "/tempdata.ser");
-//                        ObjectOutputStream oos = new ObjectOutputStream(fos);
-//                        oos.writeObject(lists.get(position).toString());
-//                        oos.close();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
+                    MainApplication.setMyOrder(lists.get(position)); //放到orderList中
                     Intent intent = new Intent(getApplicationContext(),OrderViewDetailActivity.class);
                     startActivity(intent);
                 }

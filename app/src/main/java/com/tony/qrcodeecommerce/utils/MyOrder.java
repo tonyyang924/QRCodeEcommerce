@@ -21,17 +21,6 @@ public class MyOrder implements java.io.Serializable {
     private String tplace,ttime,tupdate;
     private int situation;
 
-    @Override
-    public String toString() {
-        return "[MyOrder: oid=" + oid
-                + " oprice=" + oprice
-                + " orderItemArr=" + orderItemArr.toString()
-                + " rname=" + rname + " rphone=" + rphone + " remail=" + remail
-                + " tplace=" + tplace + " ttime=" + ttime + " tupdate=" + tupdate
-                + " situation=" + situation
-                + "]";
-    }
-
     public MyOrder(String oid,int oprice,JSONArray orderItemArr,String rname,String rphone,String remail,
                    String tplace,String ttime,String tupdate,int situation) {
         this.oid = oid;
