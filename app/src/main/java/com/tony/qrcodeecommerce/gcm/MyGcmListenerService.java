@@ -55,6 +55,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
+        Log.i(TAG,"message:"+message);
         String[] strArr = message.split(":");
         Intent intent;
         AppSP appSP = new AppSP(getApplicationContext());
@@ -73,7 +74,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.qrcodereader)
-                .setContentTitle("GCM Message")
+                .setContentTitle("訂單訊息")
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

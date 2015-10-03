@@ -232,6 +232,7 @@ public class Tool {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("proc", "GetProduct");
                     String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+                    Log.i(TAG,"responseMsg:"+responseMsg);
                     JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
                     String insertSQL = "INSERT INTO " + productDAO.TABLE_NAME
                             +" ('" + productDAO.PID_COLUMN + "',"

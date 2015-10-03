@@ -74,7 +74,6 @@ public class LoginActivity extends Activity {
                             //成功
                             if (responseMsg.equals("success")) {
                                 //設定不是管理員
-//                                MainApplication.setIsAdmin(false);
                                 appSP.setIsAdmin(false);
                                 //儲存登入帳號
                                 String userloginId = "";
@@ -83,7 +82,6 @@ public class LoginActivity extends Activity {
                                 } else {
                                     userloginId = userId.getText().toString();
                                 }
-//                                MainApplication.setLoginUserId(userloginId);
                                 appSP.setLoginUserId(userloginId);
                                 profileSP.setUserId(userloginId);
                                 if(profileSP.getUserProfile().getStuEmail().equals("")) {

@@ -2,7 +2,10 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tony.qrcodeecommerce.utils.MyOrder;
+import com.tony.qrcodeecommerce.utils.Tool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,15 +106,26 @@ public class OrderViewDetailActivity extends Activity{
             myviews.number = (TextView) convertView.findViewById(R.id.number);
             myviews.img = (ImageView) convertView.findViewById(R.id.img);
 
-            int price = 0; //因為裡面目前沒有商品的價格
-            String pid = null, spec = null, num = null;
+            int price = 0;
+            String pid = null, spec = null, num = null, pic = null, pic_link = null;
 
             try {
                 pid = jsonArray.getJSONObject(position).getString("pid");
                 spec = jsonArray.getJSONObject(position).getString("spec");
                 num = jsonArray.getJSONObject(position).getString("num");
+                price = jsonArray.getJSONObject(position).getInt("price");
+                pic = jsonArray.getJSONObject(position).getString("pic");
+                pic_link = jsonArray.getJSONObject(position).getString("pic_link");
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+            //print
+            Log.i(TAG, "pid:" + pid + " spec:" + spec + " num:" + num + " price:" + price + " pic:" + pic + " pic_link:" + pic_link);
+
+            //如果圖片檔名不是空的，就取得bitmap給img
+            if(pic != null) {
+                Bitmap bitmap = BitmapFactory.decodeFile(Tool.QRCodeEcommercePath+"/images/"+pic);
+                myviews.img.setImageBitmap(bitmap);
             }
 
             //
