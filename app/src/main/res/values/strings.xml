@@ -67,7 +67,7 @@
             <b>本次消費總計為<font color="#dd0000">NT$%1$d</font></b>
         ]]>
     </string>
-    <string name="userorder_checkbox">與收貨人相同</string>
+    <string name="userorder_checkbox">與購買人相同</string>
     <string name="userorder_name">收貨人姓名：</string>
     <string name="userorder_name_hint">請輸入姓名</string>
     <string name="userorder_telphone">收貨人電話：</string>
