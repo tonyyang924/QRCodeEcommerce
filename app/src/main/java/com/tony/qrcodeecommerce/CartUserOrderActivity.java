@@ -84,6 +84,12 @@ public class CartUserOrderActivity extends Activity {
         }
         for(Item list : lists) {
             HashMap<String,Object> orderItem = new HashMap<>();
+            orderItem.put("pid", list.getPid());            //商品編號
+            orderItem.put("num", list.getNumber());         //購買數量
+            orderItem.put("spec", list.getSpec());          //規格
+            orderItem.put("price",list.getPrice());         //價格
+            orderItem.put("pic",list.getPic());             //圖片檔名
+            orderItem.put("pic_link",list.getPic_link());   //圖片連結
             orderItem.put("oid", Tool.getOrderId(getApplicationContext(),getCode));
             orderItem.put("pid", list.getPid());
             orderItem.put("num", list.getNumber());
