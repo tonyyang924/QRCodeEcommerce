@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,16 +21,16 @@ import java.util.List;
 
 // http://stackoverflow.com/questions/15261088/gridview-with-two-columns-and-auto-resized-images
 
-public class HomeActivity extends Activity{
+public class HomeActivity extends ActionBarActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        GridView gridView = (GridView)findViewById(R.id.gridview);
-        gridView.setAdapter(new MyAdapter(this));
-        gridView.setOnItemClickListener(new GridView.OnItemClickListener() {
+        ListView listView = (ListView)findViewById(R.id.main_list);
+        listView.setAdapter(new MyAdapter(this));
+        listView.setOnItemClickListener(new GridView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -57,10 +60,10 @@ public class HomeActivity extends Activity{
 
         public MyAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
-            mItems.add(new Item("個人資料", R.drawable.home_profile));
-            mItems.add(new Item("掃描頁面", R.drawable.home_qrcodescan));
-            mItems.add(new Item("訂單查看", R.drawable.home_order));
-            mItems.add(new Item("製作團隊", R.drawable.home_team));
+            mItems.add(new Item("個人資料", R.drawable.b1));
+            mItems.add(new Item("掃描商品", R.drawable.b2));
+            mItems.add(new Item("訂單查看", R.drawable.b3));
+            mItems.add(new Item("製作團隊", R.drawable.b4));
         }
 
         @Override
@@ -94,7 +97,8 @@ public class HomeActivity extends Activity{
             name = (TextView) v.getTag(R.id.text);
 
             Item item = getItem(i);
-
+            Log.e("item",String.valueOf(item.name));
+            Log.e("item",String.valueOf(item.drawableId));
             picture.setImageResource(item.drawableId);
             name.setText(item.name);
 

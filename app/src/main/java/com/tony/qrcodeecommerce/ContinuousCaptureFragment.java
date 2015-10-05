@@ -89,7 +89,7 @@ public class ContinuousCaptureFragment extends Fragment {
         Log.i(TAG,"productList size:"+productList.size());
     }
 
-    private BarcodeCallback callback = new BarcodeCallback() {
+    public BarcodeCallback callback = new BarcodeCallback() {
         //當辨識到之後要做什麼動作
         @Override
         public void barcodeResult(BarcodeResult result) {
@@ -109,12 +109,14 @@ public class ContinuousCaptureFragment extends Fragment {
             ImageView imageView = (ImageView) view.findViewById(R.id.img);
             // 規格下拉式選單
             Spinner specSP = (Spinner) view.findViewById(R.id.specSP);
+            TextView specSP2 = (TextView) view.findViewById(R.id.specSP2);
             // 新增購物車
             ImageView addCart = (ImageView) view.findViewById(R.id.addCart);
             addCart.setOnClickListener(addCartClickLis);
 
 //            MainApplication.setPid(result.getText());
             appSP.setScanPid(result.getText());
+
 
             String titleStr = "";       //商品title
             String image_path = "";     //商品圖片資料夾位置
@@ -144,6 +146,7 @@ public class ContinuousCaptureFragment extends Fragment {
                     spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     specSP.setAdapter(spinner_adapter);
                     specSP.setVisibility(View.VISIBLE);
+                    specSP2.setVisibility(View.VISIBLE);
                     specSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -158,12 +161,18 @@ public class ContinuousCaptureFragment extends Fragment {
                     });
                 } else { //如果不是衣服
                     specSP.setVisibility(View.GONE);
+                    specSP2.setVisibility(View.GONE);
+                }
+
+                if( ((MainActivity)getActivity()).getDetailsFragment()!=null ){
+                    ((MainActivity)getActivity()).getDetailsFragment().ChangeData();
                 }
             } else {
                 item = null;
                 titleStr = "找不到商品";
                 image_path = Tool.QRCodeEcommercePath + "/images/image-not-found.jpg";
                 specSP.setVisibility(View.GONE);
+                specSP2.setVisibility(View.GONE);
                 addCart.setVisibility(View.GONE);
             }
 

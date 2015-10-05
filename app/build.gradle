@@ -26,4 +26,6 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.0.1@aar'
     compile 'com.google.zxing:core:3.2.0'
     compile "com.google.android.gms:play-services:7.5.+"
+
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

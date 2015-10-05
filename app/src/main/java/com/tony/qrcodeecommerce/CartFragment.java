@@ -413,12 +413,6 @@ public class CartFragment extends Fragment {
     private View.OnClickListener submitClkLis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            String sqlStr = "UPDATE shoppingcart SET number = CASE ";
-//            for(int i=0;i<lists.size();i++) {
-//                sqlStr += " WHEN pid='" + lists.get(i).getPid() + "' AND "
-//                        + " spec=" + lists.get(i).getSpec() + "' "
-//                        + " THEN " + lists.get(i).getNumber()
-//            }
             Intent intent = new Intent(getActivity(), CartReviewActivity.class);
             getActivity().startActivity(intent);
         }

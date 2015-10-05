@@ -3,6 +3,7 @@ package com.tony.qrcodeecommerce;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +17,7 @@ import com.tony.qrcodeecommerce.utils.Tool;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminLoginActivity extends Activity {
+public class AdminLoginActivity extends ActionBarActivity {
 
     private Button submit;
     private EditText adminid,adminpw;
@@ -26,6 +27,7 @@ public class AdminLoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminlogin);
+
         appSP = new AppSP(getApplicationContext());
         adminid = (EditText) findViewById(R.id.adminid);
         adminpw = (EditText) findViewById(R.id.adminpw);

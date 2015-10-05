@@ -1,10 +1,10 @@
 package com.tony.qrcodeecommerce;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrderViewActivity extends Activity {
+public class OrderViewActivity extends ActionBarActivity {
     private static final String TAG = "OrderViewActivity";
 
     private AppSP appSP;
@@ -158,3 +158,4 @@ public class OrderViewActivity extends Activity {
         }
     }
 }
+

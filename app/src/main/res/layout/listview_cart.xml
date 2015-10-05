@@ -11,8 +11,9 @@
         android:gravity="center"
         android:paddingTop="@dimen/cart_listview_title_padding_top_bottom"
         android:paddingBottom="@dimen/cart_listview_title_padding_top_bottom"
-        android:background="#FFCC22"
-        android:id="@+id/textView" />
+        android:background="#2a86ff"
+        android:id="@+id/textView"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:orientation="horizontal"

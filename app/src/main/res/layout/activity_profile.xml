@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:background="#c9e4ff">
 
     <!-- 標題-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="@dimen/main_title_size"
-        android:textColor="@color/white"
-        android:paddingLeft="@dimen/main_title_paddingleft"
-        android:paddingTop="@dimen/main_title_paddingtop_and_bottom"
-        android:paddingBottom="@dimen/main_title_paddingtop_and_bottom"
-        android:background="@drawable/bg_gradient"
-        android:id="@+id/textView" />
 
     <LinearLayout
-        android:layout_marginTop="@dimen/profile_margin_top"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/profile_margin_left_and_right"
-        android:layout_marginRight="@dimen/profile_margin_left_and_right">
+        android:id="@+id/linearLayout4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:gravity="center_vertical|center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,17 +28,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/profile_name_hint"
             android:ems="10"
-            android:id="@+id/profile_name" />
+            android:id="@+id/profile_name"
+            android:hint="@string/profile_name_hint" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/profile_margin_left_and_right"
-        android:layout_marginRight="@dimen/profile_margin_left_and_right">
+        android:id="@+id/linearLayout2"
+        android:layout_below="@+id/linearLayout4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical|center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,17 +54,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="phone"
-            android:text="@string/profile_phone_hint"
             android:ems="10"
-            android:id="@+id/profile_phone" />
+            android:id="@+id/profile_phone"
+            android:hint="@string/profile_phone_hint" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/profile_margin_left_and_right"
-        android:layout_marginRight="@dimen/profile_margin_left_and_right">
+        android:id="@+id/linearLayout3"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical|center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,19 +80,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:text="@string/profile_email_hint"
             android:ems="10"
-            android:id="@+id/profile_email" />
+            android:id="@+id/profile_email"
+            android:hint="@string/profile_email_hint" />
     </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/profile_margin_left_and_right"
-        android:layout_marginRight="@dimen/profile_margin_left_and_right"
         android:text="@string/profile_submit"
         android:id="@+id/submit"
         android:textSize="20sp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@color/theme_color"
+        android:textColor="#e7e7e7" />
 
-</LinearLayout>
+
+
+</RelativeLayout>

@@ -1,74 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#a1cdff"
+    android:paddingBottom="10dp">
 
     <!-- 標題-->
-    <TextView
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="@dimen/main_title_size"
-        android:textColor="@color/white"
-        android:paddingLeft="@dimen/main_title_paddingleft"
-        android:paddingTop="@dimen/main_title_paddingtop_and_bottom"
-        android:paddingBottom="@dimen/main_title_paddingtop_and_bottom"
-        android:background="@drawable/bg_gradient"
-        android:id="@+id/textView3" />
+        android:id="@+id/relativeLayout2">
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/userlogin_title"
         android:id="@+id/title"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/textView3"
         android:textSize="50sp"
-        android:layout_centerHorizontal="true" />
+        android:textColor="#fcfcfc"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:shadowColor="#aa191919"
+        android:shadowRadius="10"
+        android:shadowDx="5"
+        android:shadowDy="5"/>
 
-    <EditText
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userid"
         android:layout_below="@+id/title"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:hint="請輸入帳號"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/shape2"
+        android:layout_marginTop="40dp"
+        android:padding="15dp">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/userpw"
-        android:layout_below="@+id/userid"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:hint="請輸入密碼"
-        android:inputType="textPassword"
-        android:layout_centerHorizontal="true" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/userid"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="10dp"
+            android:hint="請輸入帳號"
+            android:layout_centerHorizontal="true"
+            android:textColor="#888888" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="登入"
-        android:id="@+id/submit"
-        android:layout_below="@+id/userpw"
-        android:layout_marginTop="44dp"
-        android:layout_alignLeft="@+id/userpw"
-        android:layout_alignStart="@+id/userpw"
-        android:layout_alignRight="@+id/userpw"
-        android:layout_alignEnd="@+id/userpw" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/userpw"
+            android:layout_below="@+id/userid"
+            android:hint="請輸入密碼"
+            android:inputType="textPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textColor="#888888" />
 
-    <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/adminicon"
-        android:background="#00000000"
-        android:id="@+id/adminLoginButton"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登入"
+            android:id="@+id/submit"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:textColor="#e7e7e7"
+            android:layout_marginTop="40dp"
+            android:background="#3b8df9" />
+    </LinearLayout>
 
 </RelativeLayout>

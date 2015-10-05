@@ -49,6 +49,9 @@ public class DetailsFragment extends Fragment {
         imgIV = (ImageView) getActivity().findViewById(R.id.imgIV);
         noProductLayout = (RelativeLayout) getActivity().findViewById(R.id.noProductLayout);
         tool = new Tool();
+        ChangeData();
+    }
+    public void ChangeData(){
         Cursor c = tool.SQLQuery("SELECT name,pic,price FROM item "
                 + " WHERE id = '" + appSP.getScanPid() + "';");
         if (c.getCount() > 0) {

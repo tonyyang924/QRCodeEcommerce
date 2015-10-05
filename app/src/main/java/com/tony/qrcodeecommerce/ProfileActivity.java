@@ -2,6 +2,7 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import com.tony.qrcodeecommerce.utils.Tool;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends ActionBarActivity {
     private static final String TAG = "ProfileActivity";
     private ProfileSP profileSP;
     private AppSP appSP;
