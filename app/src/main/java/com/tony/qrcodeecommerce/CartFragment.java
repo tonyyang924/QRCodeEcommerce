@@ -413,6 +413,16 @@ public class CartFragment extends Fragment {
     private View.OnClickListener submitClkLis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            //改變資料庫內每個商品欲購買的數量
+            String sqlStr = "UPDATE shoppingcart SET number = CASE ";
+            for(int i=0;i<lists.size();i++) {
+                sqlStr += " WHEN pid = '"  + lists.get(i).getPid() + "' AND spec ='" + lists.get(i).getSpec() + "' THEN " + lists.get(i).getNumber();
+            }
+            sqlStr += " ELSE number END ";
+            Cursor cursor = itemDAO.query(sqlStr);
+            cursor.moveToFirst();
+            cursor.close();
+            //進入下個畫面
             Intent intent = new Intent(getActivity(), CartReviewActivity.class);
             getActivity().startActivity(intent);
         }
