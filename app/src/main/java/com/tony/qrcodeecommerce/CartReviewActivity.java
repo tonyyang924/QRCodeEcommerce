@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,7 +25,7 @@ import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.List;
 
-public class CartReviewActivity extends Activity {
+public class CartReviewActivity extends ActionBarActivity {
     private static final String TAG = "CartReviewActivity";
     private Button submit;
     private ListView listView;
@@ -46,6 +49,9 @@ public class CartReviewActivity extends Activity {
         listView.setAdapter(adapter);
         submit = (Button) findViewById(R.id.button);
         submit.setOnClickListener(submit_clklis);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
     }
 
     /**
@@ -149,6 +155,15 @@ public class CartReviewActivity extends Activity {
                     String.format(getResources().getString(R.string.cart_subtotal),
                             lists.get(position).getPrice() * lists.get(position).getNumber())));
             return convertView;
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

@@ -48,7 +48,7 @@
             android:layout_marginTop="10dp"
             android:hint="請輸入帳號"
             android:layout_centerHorizontal="true"
-            android:textColor="#888888" />
+            android:textColor="#4b4b4b" />
 
         <EditText
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:textColor="#888888" />
+            android:textColor="#4b4b4b" />
 
         <Button
             android:layout_width="match_parent"

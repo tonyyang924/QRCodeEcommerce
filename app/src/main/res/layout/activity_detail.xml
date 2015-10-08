@@ -7,40 +7,55 @@
     <RelativeLayout
         android:id="@+id/noProductLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="241dp"
         android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/details_not_product_text"
-            android:textColor="#000000"
+            android:textColor="#535353"
             android:textSize="@dimen/details_no_product_text_size"
             />
     </RelativeLayout>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/nameTV"
-        android:gravity="center"
-        android:padding="15dp"
-        android:background="#FFA488"/>
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:id="@+id/imgIV" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:id="@+id/imgIV" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text=""
-        android:textSize="25sp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/subTotalTV" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/nameTV"
+            android:gravity="center"
+            android:padding="15dp"
+            android:background="#aadaf1ff"
+            android:layout_alignBottom="@+id/imgIV" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="test"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/subTotalTV"
+            android:layout_alignParentBottom="false"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:textColor="#535353"
+            android:gravity="center_horizontal"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/nameTV"
+            android:layout_marginTop="12dp" />
+    </RelativeLayout>
+
 </LinearLayout>

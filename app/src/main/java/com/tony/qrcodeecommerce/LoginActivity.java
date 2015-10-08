@@ -1,7 +1,5 @@
 package com.tony.qrcodeecommerce;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -25,7 +23,6 @@ import com.tony.qrcodeecommerce.gcm.RegistrationIntentService;
 import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +86,6 @@ public class LoginActivity extends ActionBarActivity  {
                                 //成功
                                 if (responseMsg.equals("success")) {
                                     //設定不是管理員
-//                                MainApplication.setIsAdmin(false);
                                     appSP.setIsAdmin(false);
                                     //儲存登入帳號
                                     String userloginId = "";
@@ -98,7 +94,6 @@ public class LoginActivity extends ActionBarActivity  {
                                     } else {
                                         userloginId = userId.getText().toString();
                                     }
-//                                MainApplication.setLoginUserId(userloginId);
                                     appSP.setLoginUserId(userloginId);
                                     profileSP.setUserId(userloginId);
                                     if (profileSP.getUserProfile().getStuEmail().equals("")) {

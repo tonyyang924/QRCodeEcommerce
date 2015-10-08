@@ -1,10 +1,10 @@
 package com.tony.qrcodeecommerce;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +20,7 @@ import com.tony.qrcodeecommerce.utils.Tool;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class OrderViewDetailActivity extends ActionBarActivity{
+public class OrderViewDetailActivity extends Activity{
     private static final String TAG = "OrderViewDetailActivity";
 
     private TextView oid,rname,rphone,remail,tplace,ttime,oprice,tupdate;

@@ -23,6 +23,16 @@ public class UserOrderDetails extends Activity {
         Bundle bundle = getIntent().getExtras();
         oid = bundle.getString("oid");
 //        DoThread();
+    }
+    private void SetView() {
+        usernameTV = (TextView) findViewById(R.id.username_tv);
+        userphoneTV = (TextView) findViewById(R.id.userphone_tv);
+        usermailTV = (TextView) findViewById(R.id.usermail_tv);
+        tplaceTV = (TextView) findViewById(R.id.tplace_tv);
+        ttimeTV = (TextView) findViewById(R.id.ttime_tv);
+        itemTV = (TextView) findViewById(R.id.item_tv);
+        sumTv = (TextView)findViewById(R.id.sum);
+
         usernameTV.setText("收貨人姓名：Tony");
         userphoneTV.setText("收貨人電話：0912345678");
         usermailTV.setText("收貨人電子信箱：u0324813@nkfust.edu.tw");
@@ -34,16 +44,6 @@ public class UserOrderDetails extends Activity {
                 "<tr><td>A07</td><td>S</td><td>$399</td><td>1</td></tr>" +
                 "</table>"));
         sumTv.setText("總金額：749元");
-    }
-    private void SetView() {
-        usernameTV = (TextView) findViewById(R.id.username_tv);
-        userphoneTV = (TextView) findViewById(R.id.userphone_tv);
-        usermailTV = (TextView) findViewById(R.id.usermail_tv);
-        tplaceTV = (TextView) findViewById(R.id.tplace_tv);
-        ttimeTV = (TextView) findViewById(R.id.ttime_tv);
-        itemTV = (TextView) findViewById(R.id.item_tv);
-        sumTv = (TextView)findViewById(R.id.sum);
-
     }
     private void DoThread() {
         new Thread(new Runnable() {
@@ -64,13 +64,14 @@ public class UserOrderDetails extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            usernameTV.setText(String.format(getString(R.string.details_username), userArr[0]));
-                            userphoneTV.setText(String.format(getString(R.string.details_userphone), userArr[1]));
-                            usermailTV.setText(String.format(getString(R.string.details_usermail), userArr[2]));
-                            tplaceTV.setText(String.format(getString(R.string.details_tplace), userArr[3]));
-                            ttimeTV.setText(String.format(getString(R.string.details_ttime), userArr[4]));
-                            itemTV.setText(Html.fromHtml(itemHtml));
-                            sumTv.setText("總金額：" + sum);
+//                            usernameTV.setText(String.format(getString(R.string.details_username), userArr[0]));
+//                            userphoneTV.setText(String.format(getString(R.string.details_userphone), userArr[1]));
+//                            usermailTV.setText(String.format(getString(R.string.details_usermail), userArr[2]));
+//                            tplaceTV.setText(String.format(getString(R.string.details_tplace), userArr[3]));
+//                            ttimeTV.setText(String.format(getString(R.string.details_ttime), userArr[4]));
+//                            itemTV.setText(Html.fromHtml(itemHtml));
+//                            sumTv.setText("總金額：" + sum);
+
                         }
                     });
 

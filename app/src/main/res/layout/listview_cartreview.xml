@@ -11,8 +11,9 @@
         android:gravity="center"
         android:paddingTop="@dimen/cart_listview_title_padding_top_bottom"
         android:paddingBottom="@dimen/cart_listview_title_padding_top_bottom"
-        android:background="#FFCC22"
-        android:id="@+id/textView" />
+        android:background="#4f88ff"
+        android:id="@+id/textView"
+        android:textColor="#e1e1e1" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,12 +23,14 @@
         <ImageView
             android:layout_width="@dimen/cart_listview_img_size"
             android:layout_height="@dimen/cart_listview_img_size"
-            android:id="@+id/imageView" />
+            android:id="@+id/imageView"
+            android:layout_weight="1" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"

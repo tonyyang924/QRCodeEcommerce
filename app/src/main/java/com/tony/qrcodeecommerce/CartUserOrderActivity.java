@@ -90,7 +90,6 @@ public class CartUserOrderActivity extends Activity {
             orderItem.put("price",list.getPrice());         //價格
             orderItem.put("pic",list.getPic());             //圖片檔名
             orderItem.put("pic_link",list.getPic_link());   //圖片連結
-            orderItem.put("oid", Tool.getOrderId(getApplicationContext(),getCode));
             theOrderItems.add(orderItem);
         }
         JSONArray jsonArray = new JSONArray(theOrderItems);

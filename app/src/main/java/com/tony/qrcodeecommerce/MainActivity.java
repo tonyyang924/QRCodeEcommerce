@@ -1,16 +1,22 @@
 package com.tony.qrcodeecommerce;
 
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -26,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
     private DisplayMetrics dm;
 
 
-    // old reference
+    // reference
     // http://dean-android.blogspot.tw/2015/01/androidfragmenttabactivitytab.html
 
     @Override
@@ -41,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
         pagerAdapter = new TabPagerAdapter(this.getSupportFragmentManager());
         Log.i(TAG,String.valueOf(pagerAdapter.getCount()));
         pager.setAdapter(pagerAdapter);
+        tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
 
         tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -62,7 +69,9 @@ public class MainActivity extends ActionBarActivity {
         });
 
         setTabsValue();
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
 //        //獲取TabHost控制元件
 //        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 //        //設定Tab頁面的顯示區域，帶入Context、FragmentManager、Container ID
@@ -165,6 +174,9 @@ public class MainActivity extends ActionBarActivity {
         //設置Tab Indicator的顏色
         tabs.setIndicatorColor(Color.parseColor("#2a86ff"));
         tabs.setUnderlineColor(Color.parseColor("#CCCCCC"));
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        tabs.setMinimumWidth(metrics.widthPixels/pagerAdapter.getCount());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,5 +186,14 @@ public class MainActivity extends ActionBarActivity {
 
     public DetailsFragment getDetailsFragment(){
         return detailsFragment;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

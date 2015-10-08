@@ -33,39 +33,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <RelativeLayout
+                    android:layout_width="92dp"
+                    android:layout_height="32dp"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center">
                     <!-- 增加數量按鈕 -->
+
+
                     <ImageButton
-                        android:layout_width="@dimen/cart_listview_plus_minus_icon_size"
-                        android:layout_height="@dimen/cart_listview_plus_minus_icon_size"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:id="@+id/addNumberBtn"
-                        android:src="@drawable/plus"
                         android:scaleType="fitCenter"
-                        android:background="#00000000" />
+                        android:src="@drawable/ic_add_black_24dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/board2"
+                        android:padding="5dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true" />
                     <!-- 數量 -->
                     <TextView
-                        android:layout_marginLeft="@dimen/cart_listview_number_margin_left_right"
-                        android:layout_marginRight="@dimen/cart_listview_number_margin_left_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:text="1"
-                        android:textSize="@dimen/cart_listview_number_textsize"
-                        android:id="@+id/NumberTv" />
+                        android:textSize="20dp"
+                        android:id="@+id/NumberTv"
+                        android:textColor="#191919"
+                        android:background="@drawable/board"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="false"
+                        android:layout_centerInParent="true" />
                     <!-- 減少數量按鈕 -->
                     <ImageButton
-                        android:layout_width="@dimen/cart_listview_plus_minus_icon_size"
-                        android:layout_height="@dimen/cart_listview_plus_minus_icon_size"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:id="@+id/subNumberBtn"
-                        android:src="@drawable/minus"
+                        android:src="@drawable/ic_remove_black_24dp"
                         android:scaleType="fitCenter"
-                        android:background="#00000000" />
-                </LinearLayout>
+                        android:background="@drawable/board2"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,7 +126,7 @@
                 android:layout_width="@dimen/cart_listview_delete_icon_size"
                 android:layout_height="@dimen/cart_listview_delete_icon_size"
                 android:id="@+id/delBtn"
-                android:src="@drawable/delete"
+                android:src="@drawable/ic_delete_black_24dp"
                 android:background="#00000000"
                 android:layout_alignParentRight="true"
                 android:scaleType="fitCenter"

@@ -1,9 +1,12 @@
 package com.tony.qrcodeecommerce;
 
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +40,10 @@ public class ProfileActivity extends ActionBarActivity {
         profileName.setText(profileSP.getUserProfile().getStuName());
         profilePhone.setText(profileSP.getUserProfile().getStuPhone());
         profileEmail.setText(profileSP.getUserProfile().getStuEmail());
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
     }
 
     private Profile getEditTextProfile() {
@@ -84,4 +91,13 @@ public class ProfileActivity extends ActionBarActivity {
             }).start();
         }
     };
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

@@ -21,7 +21,7 @@
         <!--         <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item> -->
         <item name="android:actionBarTabBarStyle">@style/MyActionBarTabBars</item>
         <item name="android:actionMenuTextColor">#535353</item>
-
+        <item name="android:homeAsUpIndicator">@drawable/ic_navigate_before_white_24dp</item>
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarDivider">@null</item>
