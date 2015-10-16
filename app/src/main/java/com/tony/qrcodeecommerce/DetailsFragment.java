@@ -14,13 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tony.qrcodeecommerce.utils.AppSP;
+import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
+import com.tony.qrcodeecommerce.utils.ProductDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 public class DetailsFragment extends Fragment {
     private static final String TAG = "QRCodeEcommerce::DetailsFragment";
     private TextView nameTV, priceTV;
     private ImageView imgIV;
-    private Tool tool;
+    private ProductDAO productDAO;
+    private AsyncImageLoader asyncImageLoader;
     private RelativeLayout noProductLayout;
     //顯示文字內容
     private String text = "";
@@ -32,6 +35,7 @@ public class DetailsFragment extends Fragment {
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getDetailsText();
         appSP = new AppSP(getActivity());
+        asyncImageLoader = new AsyncImageLoader(getActivity());
     }
 
     @Override
@@ -48,19 +52,20 @@ public class DetailsFragment extends Fragment {
         priceTV = (TextView) getActivity().findViewById(R.id.subTotalTV);
         imgIV = (ImageView) getActivity().findViewById(R.id.imgIV);
         noProductLayout = (RelativeLayout) getActivity().findViewById(R.id.noProductLayout);
-        tool = new Tool();
+        productDAO = new ProductDAO(getActivity());
         ChangeData();
     }
-    public void ChangeData(){
-        Cursor c = tool.SQLQuery("SELECT name,pic,price FROM item "
-                + " WHERE id = '" + appSP.getScanPid() + "';");
+    public void ChangeData() {
+        Cursor c = productDAO.query("SELECT name,pic_link,price FROM product "
+                + " WHERE pid = '" + appSP.getScanPid() + "';");
         if (c.getCount() > 0) {
             c.moveToFirst();
             String name = c.getString(0);
             int price = c.getInt(2);
             nameTV.setText(name);
             priceTV.setText("價格：" + price);
-            Bitmap bitmap = BitmapFactory.decodeFile(tool.QRCodeEcommercePath + "/images/" + c.getString(1));
+            imgIV.setTag(c.getString(1));
+            Bitmap bitmap = asyncImageLoader.loadImage(imgIV,c.getString(1));
             imgIV.setImageBitmap(bitmap);
             nameTV.setVisibility(View.VISIBLE);
             priceTV.setVisibility(View.VISIBLE);

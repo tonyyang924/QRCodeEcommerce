@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
@@ -57,12 +58,15 @@ public class CartFragment extends Fragment {
     //init
     private boolean isInit = false;
 
+    private AsyncImageLoader asyncImageLoader;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         //取得MainActivity的方法，將文字放入text字串
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getCartText();
+        asyncImageLoader = new AsyncImageLoader(getActivity());
     }
 
     @Override
@@ -198,8 +202,8 @@ public class CartFragment extends Fragment {
     }
 
     /**
-        * 實作一個 Adapter 繼承 BaseAdapter
-        */
+    * 實作一個 Adapter 繼承 BaseAdapter
+    */
     public class MyAdapter extends BaseAdapter {
         private LayoutInflater inflater;
 
@@ -274,8 +278,8 @@ public class CartFragment extends Fragment {
                     delDialog(position);
                 }
             });
-            String imgPath = Tool.QRCodeEcommercePath + "/images/" + lists.get(position).getPic();
-            Bitmap bmp = BitmapFactory.decodeFile(imgPath);
+            myviews.itemImg.setTag(lists.get(position).getPic_link());
+            Bitmap bmp = asyncImageLoader.loadImage(myviews.itemImg,lists.get(position).getPic_link());
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());
             if(lists.get(position).getLimitNumber()==0) { // 該商品如果剩餘數量為0

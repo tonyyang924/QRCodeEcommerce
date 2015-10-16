@@ -2,10 +2,7 @@ package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.MyOrder;
-import com.tony.qrcodeecommerce.utils.Tool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +24,14 @@ public class OrderViewDetailActivity extends Activity{
     private MyOrder myOrder;
     private ListView listView;
     private JSONArray jsonArray;
+    private AsyncImageLoader asyncImageLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderview_detail);
+
+        asyncImageLoader = new AsyncImageLoader(getApplicationContext());
+
         oid = (TextView) findViewById(R.id.oid);
         rname = (TextView) findViewById(R.id.rname);
         rphone = (TextView) findViewById(R.id.rphone);
@@ -52,7 +53,7 @@ public class OrderViewDetailActivity extends Activity{
         tplace.setText(String.format(getResources().getString(R.string.orderview_tplace),myOrder.getTplace()));
         ttime.setText(String.format(getResources().getString(R.string.orderview_ttime),myOrder.getTtime()));
         oprice.setText(String.format(getResources().getString(R.string.orderview_oprice),myOrder.getOprice()));
-        tupdate.setText(String.format(getResources().getString(R.string.orderview_tupdate),myOrder.getTupdate()));
+        tupdate.setText(String.format(getResources().getString(R.string.orderview_tupdate), myOrder.getTupdate()));
 
         MyAdapter myAdapter = new MyAdapter(this);
         listView.setAdapter(myAdapter);
@@ -60,6 +61,7 @@ public class OrderViewDetailActivity extends Activity{
 
     private final class MyView {
         public TextView pid,spec,price,number;
+//        public NetworkImageView img;
         public ImageView img;
     }
 
@@ -67,10 +69,13 @@ public class OrderViewDetailActivity extends Activity{
      * 實作一個 Adapter 繼承 BaseAdapter
      */
     public class MyAdapter extends BaseAdapter {
-        private LayoutInflater inflater;
-
+        private Context context;
+//        private RequestQueue queue;
+//        private ImageLoader imageLoader;
         public MyAdapter(Context context) {
-            inflater = LayoutInflater.from(context);
+            this.context = context;
+//            queue = Volley.newRequestQueue(context);
+//            imageLoader = new ImageLoader(queue, new BitmapCache());
         }
 
         @Override
@@ -83,32 +88,47 @@ public class OrderViewDetailActivity extends Activity{
         @Override
         public Object getItem(int position) {
             // TODO Auto-generated method stub
+            try {
+                return jsonArray.getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         public long getItemId(int position) {
             // TODO Auto-generated method stub
-            return 0;
+            return position;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
-            // MyAdapter配置使用listview_cart的layout介面
-            convertView = inflater.inflate(R.layout.listview_orderdetail, null);
-            // new一個自訂View的class
-            final MyView myviews = new MyView();
-            // 指定元件
-            myviews.pid = (TextView) convertView.findViewById(R.id.pid);
-            myviews.spec = (TextView) convertView.findViewById(R.id.spec);
-            myviews.price = (TextView) convertView.findViewById(R.id.price);
-            myviews.number = (TextView) convertView.findViewById(R.id.number);
-            myviews.img = (ImageView) convertView.findViewById(R.id.img);
+
+            MyView myviews = null;
 
             int price = 0;
             String pid = null, spec = null, num = null, pic = null, pic_link = null;
 
+            if(convertView == null) {
+                myviews = new MyView();
+
+                convertView = LayoutInflater.from(context)
+                        .inflate(R.layout.listview_orderdetail, null);
+                myviews.pid = (TextView) convertView.findViewById(R.id.pid);
+                myviews.spec = (TextView) convertView.findViewById(R.id.spec);
+                myviews.price = (TextView) convertView.findViewById(R.id.price);
+                myviews.number = (TextView) convertView.findViewById(R.id.number);
+                myviews.img = (ImageView) convertView.findViewById(R.id.img);
+
+                convertView.setTag(myviews);
+            } else {
+                myviews = (MyView) convertView.getTag();
+            }
+
+
+            // 解析jsonArray
             try {
                 pid = jsonArray.getJSONObject(position).getString("pid");
                 spec = jsonArray.getJSONObject(position).getString("spec");
@@ -119,20 +139,21 @@ public class OrderViewDetailActivity extends Activity{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //print
-            Log.i(TAG, "pid:" + pid + " spec:" + spec + " num:" + num + " price:" + price + " pic:" + pic + " pic_link:" + pic_link);
 
-            //如果圖片檔名不是空的，就取得bitmap給img
-            if(pic != null) {
-                Bitmap bitmap = BitmapFactory.decodeFile(Tool.QRCodeEcommercePath+"/images/"+pic);
-                myviews.img.setImageBitmap(bitmap);
-            }
-
-            //
+            // 設定文字訊息
             myviews.pid.setText(String.format(getString(R.string.orderview_listview_pid),pid));
             myviews.spec.setText(String.format(getString(R.string.orderview_listview_spec),spec));
             myviews.price.setText(String.format(getString(R.string.orderview_listview_price),price));
             myviews.number.setText(String.format(getString(R.string.orderview_listview_number),num));
+
+            if(pic_link != null && !pic_link.equals("")) {
+//                myviews.img.setDefaultImageResId(R.drawable.qrcodereader);
+//                myviews.img.setErrorImageResId(R.drawable.qrcodereader);
+//                myviews.img.setImageUrl(pic_link, imageLoader);
+                myviews.img.setTag(pic_link);
+                myviews.img.setImageBitmap(asyncImageLoader.loadImage(myviews.img,pic_link));
+            }
+
             return convertView;
         }
     }

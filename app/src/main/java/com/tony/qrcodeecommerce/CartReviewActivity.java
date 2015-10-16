@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
@@ -32,14 +33,13 @@ public class CartReviewActivity extends ActionBarActivity {
     private List<Item> lists;
     private ItemDAO itemDAO;
     private MyAdapter adapter;
-    private MainApplication m;
     private TextView totalpriceTV;
-
+    private AsyncImageLoader asyncImageLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cartreview);
-        m = (MainApplication) getApplication();
+        asyncImageLoader = new AsyncImageLoader(getApplicationContext());
         listView = (ListView) findViewById(R.id.listView2);
         totalpriceTV = (TextView)findViewById(R.id.totalpriceTV);
         itemDAO = new ItemDAO(this);
@@ -134,8 +134,8 @@ public class CartReviewActivity extends ActionBarActivity {
             myviews.numberTv = (TextView) convertView.findViewById(R.id.numberTv);
             myviews.priceTv = (TextView) convertView.findViewById(R.id.priceTv);
             myviews.subTotalTv = (TextView) convertView.findViewById(R.id.subTotalTv);
-            String imgPath = Tool.QRCodeEcommercePath + "/images/" + lists.get(position).getPic();
-            Bitmap bmp = BitmapFactory.decodeFile(imgPath);
+            myviews.itemImg.setTag(lists.get(position).getPic_link());
+            Bitmap bmp = asyncImageLoader.loadImage(myviews.itemImg,lists.get(position).getPic_link());
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());
             myviews.numberTv.setText(Html.fromHtml(

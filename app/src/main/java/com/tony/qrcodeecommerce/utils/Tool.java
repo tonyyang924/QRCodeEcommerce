@@ -1,6 +1,8 @@
 package com.tony.qrcodeecommerce.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +14,7 @@ import com.tony.qrcodeecommerce.R;
 
 import org.json.JSONArray;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,6 +25,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +41,16 @@ public class Tool {
             .getAbsolutePath() + "/QRCodeEcommerce";
     //
     private static SQLiteDatabase sqLiteDB = null;
+
+    private Context context;
+
+    public Tool() {
+
+    }
+
+    public Tool(Context context) {
+        this.context = context;
+    }
 
     public static SQLiteDatabase getSQLiteDB() {
         sqLiteDB = SQLiteDatabase.openOrCreateDatabase(getSQLiteDatabaseFile(), null);
@@ -200,7 +215,7 @@ public class Tool {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
         String str = formatter.format(curDate);
-        String oid = String.format(context.getResources().getString(R.string.oid_text),str,veritycode,(int)Math.random()*900+100);
+        String oid = String.format(context.getResources().getString(R.string.oid_text),str,veritycode,(int)(Math.random()*899) + 100);
         return oid;
     }
 
@@ -275,14 +290,14 @@ public class Tool {
                         }
                     }
                     /**
-                                        //將SQL語法寫入external storage的文字檔做檢查
-                                        File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
-                                        sqlTxt.createNewFile();
-                                        FileOutputStream fos = new FileOutputStream(sqlTxt);
-                                        OutputStreamWriter osw = new OutputStreamWriter(fos);
-                                        osw.write(insertSQL);
-                                        osw.close();
-                                         **/
+                    //將SQL語法寫入external storage的文字檔做檢查
+                    File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
+                    sqlTxt.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(sqlTxt);
+                    OutputStreamWriter osw = new OutputStreamWriter(fos);
+                    osw.write(insertSQL);
+                    osw.close();
+                     **/
 
                     Cursor cursor = productDAO.query(insertSQL);
                     cursor.moveToFirst();
@@ -303,5 +318,6 @@ public class Tool {
         }
         return totalPrice;
     }
+
 }
 

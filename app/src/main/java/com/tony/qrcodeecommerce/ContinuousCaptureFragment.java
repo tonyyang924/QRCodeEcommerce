@@ -26,6 +26,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CompoundBarcodeView;
 import com.tony.qrcodeecommerce.utils.AppSP;
+import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
 import com.tony.qrcodeecommerce.utils.Product;
@@ -57,6 +58,8 @@ public class ContinuousCaptureFragment extends Fragment {
 
     private AppSP appSP;
 
+    private AsyncImageLoader asyncImageLoader;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -64,6 +67,7 @@ public class ContinuousCaptureFragment extends Fragment {
         MainActivity mMainActivity = (MainActivity) activity;
         text = mMainActivity.getQRCodeText();
         appSP = new AppSP(getActivity());
+        asyncImageLoader = new AsyncImageLoader(getActivity());
     }
 
     @Override
@@ -97,9 +101,12 @@ public class ContinuousCaptureFragment extends Fragment {
 //                barcodeView.setStatusText(result.getText());
 //            }
 
+            Log.i(TAG,"result:"+result.getText());
+
             /**
-                        *  init view
-                        */
+            *  init view
+            */
+
             // inflater 引入layout
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.continous_sublayout,null);
@@ -114,19 +121,15 @@ public class ContinuousCaptureFragment extends Fragment {
             ImageView addCart = (ImageView) view.findViewById(R.id.addCart);
             addCart.setOnClickListener(addCartClickLis);
 
-//            MainApplication.setPid(result.getText());
             appSP.setScanPid(result.getText());
 
-
             String titleStr = "";       //商品title
-            String image_path = "";     //商品圖片資料夾位置
 
-//            String sql = "SELECT id,name,price,pic,pic_link,link FROM item "
-//                    + " WHERE id = '" + result.getText() + "';";
-//            Cursor c = tool.SQLQuery(sql);
             String sql = "SELECT pid,name,price,pic,pic_link,link,spec FROM product "
                     + " WHERE pid = '" + result.getText() + "';";
             Cursor c = productDAO.query(sql);
+
+            Bitmap bitmap;
 
             if (c.getCount() > 0) {
                 ArrayList<String> specArr = new ArrayList<>();
@@ -135,8 +138,9 @@ public class ContinuousCaptureFragment extends Fragment {
                 item = new Item(0, c.getString(0), c.getString(1), c.getInt(2), c.getString(3),
                         c.getString(4), c.getString(5), new Date().getTime());
                 titleStr = c.getString(1);
-                image_path = Tool.QRCodeEcommercePath + "/images/" + c.getString(3);
                 specArr.add(c.getString(6));
+                imageView.setTag(c.getString(4));
+                bitmap = asyncImageLoader.loadImage(imageView, c.getString(4));
                 while(c.moveToNext()) {
                     specArr.add(c.getString(6));
                 }
@@ -170,7 +174,7 @@ public class ContinuousCaptureFragment extends Fragment {
             } else {
                 item = null;
                 titleStr = "找不到商品";
-                image_path = Tool.QRCodeEcommercePath + "/images/image-not-found.jpg";
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_not_found);
                 specSP.setVisibility(View.GONE);
                 specSP2.setVisibility(View.GONE);
                 addCart.setVisibility(View.GONE);
@@ -179,7 +183,6 @@ public class ContinuousCaptureFragment extends Fragment {
             //設定商品標題
             tv.setText(titleStr);
             //設定商品圖片
-            Bitmap bitmap = BitmapFactory.decodeFile(image_path);
             imageView.setImageBitmap(bitmap);
             // 新增
             detailsLL.removeAllViews();

@@ -28,4 +28,5 @@ dependencies {
     compile "com.google.android.gms:play-services:7.5.+"
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
 }
