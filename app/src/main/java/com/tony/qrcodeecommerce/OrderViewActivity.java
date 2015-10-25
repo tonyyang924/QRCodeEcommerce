@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -53,6 +54,8 @@ public class OrderViewActivity extends ActionBarActivity {
     //ProgressDialog
     private ProgressDialog PD;
     private ArrayList<MyDate> date = new ArrayList<>();
+
+    final static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +105,20 @@ public class OrderViewActivity extends ActionBarActivity {
                             Log.i(TAG,""+orderItemArr.getJSONObject(j).getString("num"));
                             Log.i(TAG,""+orderItemArr.getJSONObject(j).getString("pid"));
                         }
-                        lists.add(new MyOrder(oid, oprice, orderItemArr, rname, rphone, remail, tplace, ttime, tupdate, situation));
+                        String  header = null;
+                        try {
+                            Date bdd = sdf.parse(tupdate);
+                            header = get_DateHeader((int) (datetime(bdd, today) / (60 * 60 * 24)));
+                            Log.e(TAG,bdd.toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (header!=null){
+                            lists.add(new MyOrder(oid, oprice, orderItemArr, rname, rphone, remail, tplace, ttime, tupdate, situation,header));
+                            Log.e(TAG,header);
+                        }else{
+                            lists.add(new MyOrder(oid, oprice, orderItemArr, rname, rphone, remail, tplace, ttime, tupdate, situation));
+                        }
 
                     }
                     runOnUiThread(new Runnable() {
@@ -124,6 +140,7 @@ public class OrderViewActivity extends ActionBarActivity {
         public TextView id;
         public TextView rname;
         public TextView oprice;
+        public TextView tdate;
         public ImageView gonextbtn;
         public TextView header;
     }
@@ -229,10 +246,11 @@ public class OrderViewActivity extends ActionBarActivity {
             myviews.id = (TextView) convertView.findViewById(R.id.id);
             myviews.rname = (TextView) convertView.findViewById(R.id.rname);
             myviews.oprice = (TextView) convertView.findViewById(R.id.oprice);
-            myviews.gonextbtn = (ImageView) convertView.findViewById(R.id.gonextbtn);
+            myviews.tdate = (TextView) convertView.findViewById(R.id.tdate);
+//            myviews.gonextbtn = (ImageView) convertView.findViewById(R.id.gonextbtn);
             myviews.header = (TextView)convertView.findViewById(R.id.header);
             // set listener
-            myviews.gonextbtn.setOnClickListener(new View.OnClickListener() {
+            convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MainApplication.setMyOrder(lists.get(position));
@@ -242,30 +260,16 @@ public class OrderViewActivity extends ActionBarActivity {
             });
 
             //set text
-            myviews.id.setText(String.format(getResources().getString(R.string.orderview_id), position + 1));
+            myviews.id.setText(String.format(getResources().getString(R.string.orderview_oid), position + 1));
             myviews.rname.setText(String.format(getResources().getString(R.string.orderview_rname),lists.get(position).getRname()));
             myviews.oprice.setText(String.format(getResources().getString(R.string.orderview_oprice),lists.get(position).getOprice()));
-            Long bd = null;
-            try {
-                bd = sdf.parse(lists.get(position).getTupdate()).getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            myviews.tdate.setText(String.format(getResources().getString(R.string.orderview_listview_date),lists.get(position).getTupdate().split(" ")[0]));
 
-            try {
-                Date bdd = sdf.parse(lists.get(position).getTupdate());
-                String  header = get_DateHeader((int)(datetime(bdd,today)/(60*60*24)));
-                Log.e(TAG,bdd.toString());
-
-                if (header!=null){
-                    myviews.header.setVisibility(View.VISIBLE);
-                    myviews.header.setText(header);
-                    Log.e(TAG,header);
-                }else{
-                    myviews.header.setVisibility(View.GONE);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (lists.get(position).getDateGroup()!=null){
+                myviews.header.setText(lists.get(position).getDateGroup());
+                myviews.header.setVisibility(View.VISIBLE);
+            }else{
+                myviews.header.setVisibility(View.GONE);
             }
 
 
@@ -299,5 +303,47 @@ public class OrderViewActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public class DateHighToLowComparator implements Comparator<MyOrder> {
+
+        @Override
+        public int compare(MyOrder lhs, MyOrder rhs) {
+
+            Long Date1 = null;
+            Long Date2 = null;
+
+            if(lhs.getTupdate() != null && !"".equals(lhs.getTupdate())){
+
+                try {
+                    Date1 = sdf.parse(lhs.getTupdate()).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if(rhs.getTupdate() != null && !"".equals(rhs.getTupdate())){
+
+                try {
+                    Date2 = sdf.parse(rhs.getTupdate()).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if(Date1 > Date2){
+                return -1;
+            }
+            else if(Date1 < Date2){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+
+
     }
 }

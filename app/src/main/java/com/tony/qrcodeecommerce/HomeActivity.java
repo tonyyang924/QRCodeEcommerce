@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,14 +26,20 @@ import java.util.List;
 // http://stackoverflow.com/questions/15261088/gridview-with-two-columns-and-auto-resized-images
 
 public class HomeActivity extends ActionBarActivity{
-
+    int maxWidth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
+
         ListView listView = (ListView)findViewById(R.id.main_list);
+        maxWidth = listView.getWidth();
+        Log.e("maxWidth", String.valueOf(maxWidth));
         listView.setAdapter(new MyAdapter(this));
+
         listView.setOnItemClickListener(new GridView.OnItemClickListener() {
 
             @Override
@@ -96,10 +106,15 @@ public class HomeActivity extends ActionBarActivity{
             picture = (ImageView) v.getTag(R.id.picture);
             name = (TextView) v.getTag(R.id.text);
 
+
             Item item = getItem(i);
             Log.e("item",String.valueOf(item.name));
             Log.e("item",String.valueOf(item.drawableId));
             picture.setImageResource(item.drawableId);
+            Log.e("maxWidth", String.valueOf(maxWidth));
+            Log.e("setMinimumHeight", String.valueOf(picture.getHeight()));
+            picture.setMinimumHeight(maxWidth / 16 * 9);
+            Log.e("setMinimumHeight", String.valueOf(picture.getHeight()));
             name.setText(item.name);
 
             return v;

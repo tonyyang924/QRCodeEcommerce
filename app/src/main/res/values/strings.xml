@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">QRCodeEcommerce</string>
+    <!--string name="app_name">QRCodeEcommerce</string-->
+    <string name="app_name">第一科大網路購物APP</string>
     <string name="action_settings">Settings</string>
     <string name="action_admin">Admin</string>
 
@@ -122,9 +123,10 @@
     <!-- 查看消費者訂單 -->
     <string name="details_username">收貨人姓名：%s</string>
     <string name="details_userphone">收貨人電話：%s</string>
-    <string name="details_usermail">收貨人信箱：%s</string>
+    <string name="details_useremail">收貨人信箱：%s</string>
     <string name="details_tplace">交易地點：%s</string>
     <string name="details_ttime">交易時間：%s</string>
+    <string name="details_totalprice">總金額：%s元</string>
 
     <!-- 參數 -->
     <string name="userorder_params_ttime">%1$d年%2$d月%3$d日 %4$d點%5$d分</string>
@@ -151,7 +153,10 @@
     <string name="orderview_tplace">交易地點：%1$s</string>
     <string name="orderview_ttime">交易時間：%1$s</string>
     <string name="orderview_oprice">訂單總金額：%1$s</string>
+    <string name="orderview_oprice2">總金額：%1$s</string>
     <string name="orderview_tupdate">訂單更新時間：%1$s</string>
+    <string name="orderview_tupdate2">更新時間：%1$s</string>
+    <string name="orderview_listview_date">訂單日期　：%1$s</string>
     <string name="orderview_listview_pid">商品編號：%1$s</string>
     <string name="orderview_listview_spec">商品規格：%1$s</string>
     <string name="orderview_listview_price">商品價格：%1$d</string>

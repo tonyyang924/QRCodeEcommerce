@@ -6,7 +6,8 @@
     android:minHeight="155dp"
     android:paddingBottom="4dp"
     android:background="#ffffff"
-    android:paddingTop="4dp">
+    android:paddingTop="4dp"
+    android:id="@+id/listitem">
 
 
     <com.tony.qrcodeecommerce.view.SquareImageView

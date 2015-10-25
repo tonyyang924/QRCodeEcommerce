@@ -22,6 +22,7 @@ public class MyOrder implements Serializable {
     private String rname,rphone,remail;
     private String tplace,ttime,tupdate;
     private int situation;
+    private String dateGroup=null;
 
     @Override
     public String toString() {
@@ -50,6 +51,20 @@ public class MyOrder implements Serializable {
         this.ttime = ttime;
         this.tupdate = tupdate;
         this.situation = situation;
+    }
+    public MyOrder(String oid,int oprice,JSONArray orderItemArr,String rname,String rphone,String remail,
+                   String tplace,String ttime,String tupdate,int situation,String dateGroup) {
+        this.oid = oid;
+        this.oprice = oprice;
+        this.orderItemArr = orderItemArr;
+        this.rname = rname;
+        this.rphone = rphone;
+        this.remail = remail;
+        this.tplace = tplace;
+        this.ttime = ttime;
+        this.tupdate = tupdate;
+        this.situation = situation;
+        this.dateGroup = dateGroup;
     }
 
     public String getOid() {
@@ -130,5 +145,13 @@ public class MyOrder implements Serializable {
 
     public void setSituation(int situation) {
         this.situation = situation;
+    }
+
+    public String getDateGroup() {
+        return dateGroup;
+    }
+
+    public void setDateGroup(String dateGroup) {
+        this.dateGroup = dateGroup;
     }
 }

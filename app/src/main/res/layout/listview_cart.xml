@@ -114,7 +114,7 @@
                     android:gravity="center_vertical">
                     <!-- 小計 -->
                     <TextView
-                        android:id="@+id/subTotalTV"
+                        android:id="@+id/priceTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/cart_listview_textsize"

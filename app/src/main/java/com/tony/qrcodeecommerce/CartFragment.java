@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -242,7 +241,7 @@ public class CartFragment extends Fragment {
             myviews.itemName = (TextView) convertView.findViewById(R.id.textView);
             myviews.numberTv = (TextView) convertView.findViewById(R.id.NumberTv);
             myviews.priceTv = (TextView) convertView.findViewById(R.id.priceTV);
-            myviews.subTotalTV = (TextView) convertView.findViewById(R.id.subTotalTV);
+            myviews.subTotalTV = (TextView) convertView.findViewById(R.id.priceTV);
             myviews.addNumberBtn = (ImageButton) convertView.findViewById(R.id.addNumberBtn);
             myviews.subNumberBtn = (ImageButton) convertView.findViewById(R.id.subNumberBtn);
             myviews.specTV = (TextView) convertView.findViewById(R.id.specTV);
@@ -279,7 +278,7 @@ public class CartFragment extends Fragment {
                 }
             });
             myviews.itemImg.setTag(lists.get(position).getPic_link());
-            Bitmap bmp = asyncImageLoader.loadImage(myviews.itemImg,lists.get(position).getPic_link());
+            Bitmap bmp = asyncImageLoader.loadImage(myviews.itemImg, lists.get(position).getPic_link());
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());
             if(lists.get(position).getLimitNumber()==0) { // 該商品如果剩餘數量為0

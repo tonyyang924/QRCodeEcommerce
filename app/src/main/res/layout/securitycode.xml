@@ -11,7 +11,7 @@
         android:gravity="center"
         android:text="請輸入驗證碼"
         android:textColor="#FFFFFF"
-        android:background="#0000FF"
+        android:background="#4f88ff"
         android:padding="20dp"/>
 
     <ImageView
@@ -23,7 +23,11 @@
         android:id="@+id/vc_shuaxin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="取得驗證碼" />
+        android:text="取得驗證碼"
+        android:background="@drawable/shape4"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/myedit"
@@ -35,6 +39,10 @@
         android:id="@+id/verfiy_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="確認" />
+        android:text="確認"
+        android:background="@drawable/shape4"
+        android:textColor="#ffffff"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
 
 </LinearLayout>

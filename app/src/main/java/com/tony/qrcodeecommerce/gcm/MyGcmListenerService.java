@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.tony.qrcodeecommerce.R;
-import com.tony.qrcodeecommerce.UserOrderDetails;
+import com.tony.qrcodeecommerce.UserOrderDetailsActivity;
 import com.tony.qrcodeecommerce.utils.AppSP;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -60,7 +60,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Intent intent;
         AppSP appSP = new AppSP(getApplicationContext());
 //        if(appSP.getIsAdmin()) {
-        intent = new Intent(this, UserOrderDetails.class);
+        intent = new Intent(this, UserOrderDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("oid",strArr[2]);
         intent.putExtras(bundle);

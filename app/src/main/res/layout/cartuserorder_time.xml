@@ -10,14 +10,15 @@
         android:gravity="center"
         android:text="請選擇交易時間"
         android:textColor="#FFFFFF"
-        android:background="#0000FF"
+        android:background="#4f88ff"
         android:padding="20dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="選擇日期"
-            android:id="@+id/datepickerbtn"/>
+            android:id="@+id/datepickerbtn"
+            android:background="@drawable/shape4"
+            android:textColor="#ffffff" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +43,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="選擇時間"
-            android:id="@+id/timepickerbtn"/>
+            android:id="@+id/timepickerbtn"
+            android:background="@drawable/shape4"
+            android:textColor="#ffffff" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +70,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="確定"
-        android:id="@+id/timesubmitbtn"/>
+        android:id="@+id/timesubmitbtn"
+        android:background="@drawable/shape4"
+        android:layout_margin="4dp"
+        android:textColor="#ffffff" />
 
 </LinearLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <!-- 標題-->
 
@@ -25,7 +25,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
 
             <!--與收貨人相同-->
             <CheckBox
@@ -40,7 +41,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,13 +55,15 @@
                 android:inputType="textPersonName"
                 android:hint="@string/userorder_name_hint"
                 android:ems="10"
-                android:id="@+id/userorder_name" />
+                android:id="@+id/userorder_name"
+                android:background="@drawable/shape3" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,12 +75,14 @@
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:hint="@string/userorder_telphone_hint"
-                android:id="@+id/userorder_telphone" />
+                android:id="@+id/userorder_telphone"
+                android:background="@drawable/shape3" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,18 +94,20 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/userorder_email_hint"
-                android:id="@+id/userorder_email" />
+                android:id="@+id/userorder_email"
+                android:background="@drawable/shape3" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/userorder_place"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +117,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,7 +131,9 @@
                 android:id="@+id/userorder_ttime_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/userorder_ttime_button"/>
+                android:text="@string/userorder_ttime_button"
+                android:background="@drawable/shape"
+                android:textColor="#ffffff" />
         </LinearLayout>
 
         <TextView

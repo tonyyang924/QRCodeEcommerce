@@ -4,35 +4,25 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="消費者訂單"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:background="#FFCC22" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/details_username"
         android:textSize="18sp"
-        android:id="@+id/username_tv" />
+        android:id="@+id/receivename_tv" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/details_userphone"
         android:textSize="18sp"
-        android:id="@+id/userphone_tv" />
+        android:id="@+id/receivephone_tv" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/details_usermail"
+        android:text="@string/details_useremail"
         android:textSize="18sp"
-        android:id="@+id/usermail_tv" />
+        android:id="@+id/receiveemail_tv" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,20 +37,19 @@
         android:text="@string/details_ttime"
         android:textSize="18sp"
         android:id="@+id/ttime_tv" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:visibility="gone"
-        android:id="@+id/item_tv"/>
+        android:text="@string/details_totalprice"
+        android:id="@+id/totalprice_tv"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:id="@+id/sum"/>
+        android:id="@+id/listView" />
 
+    <!--
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -151,5 +140,5 @@
             android:layout_height="wrap_content"
             android:text="450" />
     </LinearLayout>
-
+-->
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.tony.qrcodeecommerce;
 
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +17,8 @@ import com.tony.qrcodeecommerce.utils.Profile;
 import com.tony.qrcodeecommerce.utils.ProfileSP;
 import com.tony.qrcodeecommerce.utils.Tool;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,10 +28,17 @@ public class ProfileActivity extends ActionBarActivity {
     private AppSP appSP;
     private EditText profileName,profilePhone,profileEmail;
     private Button submit;
+    //ProgressDialog
+    private ProgressDialog PD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+
         profileName = (EditText) findViewById(R.id.profile_name);
         profilePhone = (EditText)findViewById(R.id.profile_phone);
         profileEmail = (EditText)findViewById(R.id.profile_email);
@@ -37,13 +46,44 @@ public class ProfileActivity extends ActionBarActivity {
         submit.setOnClickListener(submitClk);
         profileSP = new ProfileSP(getApplicationContext());
         appSP = new AppSP(getApplicationContext());
-        profileName.setText(profileSP.getUserProfile().getStuName());
-        profilePhone.setText(profileSP.getUserProfile().getStuPhone());
-        profileEmail.setText(profileSP.getUserProfile().getStuEmail());
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+        PD = ProgressDialog.show(this, "讀取中","向Server端更新數據中...",true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("proc","GetMember");
+                    params.put("acc", Tool.getStuNumber(appSP.getLoginUserId()));
+                    String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+                    //如果回傳的訊息不是false
+                    if(!resultData.equals("false")) {
+                        JSONObject jsonObject = new JSONObject(resultData);
+                        String name = jsonObject.getString("name");
+                        String phone = jsonObject.getString("phone");
+
+                        //設定名字和電話保存於SharedPreference
+                        profileSP.setUserName(name);
+                        profileSP.setUserPhone(phone);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //設定EditText
+                                profileName.setText(profileSP.getUserProfile().getStuName());
+                                profilePhone.setText(profileSP.getUserProfile().getStuPhone());
+                                profileEmail.setText(profileSP.getUserProfile().getStuEmail());
+                                PD.dismiss();
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private Profile getEditTextProfile() {

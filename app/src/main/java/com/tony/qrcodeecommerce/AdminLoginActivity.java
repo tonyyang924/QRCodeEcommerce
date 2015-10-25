@@ -1,6 +1,5 @@
 package com.tony.qrcodeecommerce;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -62,7 +61,7 @@ public class AdminLoginActivity extends ActionBarActivity {
                                     }
                                 });
                                 //進入主畫面
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {

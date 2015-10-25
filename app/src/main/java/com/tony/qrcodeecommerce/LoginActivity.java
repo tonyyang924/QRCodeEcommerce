@@ -45,14 +45,6 @@ public class LoginActivity extends ActionBarActivity  {
         appSP = new AppSP(getApplicationContext());
         userId = (EditText) findViewById(R.id.userid);
         userPw = (EditText) findViewById(R.id.userpw);
-//        adminLoginButton = (ImageButton) findViewById(R.id.adminLoginButton);
-//        adminLoginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(LoginActivity.this,AdminLoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
