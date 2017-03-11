@@ -1,0 +1,5 @@
+XSym
+0067
+1935c0c317e4a56c26d55aebf74ad27d
+/usr/local/Cellar/opencv/2.4.11_1/lib/python2.7/site-packages/cv.py
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
