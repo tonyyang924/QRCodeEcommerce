@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -82,9 +83,9 @@ public class ContinuousCaptureFragment extends Fragment {
 
         scale = getResources().getDisplayMetrics().density;
 
-        barcodeView = (CompoundBarcodeView) getActivity().findViewById(R.id.barcode_scanner);
+        barcodeView = getActivity().findViewById(R.id.barcode_scanner);
         barcodeView.decodeContinuous(callback);
-        detailsLL = (LinearLayout) getActivity().findViewById(R.id.detailsLayout);
+        detailsLL = getActivity().findViewById(R.id.detailsLayout);
         tool = new Tool();
         itemDAO = new ItemDAO(getActivity());
         productDAO = new ProductDAO(getActivity());
@@ -111,14 +112,14 @@ public class ContinuousCaptureFragment extends Fragment {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.continous_sublayout,null);
             // 標題
-            TextView tv = (TextView) view.findViewById(R.id.title);
+            TextView tv = view.findViewById(R.id.title);
             // 商品圖片
-            ImageView imageView = (ImageView) view.findViewById(R.id.img);
+            ImageView imageView = view.findViewById(R.id.img);
             // 規格下拉式選單
-            Spinner specSP = (Spinner) view.findViewById(R.id.specSP);
-            TextView specSP2 = (TextView) view.findViewById(R.id.specSP2);
+            Spinner specSP = view.findViewById(R.id.specSP);
+            TextView specSP2 = view.findViewById(R.id.specSP2);
             // 新增購物車
-            ImageView addCart = (ImageView) view.findViewById(R.id.addCart);
+            ImageView addCart = view.findViewById(R.id.addCart);
             addCart.setOnClickListener(addCartClickLis);
 
             appSP.setScanPid(result.getText());

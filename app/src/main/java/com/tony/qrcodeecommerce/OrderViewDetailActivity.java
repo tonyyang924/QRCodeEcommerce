@@ -1,10 +1,7 @@
 package com.tony.qrcodeecommerce;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,51 +12,52 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.MyOrder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class OrderViewDetailActivity extends ActionBarActivity{
-    private static final String TAG = "OrderViewDetailActivity";
+public class OrderViewDetailActivity extends AppCompatActivity {
 
-    private TextView rname,rphone,remail,tplace,ttime,oprice,tupdate;
-    private MyOrder myOrder;
-    private ListView listView;
     private JSONArray jsonArray;
     private AsyncImageLoader asyncImageLoader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderview_detail);
 
+        MyOrder myOrder = MainApplication.getMyOrder();
+
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+            actionBar.setTitle(String.format(getResources().getString(R.string.orderview_oid), myOrder.getOid()));
+        }
 
         asyncImageLoader = new AsyncImageLoader(getApplicationContext());
 
-        rname = (TextView) findViewById(R.id.rname);
-        rphone = (TextView) findViewById(R.id.rphone);
-        remail = (TextView) findViewById(R.id.remail);
-        tplace = (TextView) findViewById(R.id.tplace);
-        ttime = (TextView) findViewById(R.id.ttime);
-        oprice = (TextView) findViewById(R.id.oprice);
-        tupdate = (TextView) findViewById(R.id.tupdate);
-        listView = (ListView) findViewById(R.id.listview);
-
-        myOrder = MainApplication.getMyOrder();
+        TextView rname = findViewById(R.id.rname);
+        TextView rphone = findViewById(R.id.rphone);
+        TextView remail = findViewById(R.id.remail);
+        TextView tplace = findViewById(R.id.tplace);
+        TextView ttime = findViewById(R.id.ttime);
+        TextView oprice = findViewById(R.id.oprice);
+        TextView tupdate = findViewById(R.id.tupdate);
+        ListView listView = findViewById(R.id.listview);
 
         jsonArray = myOrder.getOrderItemArr();
-        actionBar.setTitle(String.format(getResources().getString(R.string.orderview_oid), myOrder.getOid()));
-//        oid.setText(String.format(getResources().getString(R.string.orderview_oid),myOrder.getOid()));
-        rname.setText(String.format(getResources().getString(R.string.orderview_rname),myOrder.getRname()));
-        rphone.setText(String.format(getResources().getString(R.string.orderview_rphone),myOrder.getRphone()));
-        remail.setText(String.format(getResources().getString(R.string.orderview_remail),myOrder.getRemail()));
-        tplace.setText(String.format(getResources().getString(R.string.orderview_tplace),myOrder.getTplace()));
-        ttime.setText(String.format(getResources().getString(R.string.orderview_ttime),myOrder.getTtime()));
-        oprice.setText(String.format(getResources().getString(R.string.orderview_oprice),myOrder.getOprice()));
+        rname.setText(String.format(getResources().getString(R.string.orderview_rname), myOrder.getRname()));
+        rphone.setText(String.format(getResources().getString(R.string.orderview_rphone), myOrder.getRphone()));
+        remail.setText(String.format(getResources().getString(R.string.orderview_remail), myOrder.getRemail()));
+        tplace.setText(String.format(getResources().getString(R.string.orderview_tplace), myOrder.getTplace()));
+        ttime.setText(String.format(getResources().getString(R.string.orderview_ttime), myOrder.getTtime()));
+        oprice.setText(String.format(getResources().getString(R.string.orderview_oprice), "" + myOrder.getOprice()));
         tupdate.setText(String.format(getResources().getString(R.string.orderview_tupdate), myOrder.getTupdate()));
 
         MyAdapter myAdapter = new MyAdapter(this);
@@ -67,34 +65,24 @@ public class OrderViewDetailActivity extends ActionBarActivity{
     }
 
     private final class MyView {
-        public TextView pid,spec,price,number;
-//        public NetworkImageView img;
-        public ImageView img;
+        TextView pid, spec, price, number;
+        ImageView img;
     }
 
-    /**
-     * 實作一個 Adapter 繼承 BaseAdapter
-     */
     public class MyAdapter extends BaseAdapter {
         private Context context;
-//        private RequestQueue queue;
-//        private ImageLoader imageLoader;
-        public MyAdapter(Context context) {
+
+        MyAdapter(Context context) {
             this.context = context;
-//            queue = Volley.newRequestQueue(context);
-//            imageLoader = new ImageLoader(queue, new BitmapCache());
         }
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
-            //回傳這個 List 有幾個 item
             return jsonArray.length();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             try {
                 return jsonArray.getJSONObject(position);
             } catch (JSONException e) {
@@ -105,29 +93,26 @@ public class OrderViewDetailActivity extends ActionBarActivity{
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
-
-            MyView myviews = null;
+            MyView myviews;
 
             int price = 0;
             String pid = null, spec = null, num = null, pic = null, pic_link = null;
 
-            if(convertView == null) {
+            if (convertView == null) {
                 myviews = new MyView();
 
                 convertView = LayoutInflater.from(context)
                         .inflate(R.layout.listview_orderdetail, null);
-                myviews.pid = (TextView) convertView.findViewById(R.id.pid);
-                myviews.spec = (TextView) convertView.findViewById(R.id.spec);
-                myviews.price = (TextView) convertView.findViewById(R.id.price);
-                myviews.number = (TextView) convertView.findViewById(R.id.number);
-                myviews.img = (ImageView) convertView.findViewById(R.id.img);
+                myviews.pid = convertView.findViewById(R.id.pid);
+                myviews.spec = convertView.findViewById(R.id.spec);
+                myviews.price = convertView.findViewById(R.id.price);
+                myviews.number = convertView.findViewById(R.id.number);
+                myviews.img = convertView.findViewById(R.id.img);
 
                 convertView.setTag(myviews);
             } else {
@@ -148,17 +133,14 @@ public class OrderViewDetailActivity extends ActionBarActivity{
             }
 
             // 設定文字訊息
-            myviews.pid.setText(String.format(getString(R.string.orderview_listview_pid),pid));
-            myviews.spec.setText(String.format(getString(R.string.orderview_listview_spec),spec));
-            myviews.price.setText(String.format(getString(R.string.orderview_listview_price),price));
-            myviews.number.setText(String.format(getString(R.string.orderview_listview_number),num));
+            myviews.pid.setText(String.format(getString(R.string.orderview_listview_pid), pid));
+            myviews.spec.setText(String.format(getString(R.string.orderview_listview_spec), spec));
+            myviews.price.setText(String.format(getString(R.string.orderview_listview_price), price));
+            myviews.number.setText(String.format(getString(R.string.orderview_listview_number), num));
 
-            if(pic_link != null && !pic_link.equals("")) {
-//                myviews.img.setDefaultImageResId(R.drawable.qrcodereader);
-//                myviews.img.setErrorImageResId(R.drawable.qrcodereader);
-//                myviews.img.setImageUrl(pic_link, imageLoader);
+            if (pic_link != null && !pic_link.equals("")) {
                 myviews.img.setTag(pic_link);
-                myviews.img.setImageBitmap(asyncImageLoader.loadImage(myviews.img,pic_link));
+                myviews.img.setImageBitmap(asyncImageLoader.loadImage(myviews.img, pic_link));
             }
 
             return convertView;
@@ -174,6 +156,7 @@ public class OrderViewDetailActivity extends ActionBarActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

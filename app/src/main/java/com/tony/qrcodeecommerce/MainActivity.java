@@ -1,113 +1,45 @@
 package com.tony.qrcodeecommerce;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.astuetz.PagerSlidingTabStrip;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private ViewPager pager;
-    private TabPagerAdapter pagerAdapter;
     public CartFragment cartFragment;
     public ContinuousCaptureFragment continuousCaptureFragment;
     public  DetailsFragment detailsFragment;
-    private PagerSlidingTabStrip tabs;
-    private DisplayMetrics dm;
-
-
-    // reference
-    // http://dean-android.blogspot.tw/2015/01/androidfragmenttabactivitytab.html
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        dm = getResources().getDisplayMetrics();
-
-        pager =(ViewPager) findViewById(R.id.pager);
-        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-
-        pagerAdapter = new TabPagerAdapter(this.getSupportFragmentManager());
-        Log.i(TAG,String.valueOf(pagerAdapter.getCount()));
-        pager.setAdapter(pagerAdapter);
-        tabs.setShouldExpand(true);
-        tabs.setViewPager(pager);
-
-        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.e("page selected", "" + position);
-                tabs.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        setTabsValue();
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
-//        //獲取TabHost控制元件
-//        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-//        //設定Tab頁面的顯示區域，帶入Context、FragmentManager、Container ID
-//        mTabHost.setup(this, getSupportFragmentManager(), R.id.container);
-
-        /**
-         新增Tab結構說明 :
-         首先帶入Tab分頁標籤的Tag資訊並可設定Tab標籤上顯示的文字與圖片，
-         再來帶入Tab頁面要顯示連結的Fragment Class，最後可帶入Bundle資訊。
-         **/
-
-        //小黑人建立一個Tab，這個Tab的Tag設定為one，
-        //並設定Tab上顯示的文字為第一堂課與icon圖片，Tab連結切換至
-        //LessonOneFragment class，無夾帶Bundle資訊。
-
-//        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tabhost_menu, mTabHost.getTabWidget(), false);
-//        ((TextView) tabIndicator.findViewById(R.id.text)).setText("掃描QRCode");
-//        ((ImageView) tabIndicator.findViewById(R.id.img)).setImageResource(R.drawable.qrcodereader);
-
-//        mTabHost.addTab(mTabHost.newTabSpec("qrcode")
-//                .setIndicator("掃描QRCode", ContextCompat.getDrawable(this, R.drawable.qrcodereader))
-//                , ContinuousCaptureFragment.class, null);
-//
-//        mTabHost.addTab(mTabHost.newTabSpec("detail")
-//                .setIndicator("詳細資訊", ContextCompat.getDrawable(this, R.drawable.detail))
-//                , DetailsFragment.class, null);
-//        mTabHost.addTab(mTabHost.newTabSpec("cart")
-//                .setIndicator("購物車", ContextCompat.getDrawable(this, R.drawable.fullcartlight))
-//                , CartFragment.class, null);
-
-        /*
-        for(int i=0;i<mTabHost.getTabWidget().getTabCount();i++) {
-            TextView x = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-            x.setTextSize(getResources().getDimension(R.dimen.main_tabhost_textsize));
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
         }
-        */
+
+        TabPagerAdapter pagerAdapter = new TabPagerAdapter(this.getSupportFragmentManager());
+
+        ViewPager viewpager = findViewById(R.id.viewpager);
+        viewpager.setAdapter(pagerAdapter);
+        viewpager.setCurrentItem(0);
+
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewpager);
     }
 
     public String getQRCodeText() {
@@ -118,14 +50,10 @@ public class MainActivity extends ActionBarActivity {
         return "商品的詳細資訊頁面";
     }
 
-    public String getCartText() {
-        return "購物車頁面";
-    }
-
-    public class TabPagerAdapter extends FragmentPagerAdapter  {
+    public class TabPagerAdapter extends FragmentPagerAdapter {
 
         private final String[] TITLES = { "掃描QRCode", "詳細資訊", "購物車"};
-        public TabPagerAdapter(FragmentManager fm) {
+        TabPagerAdapter(FragmentManager fm) {
             super(fm);
         }
         @Override
@@ -164,20 +92,7 @@ public class MainActivity extends ActionBarActivity {
             return TITLES.length;
         }
     }
-    private void setTabsValue() {
-        //設置Tab的分隔線是透明的
-        tabs.setDividerColor(Color.TRANSPARENT);
-        //設置Tab底部線的高度
-        tabs.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, dm));
-        //設置Tab Indicator的高度
-        tabs.setIndicatorHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, dm));
-        //設置Tab Indicator的顏色
-        tabs.setIndicatorColor(Color.parseColor("#2a86ff"));
-        tabs.setUnderlineColor(Color.parseColor("#CCCCCC"));
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        tabs.setMinimumWidth(metrics.widthPixels/pagerAdapter.getCount());
-    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

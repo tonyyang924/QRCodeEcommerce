@@ -1,7 +1,6 @@
 package com.tony.qrcodeecommerce;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.tony.qrcodeecommerce.utils.AppSP;
 import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
@@ -47,16 +48,16 @@ public class DetailsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        nameTV = (TextView) getActivity().findViewById(R.id.nameTV);
-        priceTV = (TextView) getActivity().findViewById(R.id.priceTV);
-        desTV = (TextView) getActivity().findViewById(R.id.descriptorsTV);
+        nameTV = getActivity().findViewById(R.id.nameTV);
+        priceTV = getActivity().findViewById(R.id.priceTV);
+        desTV = getActivity().findViewById(R.id.descriptorsTV);
         // 目前是demo用的資料
         desTV.setText(Html.fromHtml("<font color=\"#FF0066\">【圖案特色】</font> <br/>第一科技大學經典版T恤；運用第一科技大學校名縮寫做設計，送禮自用兩相宜。<br/>" +
                 "<font color=\"#FF0066\">【材質】<br/></font> 25支棉(精梳棉)，採用台灣製預縮棉、保證不縮水；觸感舒適、吸汗、無靜電。<br/>" +
                 "<font color=\"#FF0066\">【印製】<br/></font> 採網版印刷，圖案不黏不裂，質感好。<br/>" +
                 "<font color=\"#FF0066\">【款式】</font> 直肩、直筒"));
-        imgIV = (ImageView) getActivity().findViewById(R.id.imgIV);
-        noProductLayout = (RelativeLayout) getActivity().findViewById(R.id.noProductLayout);
+        imgIV = getActivity().findViewById(R.id.imgIV);
+        noProductLayout = getActivity().findViewById(R.id.noProductLayout);
         productDAO = new ProductDAO(getActivity());
         ChangeData();
     }

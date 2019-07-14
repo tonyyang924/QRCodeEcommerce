@@ -7,9 +7,6 @@ import com.tony.qrcodeecommerce.utils.ProductDAO;
 import com.tony.qrcodeecommerce.utils.Tool;
 
 public class MainApplication extends Application {
-    //
-    private static final String TAG = "MainApplication";
-
     //Server
     public static final String SERVER_PROC = "http://163.18.42.145/mobile/mobile_process.php";
 

@@ -3,8 +3,6 @@ package com.tony.qrcodeecommerce;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.Tool;
@@ -24,8 +25,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserOrderDetailsActivity extends ActionBarActivity {
-    private static final String TAG = "UserOrderDetailsActivity";
+public class UserOrderDetailsActivity extends AppCompatActivity {
     private String oid;
     private TextView receiveNameTV, receivePhoneTV, receiveEmailTV,tplaceTV,ttimeTV, totalPriceTv;
     private ListView listView;
@@ -36,85 +36,77 @@ public class UserOrderDetailsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_userorderdetails);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+        }
 
         asyncImageLoader = new AsyncImageLoader(getApplicationContext());
         SetView();
         Bundle bundle = getIntent().getExtras();
         oid = bundle.getString("oid");
-//        oid = "20151021171302unYq795";
         DoThread();
     }
     private void SetView() {
-        receiveNameTV = (TextView) findViewById(R.id.receivename_tv);
-        receivePhoneTV = (TextView) findViewById(R.id.receivephone_tv);
-        receiveEmailTV = (TextView) findViewById(R.id.receiveemail_tv);
-        tplaceTV = (TextView) findViewById(R.id.tplace_tv);
-        ttimeTV = (TextView) findViewById(R.id.ttime_tv);
-        totalPriceTv = (TextView)findViewById(R.id.totalprice_tv);
-        listView = (ListView) findViewById(R.id.listView);
+        receiveNameTV = findViewById(R.id.receivename_tv);
+        receivePhoneTV = findViewById(R.id.receivephone_tv);
+        receiveEmailTV = findViewById(R.id.receiveemail_tv);
+        tplaceTV = findViewById(R.id.tplace_tv);
+        ttimeTV = findViewById(R.id.ttime_tv);
+        totalPriceTv = findViewById(R.id.totalprice_tv);
+        listView = findViewById(R.id.listView);
     }
     private void DoThread() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("proc","GetOrderInfo");
-                    params.put("oid", oid);
-                    String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
-                    JSONObject resultJSONObject = new JSONObject(resultData);
-                    final String receive_name = resultJSONObject.getString("receive_name");
-                    final String receive_phone = resultJSONObject.getString("receive_phone");
-                    final String receive_email = resultJSONObject.getString("receive_email");
-                    final String tplace = resultJSONObject.getString("tplace");
-                    final String ttime = resultJSONObject.getString("ttime");
-                    final int totalPrice = resultJSONObject.getInt("price");
-                    final JSONArray itemJSONArray = new JSONArray(resultJSONObject.getString("order_item"));
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            receiveNameTV.setText(String.format(getString(R.string.details_username), receive_name));
-                            receivePhoneTV.setText(String.format(getString(R.string.details_userphone), receive_phone));
-                            receiveEmailTV.setText(String.format(getString(R.string.details_useremail), receive_email));
-                            tplaceTV.setText(String.format(getString(R.string.details_tplace), tplace));
-                            ttimeTV.setText(String.format(getString(R.string.details_ttime), ttime));
-                            totalPriceTv.setText(String.format(getString(R.string.details_totalprice), totalPrice));
-                            MyAdapter myAdapter = new MyAdapter(getApplicationContext(), itemJSONArray);
-                            listView.setAdapter(myAdapter);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                Map<String, String> params = new HashMap<>();
+                params.put("proc","GetOrderInfo");
+                params.put("oid", oid);
+                String resultData = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+                JSONObject resultJSONObject = new JSONObject(resultData);
+                final String receive_name = resultJSONObject.getString("receive_name");
+                final String receive_phone = resultJSONObject.getString("receive_phone");
+                final String receive_email = resultJSONObject.getString("receive_email");
+                final String tplace = resultJSONObject.getString("tplace");
+                final String ttime = resultJSONObject.getString("ttime");
+                final int totalPrice = resultJSONObject.getInt("price");
+                final JSONArray itemJSONArray = new JSONArray(resultJSONObject.getString("order_item"));
+                runOnUiThread(() -> {
+                    receiveNameTV.setText(String.format(getString(R.string.details_username), receive_name));
+                    receivePhoneTV.setText(String.format(getString(R.string.details_userphone), receive_phone));
+                    receiveEmailTV.setText(String.format(getString(R.string.details_useremail), receive_email));
+                    tplaceTV.setText(String.format(getString(R.string.details_tplace), tplace));
+                    ttimeTV.setText(String.format(getString(R.string.details_ttime), ttime));
+                    totalPriceTv.setText(String.format(getString(R.string.details_totalprice), "" + totalPrice));
+                    MyAdapter myAdapter = new MyAdapter(getApplicationContext(), itemJSONArray);
+                    listView.setAdapter(myAdapter);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }
 
     private final class MyView {
-        public TextView pid,spec,price,number;
-        public ImageView img;
+        TextView pid,spec,price,number;
+        ImageView img;
     }
 
-    public class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
         private Context context;
         private JSONArray jsonArray;
-        public MyAdapter(Context context,JSONArray jsonArray) {
+        MyAdapter(Context context, JSONArray jsonArray) {
             this.context = context;
             this.jsonArray = jsonArray;
         }
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
-            //回傳這個 List 有幾個 item
             return jsonArray.length();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             try {
                 return jsonArray.getJSONObject(position);
             } catch (JSONException e) {
@@ -131,9 +123,7 @@ public class UserOrderDetailsActivity extends ActionBarActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
-
-            MyView myviews = null;
+            MyView myviews;
 
             int price = 0;
             String pid = null, spec = null, num = null, pic = null, pic_link = null;
@@ -143,11 +133,11 @@ public class UserOrderDetailsActivity extends ActionBarActivity {
 
                 convertView = LayoutInflater.from(context)
                         .inflate(R.layout.listview_orderdetail, null);
-                myviews.pid = (TextView) convertView.findViewById(R.id.pid);
-                myviews.spec = (TextView) convertView.findViewById(R.id.spec);
-                myviews.price = (TextView) convertView.findViewById(R.id.price);
-                myviews.number = (TextView) convertView.findViewById(R.id.number);
-                myviews.img = (ImageView) convertView.findViewById(R.id.img);
+                myviews.pid = convertView.findViewById(R.id.pid);
+                myviews.spec = convertView.findViewById(R.id.spec);
+                myviews.price = convertView.findViewById(R.id.price);
+                myviews.number = convertView.findViewById(R.id.number);
+                myviews.img = convertView.findViewById(R.id.img);
 
                 convertView.setTag(myviews);
             } else {
@@ -180,9 +170,6 @@ public class UserOrderDetailsActivity extends ActionBarActivity {
             myviews.number.setText(String.format(getString(R.string.orderview_listview_number),num));
 
             if(pic_link != null && !pic_link.equals("")) {
-//                myviews.img.setDefaultImageResId(R.drawable.qrcodereader);
-//                myviews.img.setErrorImageResId(R.drawable.qrcodereader);
-//                myviews.img.setImageUrl(pic_link, imageLoader);
                 myviews.img.setTag(pic_link);
                 myviews.img.setImageBitmap(asyncImageLoader.loadImage(myviews.img,pic_link));
             }
@@ -192,11 +179,9 @@ public class UserOrderDetailsActivity extends ActionBarActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
         }
+        return super.onOptionsItemSelected(item);
     }
 }

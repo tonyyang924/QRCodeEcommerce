@@ -6,10 +6,7 @@ public class Profile implements java.io.Serializable {
     private String stu_name;    //名字
     private String stu_phone;   //電話
     private String stu_email;   //email
-    //建構元
-    public Profile() {
 
-    }
     public Profile(String stu_id,String stu_name,String stu_phone,String stu_email) {
         this.stu_id = stu_id;
         this.stu_name = stu_name;

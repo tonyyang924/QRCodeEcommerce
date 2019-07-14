@@ -6,3 +6,7 @@
 *.iml
 .idea
 *.apk #optional
+app/qrcodeecommerce_debug.jks
+app/qrcodeecommerce_release.jks
+keystore.properties
+**/google-services.json

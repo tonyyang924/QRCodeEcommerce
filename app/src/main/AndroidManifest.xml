@@ -8,16 +8,13 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <permission android:name="com.tony.qrcodeecommerce.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.tony.qrcodeecommerce.permission.C2D_MESSAGE" />
 
     <application
         android:name="com.tony.qrcodeecommerce.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:logo="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:largeHeap="true"
         android:theme="@style/CustomActionBarTheme" >
         <receiver
@@ -29,23 +26,9 @@
                 <category android:name="com.tony.qrcodeecommerce" />
             </intent-filter>
         </receiver>
-        <service
-            android:name="com.tony.qrcodeecommerce.gcm.MyGcmListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.tony.qrcodeecommerce.gcm.MyInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
-            </intent-filter>
-        </service>
         <activity
             android:name="com.tony.qrcodeecommerce.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="${appName}" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

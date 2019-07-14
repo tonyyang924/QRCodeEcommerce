@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 public class MyOrder implements Serializable {
 
-    private static final String TAG = "MyOrder";
-
     /**
      * oid:訂單編號、order_price:訂單總金額
      * rname:收貨人名字、rphone:收貨人電話、remail:收貨人電子信箱
@@ -33,10 +31,6 @@ public class MyOrder implements Serializable {
                 + ", tplace=" + tplace + " ttime=" + ttime + " tupdate=" + tupdate
                 + ", situation=" + situation
                 + "]";
-    }
-
-    public MyOrder() {
-
     }
 
     public MyOrder(String oid,int oprice,JSONArray orderItemArr,String rname,String rphone,String remail,

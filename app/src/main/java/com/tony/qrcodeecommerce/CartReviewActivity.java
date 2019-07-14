@@ -1,13 +1,9 @@
 package com.tony.qrcodeecommerce;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,45 +15,46 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.tony.qrcodeecommerce.utils.AsyncImageLoader;
 import com.tony.qrcodeecommerce.utils.Item;
 import com.tony.qrcodeecommerce.utils.ItemDAO;
-import com.tony.qrcodeecommerce.utils.Tool;
 
 import java.util.List;
 
-public class CartReviewActivity extends ActionBarActivity {
-    private static final String TAG = "CartReviewActivity";
-    private Button submit;
-    private ListView listView;
+public class CartReviewActivity extends AppCompatActivity {
     private List<Item> lists;
     private ItemDAO itemDAO;
-    private MyAdapter adapter;
     private TextView totalpriceTV;
     private AsyncImageLoader asyncImageLoader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cartreview);
         asyncImageLoader = new AsyncImageLoader(getApplicationContext());
-        listView = (ListView) findViewById(R.id.listView2);
-        totalpriceTV = (TextView)findViewById(R.id.totalpriceTV);
+        ListView listView = findViewById(R.id.listView2);
+        totalpriceTV = findViewById(R.id.totalpriceTV);
         itemDAO = new ItemDAO(this);
         getItemNumberNot0();
         refreshTotalPrice();
-        adapter = new MyAdapter(this);
+        MyAdapter adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
-        submit = (Button) findViewById(R.id.button);
-        submit.setOnClickListener(submit_clklis);
+        Button submit = findViewById(R.id.button);
+        submit.setOnClickListener(submitClick);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_navigate_before_white_24dp);
+        }
     }
 
     /**
-        * 刷新總金額
-        * 將每筆Item的price*number後累加
-        **/
+     * 刷新總金額
+     * 將每筆Item的price*number後累加
+     **/
     private void refreshTotalPrice() {
         //總金額
         int totalPrice = 0;
@@ -71,37 +68,33 @@ public class CartReviewActivity extends ActionBarActivity {
     //取出list後，刪除數量為0的選項，不要讓數量為0的顯示在listview上
     private void getItemNumberNot0() {
         lists = itemDAO.getAll();
-        for(int i=0;i<lists.size();i++) {
-            if(lists.get(i).getLimitNumber() == 0) {
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists.get(i).getLimitNumber() == 0) {
                 lists.remove(i);
             }
         }
     }
 
-    private View.OnClickListener submit_clklis = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            //移至填寫個人資料頁面
-            Intent intent = new Intent(CartReviewActivity.this, CartUserOrderActivity.class);
-            startActivity(intent);
-        }
+    private View.OnClickListener submitClick = v -> {
+        //移至填寫個人資料頁面
+        Intent intent = new Intent(CartReviewActivity.this, CartUserOrderActivity.class);
+        startActivity(intent);
     };
 
     private final class MyView {
-        public ImageView itemImg;
-        public TextView itemName;
-        public TextView numberTv;
-        public TextView specTv;
-        public TextView priceTv;
-        public TextView subTotalTv;
+        ImageView itemImg;
+        TextView itemName;
+        TextView numberTv;
+        TextView specTv;
+        TextView priceTv;
+        TextView subTotalTv;
     }
 
     // 實作一個 Adapter 繼承 BaseAdapter
     public class MyAdapter extends BaseAdapter {
         private LayoutInflater inflater;
 
-        public MyAdapter(Context context) {
+        MyAdapter(Context context) {
             inflater = LayoutInflater.from(context);
         }
 
@@ -129,20 +122,20 @@ public class CartReviewActivity extends ActionBarActivity {
             // TODO Auto-generated method stub
             final MyView myviews = new MyView();
             convertView = inflater.inflate(R.layout.listview_cartreview, null);
-            myviews.itemImg = (ImageView) convertView.findViewById(R.id.imageView);
-            myviews.itemName = (TextView) convertView.findViewById(R.id.textView);
-            myviews.numberTv = (TextView) convertView.findViewById(R.id.numberTv);
-            myviews.priceTv = (TextView) convertView.findViewById(R.id.priceTv);
-            myviews.subTotalTv = (TextView) convertView.findViewById(R.id.subTotalTv);
+            myviews.itemImg = convertView.findViewById(R.id.imageView);
+            myviews.itemName = convertView.findViewById(R.id.textView);
+            myviews.numberTv = convertView.findViewById(R.id.numberTv);
+            myviews.priceTv = convertView.findViewById(R.id.priceTv);
+            myviews.subTotalTv = convertView.findViewById(R.id.subTotalTv);
             myviews.itemImg.setTag(lists.get(position).getPic_link());
-            Bitmap bmp = asyncImageLoader.loadImage(myviews.itemImg,lists.get(position).getPic_link());
+            Bitmap bmp = asyncImageLoader.loadImage(myviews.itemImg, lists.get(position).getPic_link());
             myviews.itemImg.setImageBitmap(bmp);
             myviews.itemName.setText(lists.get(position).getName());
             myviews.numberTv.setText(Html.fromHtml(
                     String.format(getResources().getString(R.string.cart_number),
                             lists.get(position).getNumber())));
-            if(lists.get(position).getPid().indexOf("A") != -1) { //如果有A
-                myviews.specTv = (TextView) convertView.findViewById(R.id.specTv);
+            if (lists.get(position).getPid().contains("A")) {
+                myviews.specTv = convertView.findViewById(R.id.specTv);
                 myviews.specTv.setVisibility(View.VISIBLE);
                 myviews.specTv.setText(Html.fromHtml(
                         String.format(getResources().getString(R.string.cart_spec),
@@ -157,13 +150,17 @@ public class CartReviewActivity extends ActionBarActivity {
             return convertView;
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                // do nothing
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

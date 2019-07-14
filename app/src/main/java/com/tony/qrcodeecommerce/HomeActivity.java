@@ -1,74 +1,60 @@
 package com.tony.qrcodeecommerce;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Layout;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // http://stackoverflow.com/questions/15261088/gridview-with-two-columns-and-auto-resized-images
-
-public class HomeActivity extends ActionBarActivity{
+public class HomeActivity extends AppCompatActivity {
     int maxWidth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
-
-        ListView listView = (ListView)findViewById(R.id.main_list);
+        ListView listView = findViewById(R.id.main_list);
         maxWidth = listView.getWidth();
         Log.e("maxWidth", String.valueOf(maxWidth));
         listView.setAdapter(new MyAdapter(this));
 
-        listView.setOnItemClickListener(new GridView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                switch(position) {
-                    case 0:
-                        intent.setClass(getApplicationContext(),ProfileActivity.class);
-                        break;
-                    case 1:
-                        intent.setClass(getApplicationContext(),MainActivity.class);
-                        break;
-                    case 2:
-                        intent.setClass(getApplicationContext(),OrderViewActivity.class);
-                        break;
-                    case 3:
-                        intent.setClass(getApplicationContext(),TeamActivity.class);
-                        break;
-                }
-                startActivity(intent);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent();
+            switch(position) {
+                case 0:
+                    intent.setClass(getApplicationContext(),ProfileActivity.class);
+                    break;
+                case 1:
+                    intent.setClass(getApplicationContext(),MainActivity.class);
+                    break;
+                case 2:
+                    intent.setClass(getApplicationContext(),OrderViewActivity.class);
+                    break;
+                case 3:
+                    intent.setClass(getApplicationContext(),TeamActivity.class);
+                    break;
             }
+            startActivity(intent);
         });
     }
 
     class MyAdapter extends BaseAdapter {
-        private final List<Item> mItems = new ArrayList<Item>();
+        private final List<Item> mItems = new ArrayList<>();
         private final LayoutInflater mInflater;
 
-        public MyAdapter(Context context) {
+        MyAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
             mItems.add(new Item("個人資料", R.drawable.b1));
             mItems.add(new Item("掃描商品", R.drawable.b2));
@@ -122,7 +108,7 @@ public class HomeActivity extends ActionBarActivity{
 
         private class Item {
             public final String name;
-            public final int drawableId;
+            final int drawableId;
 
             Item(String name, int drawableId) {
                 this.name = name;

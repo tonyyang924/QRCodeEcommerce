@@ -1,8 +1,6 @@
 package com.tony.qrcodeecommerce.utils;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +12,6 @@ import com.tony.qrcodeecommerce.R;
 
 import org.json.JSONArray;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,8 +22,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,16 +36,6 @@ public class Tool {
             .getAbsolutePath() + "/QRCodeEcommerce";
     //
     private static SQLiteDatabase sqLiteDB = null;
-
-    private Context context;
-
-    public Tool() {
-
-    }
-
-    public Tool(Context context) {
-        this.context = context;
-    }
 
     public static SQLiteDatabase getSQLiteDB() {
         sqLiteDB = SQLiteDatabase.openOrCreateDatabase(getSQLiteDatabaseFile(), null);
@@ -237,37 +222,35 @@ public class Tool {
 
     //下載商品資料
     public static void DownloadProductInfo(final ProductDAO productDAO) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //清除所有儲存在本地端SQLite的商品資料，再匯入
-                    productDAO.deleteAll();
-                    //查詢所有商品
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("proc", "GetProduct");
-                    String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
-                    JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
-                    String insertSQL = "INSERT INTO " + productDAO.TABLE_NAME
-                            +" ('" + productDAO.PID_COLUMN + "',"
-                            + "'" + productDAO.NAME_COLUMN + "',"
-                            + "'" + productDAO.PRICE_COLUMN + "',"
-                            + "'" + productDAO.PIC_COLUMN + "',"
-                            + "'" + productDAO.PICLINK_COLUMN + "',"
-                            + "'" + productDAO.LINK_COLUMN + "',"
-                            + "'" + productDAO.SPEC_COLUMN + "',"
-                            + "'" + productDAO.AMOUNT_COLUMN + "') VALUES ";
+        new Thread(() -> {
+            try {
+                //清除所有儲存在本地端SQLite的商品資料，再匯入
+                productDAO.deleteAll();
+                //查詢所有商品
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("proc", "GetProduct");
+                String responseMsg = Tool.submitPostData(MainApplication.SERVER_PROC, params, "utf-8");
+                JSONArray jsonArrayResponse =  new JSONArray(responseMsg);
+                String insertSQL = "INSERT INTO " + ProductDAO.TABLE_NAME
+                        +" ('" + ProductDAO.PID_COLUMN + "',"
+                        + "'" + ProductDAO.NAME_COLUMN + "',"
+                        + "'" + ProductDAO.PRICE_COLUMN + "',"
+                        + "'" + ProductDAO.PIC_COLUMN + "',"
+                        + "'" + ProductDAO.PICLINK_COLUMN + "',"
+                        + "'" + ProductDAO.LINK_COLUMN + "',"
+                        + "'" + ProductDAO.SPEC_COLUMN + "',"
+                        + "'" + ProductDAO.AMOUNT_COLUMN + "') VALUES ";
 
-                    for(int i=0;i<jsonArrayResponse.length();i++) {
+                for(int i=0;i<jsonArrayResponse.length();i++) {
 //                        Log.i(TAG,"object ===> "+jsonArrayResponse.getJSONObject(i));
-                        String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
-                        String name = jsonArrayResponse.getJSONObject(i).getString("name");
-                        int price = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("price"));
-                        String pic = jsonArrayResponse.getJSONObject(i).getString("pic");
-                        String pic_link = jsonArrayResponse.getJSONObject(i).getString("pic_link");
-                        String link = jsonArrayResponse.getJSONObject(i).getString("link");
-                        String spec = jsonArrayResponse.getJSONObject(i).getString("product_spec");
-                        int amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("product_amount"));
+                    String pid = jsonArrayResponse.getJSONObject(i).getString("pid");
+                    String name = jsonArrayResponse.getJSONObject(i).getString("name");
+                    int price = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("price"));
+                    String pic = jsonArrayResponse.getJSONObject(i).getString("pic");
+                    String pic_link = jsonArrayResponse.getJSONObject(i).getString("pic_link");
+                    String link = jsonArrayResponse.getJSONObject(i).getString("link");
+                    String spec = jsonArrayResponse.getJSONObject(i).getString("product_spec");
+                    int amount = Integer.valueOf(jsonArrayResponse.getJSONObject(i).getString("product_amount"));
 //                        Log.i(TAG,"編號:"+pid);
 //                        Log.i(TAG,"名稱:"+name);
 //                        Log.i(TAG,"價錢:"+price);
@@ -277,35 +260,34 @@ public class Tool {
 //                        Log.i(TAG,"規格:"+spec);
 //                        Log.i(TAG,"數量:"+amount);
 
-                        insertSQL += " ('" + pid + "',"
-                                + "'" + name + "',"
-                                + "'" + price + "',"
-                                + "'" + pic + "',"
-                                + "'" + pic_link + "',"
-                                + "'" + link + "',"
-                                + "'" + spec + "',"
-                                + "'" + amount + "')";
-                        if(i!=jsonArrayResponse.length()-1) { //如果不是最後一個加入逗號
-                            insertSQL += ",";
-                        }
+                    insertSQL += " ('" + pid + "',"
+                            + "'" + name + "',"
+                            + "'" + price + "',"
+                            + "'" + pic + "',"
+                            + "'" + pic_link + "',"
+                            + "'" + link + "',"
+                            + "'" + spec + "',"
+                            + "'" + amount + "')";
+                    if(i!=jsonArrayResponse.length()-1) { //如果不是最後一個加入逗號
+                        insertSQL += ",";
                     }
-                    /**
-                    //將SQL語法寫入external storage的文字檔做檢查
-                    File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
-                    sqlTxt.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(sqlTxt);
-                    OutputStreamWriter osw = new OutputStreamWriter(fos);
-                    osw.write(insertSQL);
-                    osw.close();
-                     **/
-
-                    Cursor cursor = productDAO.query(insertSQL);
-                    cursor.moveToFirst();
-                    cursor.close();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+                /**
+                //將SQL語法寫入external storage的文字檔做檢查
+                File sqlTxt = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sql.txt");
+                sqlTxt.createNewFile();
+                FileOutputStream fos = new FileOutputStream(sqlTxt);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                osw.write(insertSQL);
+                osw.close();
+                 **/
+
+                Cursor cursor = productDAO.query(insertSQL);
+                cursor.moveToFirst();
+                cursor.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }

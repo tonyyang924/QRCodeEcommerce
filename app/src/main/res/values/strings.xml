@@ -1,5 +1,4 @@
 <resources>
-    <!--string name="app_name">QRCodeEcommerce</string-->
     <string name="app_name">第一科大網路購物APP</string>
     <string name="action_settings">Settings</string>
     <string name="action_admin">Admin</string>

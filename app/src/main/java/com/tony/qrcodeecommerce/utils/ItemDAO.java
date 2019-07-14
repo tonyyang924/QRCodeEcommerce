@@ -127,7 +127,7 @@ public class ItemDAO {
 
     // 讀取所有購物車資料
     public List<Item> getAll() {
-        List<Item> result = new ArrayList<Item>();
+        List<Item> result = new ArrayList<>();
         Cursor cursor = db.query(
                 TABLE_NAME, null, null, null, null, null, null, null);
 
@@ -162,7 +162,7 @@ public class ItemDAO {
     }
 
     // 把Cursor目前的資料包裝為物件
-    public Item getRecord(Cursor cursor) {
+    private Item getRecord(Cursor cursor) {
         // 準備回傳結果用的物件
         Item result = new Item();
         result.setId(cursor.getLong(0));
@@ -199,8 +199,6 @@ public class ItemDAO {
         // 執行查詢
         Cursor result = db.query(
                 TABLE_NAME, null, where, null, null, null, null, null);
-        if (result.getCount() > 0)
-            return true;
-        return false;
+        return result.getCount() > 0;
     }
 }
